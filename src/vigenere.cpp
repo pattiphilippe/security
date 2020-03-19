@@ -1,4 +1,5 @@
 #include "vigenere.h"
+#include <stdexcept>
 
 namespace be::he2b::esi::sec::g43121
 {
@@ -9,6 +10,13 @@ namespace be::he2b::esi::sec::g43121
 void code(std::ifstream & in, std::ofstream & out,
           const std::string & key, bool decode = true)
 {
+    if (!in.is_open()) {
+        throw std::logic_error("Fichier d'entrée non ouvert");
+    }
+    if (!out.is_open()) {
+        throw std::logic_error("Fichier de sortie non ouvert");
+    }
+
     unsigned i = 0;
     char c = static_cast<char>(in.get());
     char k;
