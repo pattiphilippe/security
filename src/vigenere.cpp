@@ -21,60 +21,49 @@ std::string getNormalizedKey(const std::string &key)
     return result;
 }
 
-void encode(std::ifstream &plain, std::ofstream &ciphered,
-            const std::string &key)
+/*
+ * Encode or decode the input stream into the output stream according to the key
+ */
+void code(std::ifstream &in, std::ofstream &out,
+          const std::string &key, bool decode = true)
 {
-    if (!plain.is_open())
+    if (!in.is_open())
     {
         throw std::logic_error("Fichier d'entrée non ouvert");
     }
-    if (!ciphered.is_open())
+    if (!out.is_open())
     {
         throw std::logic_error("Fichier de sortie non ouvert");
     }
+
     unsigned i = 0;
     char c;
     std::string k = getNormalizedKey(key);
 
-    while (!plain.eof())
+    while (!in.eof())
     {
-        c = static_cast<char>(plain.get());
+        c = static_cast<char>(in.get());
         if (c >= 'a' && c <= 'z')
             c += 'A' - 'a';
         else if (c < 'A' || c > 'Z')
             continue;
-        c = (c + k[i] - 2 * 'A') % 26 + 'A';
-        ciphered.put(c);
+        c = decode ? (c - k[i] + 26) % 26 + 'A'
+                   : (c + k[i] - 2 * 'A') % 26 + 'A';
+        out.put(c);
         i = (i + 1) % k.length();
     }
+}
+
+void encode(std::ifstream &plain, std::ofstream &ciphered,
+            const std::string &key)
+{
+    code(plain, ciphered, key, false);
 }
 
 void decode(std::ifstream &ciphered, std::ofstream &plain,
             const std::string &key)
 {
-    if (!ciphered.is_open())
-    {
-        throw std::logic_error("Fichier d'entrée non ouvert");
-    }
-    if (!plain.is_open())
-    {
-        throw std::logic_error("Fichier de sortie non ouvert");
-    }
-    unsigned i = 0;
-    char c;
-    std::string k = getNormalizedKey(key);
-
-    while (!ciphered.eof())
-    {
-        c = static_cast<char>(ciphered.get());
-        if (c >= 'a' && c <= 'z')
-            c += 'A' - 'a';
-        else if (c < 'A' || c > 'Z')
-            continue;
-        c = (c - k[i] + 26) % 26 + 'A';
-        plain.put(c);
-        i = (i + 1) % k.length();
-    }
+    code(ciphered, plain, key, true);
 }
 
 } //NAMESPACE be::he2b::esi::sec::g43121
