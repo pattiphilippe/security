@@ -1,46 +1,80 @@
 #include "vigenere.h"
 #include <stdexcept>
+#include <iostream>
 
 namespace be::he2b::esi::sec::g43121
 {
 
-/*
- * Encode or decode the input stream into the output stream according to the key
- */
-void code(std::ifstream & in, std::ofstream & out,
-          const std::string & key, bool decode = true)
+std::string getNormalizedKey(const std::string &key)
 {
-    if (!in.is_open()) {
+    std::string result;
+    result.reserve(key.length());
+
+    for (int i = 0; i < key.size(); ++i)
+    {
+        if (key[i] >= 'A' && key[i] <= 'Z')
+            result += key[i];
+        else if (key[i] >= 'a' && key[i] <= 'z')
+            result += key[i] + 'A' - 'a';
+    }
+
+    return result;
+}
+
+void encode(std::ifstream &plain, std::ofstream &ciphered,
+            const std::string &key)
+{
+    if (!plain.is_open())
+    {
         throw std::logic_error("Fichier d'entrée non ouvert");
     }
-    if (!out.is_open()) {
+    if (!ciphered.is_open())
+    {
         throw std::logic_error("Fichier de sortie non ouvert");
     }
-
     unsigned i = 0;
-    char c = static_cast<char>(in.get());
-    char k;
+    char c;
+    std::string k = getNormalizedKey(key);
 
-    while (!in.eof())
+    while (!plain.eof())
     {
-        k = key[i % key.size()];
-        c = decode ? c - k
-            : c + k;
-        out.put(c);
-        c = static_cast<char>(in.get());
+        c = static_cast<char>(plain.get());
+        if (c >= 'a' && c <= 'z')
+            c += 'A' - 'a';
+        else if (c < 'A' || c > 'Z')
+            continue;
+        c = (c + k[i] - 2 * 'A') % 26 + 'A';
+        ciphered.put(c);
+        i = (i + 1) % k.length();
     }
 }
 
-void encode(std::ifstream & plain, std::ofstream & ciphered,
-            const std::string & key)
+void decode(std::ifstream &ciphered, std::ofstream &plain,
+            const std::string &key)
 {
-    code(plain, ciphered, key, false);
-}
+    if (!ciphered.is_open())
+    {
+        throw std::logic_error("Fichier d'entrée non ouvert");
+    }
+    if (!plain.is_open())
+    {
+        throw std::logic_error("Fichier de sortie non ouvert");
+    }
+    unsigned i = 0;
+    char c;
+    std::string k = getNormalizedKey(key);
 
-void decode(std::ifstream & ciphered, std::ofstream & plain,
-            const std::string & key)
-{
-    code(ciphered, plain, key, true);
+    while (!ciphered.eof())
+    {
+        c = static_cast<char>(ciphered.get());
+        if (c >= 'a' && c <= 'z')
+            c += 'A' - 'a';
+        else if (c < 'A' || c > 'Z')
+            continue;
+        c = (c - k[i] + 26) % 26 + 'A';
+        plain.put(c);
+        i = (i + 1) % k.length();
+    }
 }
 
 } //NAMESPACE be::he2b::esi::sec::g43121
