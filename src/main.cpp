@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
             cout << "KEY IS : " << key << "\n";
 
             cout << "Deciphers in progress. Result is put in "
-                 << "DECIPH" << argv[3] << endl;
+                 << argv[3] << endl;
             ofstream outStream(argv[3]);
             if (!outStream.is_open())
                 throw std::logic_error("Erreur lors de l'ouverture de l'output");
