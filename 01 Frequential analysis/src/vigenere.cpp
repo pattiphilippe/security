@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <array>
 #include <vector>
+#include <iostream>
 
 namespace be::he2b::esi::sec::g43121
 {
@@ -97,7 +98,7 @@ void decode(std::string &ciphered, std::string &plain,
 
 unsigned getKeyLenght(std::string &str, std::array<std::vector<std::string>, keyLenghtMax + 1> &parts)
 {
-    double icAverage[keyLenghtMax+1];
+    double icAverage[keyLenghtMax + 1];
 
     for (unsigned i = 1; i <= keyLenghtMax; i++)
     {
@@ -108,7 +109,6 @@ unsigned getKeyLenght(std::string &str, std::array<std::vector<std::string>, key
             parts[i].at(posPart) += c;
             posPart = (posPart + 1) % i;
         }
-
 
         //Calculate average IC
         double sum = 0;
@@ -124,7 +124,7 @@ unsigned getKeyLenght(std::string &str, std::array<std::vector<std::string>, key
     unsigned maxIndex = 1;
     for (unsigned i = 2; i <= keyLenghtMax; i++)
     {
-        if (icAverage[i] > maxAvg) //Increase maxAvg to avoid repeted key
+        if (icAverage[i] > maxAvg * 1.1) //Increase maxAvg to avoid repeted key
         {
             maxAvg = icAverage[i];
             maxIndex = i;

@@ -35,8 +35,7 @@ inline double calculateIC(const std::string &s)
         sum = sum + (c * (c - 1));
     }
 
-    //divide by N(N-1)
-    total = sum / N * (N - 1);
+    total = sum / N / (N - 1);
 
     return total;
 }
