@@ -1,6 +1,6 @@
 #include "vigenere.h"
-#include "IC.hpp"
-#include "chi.hpp"
+#include "IC.cpp"
+#include "chi.cpp"
 #include <stdexcept>
 #include <array>
 #include <vector>

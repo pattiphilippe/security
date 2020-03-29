@@ -1,5 +1,5 @@
 #include "vigenere.h"
-#include <cstring>
+#include <string>
 #include <iostream>
 #include <fstream>
 
@@ -18,18 +18,22 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+	const string ciphersShortcut("-c");
+	const string deciphersShortcut("-d");
+	const string solveShortcut("-s");
+
     try
     {
-        if (strcmp(argv[1], "-c") == 0 && argc == 5)
+        if (ciphersShortcut.compare(argv[1]) == 0 && argc == 5)
         {
             cout << "Ciphers :" << endl;
-            const string key = argv[argc - 1];
+            //const std::string key = argv[argc - 1];
             ifstream in(argv[2]);
             ofstream out(argv[3]);
-            encode(in, out, key);
+            encode(in, out, argv[argc - 1]);
             cout << "Ciphers ended" << endl;
         }
-        else if (strcmp(argv[1], "-d") == 0 && argc == 5)
+        else if (deciphersShortcut.compare(argv[1]) == 0 && argc == 5)
         {
             cout << "Deciphers in progress. Result is put in " << argv[3] << endl;
             ifstream in(argv[2]);
@@ -37,7 +41,7 @@ int main(int argc, char *argv[])
             decode(in, out, argv[4]);
             cout << "Deciphers ended" << endl;
         }
-        else if (strcmp(argv[1], "-s") == 0 && argc == 4)
+        else if (solveShortcut.compare(argv[1]) == 0 && argc == 4)
         {
             cout << "Solve :" << endl;
 

@@ -1,6 +1,9 @@
 #include <cmath>
 #include <string>
 
+namespace be::he2b::esi::sec::g43121
+{
+
 inline double getChiSquare(std::string &str)
 {
   static double english[] = {
@@ -30,4 +33,6 @@ inline double getChiSquare(std::string &str)
   }
 
   return sumChi;
+}
+
 }

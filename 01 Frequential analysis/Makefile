@@ -1,26 +1,26 @@
 #NOM    : Makefile
 #OBJET  : Compile project
-#HOWTO	: make; make clean; make run; make clean run
+#HOWTO	: make; make clean; make run; make build
 
-run : main
+run : build
 	./build/vigenere -c ./exemple/bigPlain.txt ./exemple/bigCiphered.txt MYKEY
 	./build/vigenere -d ./exemple/bigCiphered.txt ./exemple/bigDeciphered.txt MYKEY
 	./build/vigenere -s ./exemple/bigCiphered.txt ./exemple/bigSolved.txt
 
-main : chi.o IC.o main.o vigenere.o
-	gcc ./build/*.o -o ./build/vigenere
+build : chi.o ic.o vigenere.o main.o
+	g++ ./build/*.o -o ./build/vigenere
 
-chi.o : ./scr/chi.hpp
-	gcc ./src/chi.hpp -o ./build/chi.o
+chi.o : ./src/chi.cpp
+	g++ -c ./src/chi.cpp -o ./build/chi.o
 
-IC.o : ./scr/IC.hpp
-	gcc ./src/IC.hpp -o ./build/IC.o
+ic.o : ./src/IC.cpp
+	g++ -c ./src/IC.cpp -o ./build/ic.o
 
-main.o : ./scr/main.cpp
-	gcc ./src/main.cpp -o ./build/main.o
+main.o : ./src/main.cpp
+	g++ -c ./src/main.cpp -o ./build/main.o
 
-vigenere.o : ./scr/vigenere.h
-	gcc ./src/vigenere.h -o ./build/vigenere.o
+vigenere.o : ./src/vigenere.cpp
+	g++ -c ./src/vigenere.cpp -o ./build/vigenere.o
 
 clean:
 	rm -f ./build/* 

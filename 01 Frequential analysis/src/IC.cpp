@@ -1,6 +1,9 @@
 #include <fstream>
 #include <string>
 
+namespace be::he2b::esi::sec::g43121
+{
+
 inline double calculateIC(const std::string & s)
 {
     int i;
@@ -39,4 +42,6 @@ inline double calculateIC(const std::string & s)
 
     //return the result
     return total;
+}
+
 }
