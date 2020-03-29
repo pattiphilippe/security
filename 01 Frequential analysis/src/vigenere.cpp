@@ -8,6 +8,8 @@
 namespace be::he2b::esi::sec::g43121
 {
 
+const unsigned keyLenghtMax = 20;
+
 std::string getNormalizedKey(const std::string &key)
 {
     std::string result;
@@ -93,33 +95,36 @@ void decode(std::string &ciphered, std::string &plain,
     code(ciphered, plain, key, true);
 }
 
-unsigned getKeyLenght(std::string &big, std::array<std::vector<std::string>, 20> &parts)
+unsigned getKeyLenght(std::string &str, std::array<std::vector<std::string>, keyLenghtMax + 1> &parts)
 {
-    double icAverage[26];
+    double icAverage[keyLenghtMax+1];
 
-    for (unsigned i = 1; i < 20; i++)
+    for (unsigned i = 1; i <= keyLenghtMax; i++)
     {
-        int posPart = 0;
+        unsigned posPart = 0;
 
-        for (const char &c : big)
+        for (const char &c : str)
         {
             parts[i].at(posPart) += c;
             posPart = (posPart + 1) % i;
         }
 
+
+        //Calculate average IC
         double sum = 0;
-        for (auto &s : parts[i])
+        for (const auto &s : parts[i])
         {
             sum += calculateIC(s);
         }
         icAverage[i] = sum / i;
     }
 
+    //Get the best lenght
     double maxAvg = icAverage[1];
     unsigned maxIndex = 1;
-    for (unsigned i = 2; i < 20; i++)
+    for (unsigned i = 2; i <= keyLenghtMax; i++)
     {
-        if (icAverage[i] > maxAvg)
+        if (icAverage[i] > maxAvg) //Increase maxAvg to avoid repeted key
         {
             maxAvg = icAverage[i];
             maxIndex = i;
@@ -134,11 +139,11 @@ std::string getKeyCesar(std::string &in)
     std::string ciph;
     double chi[26] = {0};
 
-    for (char k = 'A'; k <= 'Z'; k++)
+    for (char c = 'A'; c <= 'Z'; c++)
     {
         ciph.clear();
-        decode(in, ciph, std::string(1, k));
-        chi[k - 'A'] = getChiSquare(ciph);
+        decode(in, ciph, std::string(1, c));
+        chi[c - 'A'] = getChiSquare(ciph);
     }
 
     double minimum = chi[0];
@@ -159,8 +164,10 @@ std::string getKeyCesar(std::string &in)
 std::string getKey(std::string &in)
 {
     std::string key;
-    std::array<std::vector<std::string>, 20> parts;
-    for (unsigned i = 1; i < 20; i++)
+    std::array<std::vector<std::string>, keyLenghtMax + 1> parts; //Index 0 is not used. Each index represent the supposed key lenght
+
+    //Fill the vectors with empty strings
+    for (unsigned i = 1; i <= keyLenghtMax; i++)
     {
         parts.at(i).reserve(i);
         for (unsigned pI = 0; pI < i; pI++)
@@ -168,7 +175,7 @@ std::string getKey(std::string &in)
             parts.at(i).push_back(std::string());
         }
     }
-    unsigned keyLength = getKeyLenght(in, parts);
+    const unsigned keyLength = getKeyLenght(in, parts);
 
     for (auto &part : parts[keyLength])
     {

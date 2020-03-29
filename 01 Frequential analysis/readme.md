@@ -1,6 +1,6 @@
 # Frequential analysis #
 ## How to build ##
-Run the makefile from the _src/_ directory.
+Run the makefile from the root directory.
 ## How to use ##
 - To ciphers, run the program with arguments : _-c in out key_
   - _-c_ tell to the programm to ciphers.

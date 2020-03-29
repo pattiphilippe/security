@@ -5,9 +5,18 @@
 
 using namespace std;
 using namespace be::he2b::esi::sec::g43121;
-
+/**
+ * Inform the user that the command is invalid. Print the correct commands
+ */
 void usageError();
+/**
+ * Print the correct commands
+ */
 void printUsage();
+
+const string ciphersShortcut("-c");
+const string deciphersShortcut("-d");
+const string solveShortcut("-s");
 
 int main(int argc, char *argv[])
 {
@@ -17,10 +26,6 @@ int main(int argc, char *argv[])
         usageError();
         return -1;
     }
-
-	const string ciphersShortcut("-c");
-	const string deciphersShortcut("-d");
-	const string solveShortcut("-s");
 
     try
     {

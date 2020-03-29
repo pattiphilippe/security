@@ -28,6 +28,9 @@ void encode(std::ifstream & plain, std::ofstream & ciphered,
 void decode(std::ifstream & ciphered, std::ofstream & plain,
             const std::string & key);
 
+/**
+ * Get the key of an ciphered text (with Vigenere algo).
+ */
 std::string getKey(std::string & in);
 
 } //NAMESPACE be::he2b::esi::sec::g43121

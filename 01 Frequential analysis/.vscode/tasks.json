@@ -10,7 +10,6 @@
             "args": [
                 "-g",
                 "${workspaceFolder}\\src\\*.cpp",
-                "${workspaceFolder}\\src\\*.hpp",
                 "-o",
                 "${workspaceFolder}\\build\\vigenere.exe"
             ],
