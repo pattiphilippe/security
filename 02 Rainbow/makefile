@@ -5,10 +5,18 @@
 
 
 run : build
+	@echo 
+	./build/sha256-main
+	@echo 
 	./build/gen-passwd 1000 6 8 rsc/pwd.txt rsc/hash.txt
+	@echo
 	./build/check-passwd rsc/pwd.txt rsc/hash.txt
+	@echo 
 
-build : build/gen-passwd build/check-passwd 
+build : build/sha256-main build/gen-passwd build/check-passwd 
+
+build/sha256-main : src/util/sha256-main.cpp src/util/sha256.cpp
+	g++ -o build/sha256-main -std=c++17 src/util/sha256-main.cpp src/util/sha256.cpp
 
 build/gen-passwd : src/util/random.hpp src/util/sha256.cpp src/util/gen-passwd.cpp src/util/passwd-utils.hpp
 	g++ -o build/gen-passwd -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/gen-passwd.cpp src/util/passwd-utils.hpp
@@ -16,7 +24,7 @@ build/gen-passwd : src/util/random.hpp src/util/sha256.cpp src/util/gen-passwd.c
 build/check-passwd : src/util/random.hpp src/util/sha256.cpp src/util/check-passwd.cpp src/util/passwd-utils.hpp
 	g++ -o build/check-passwd -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/check-passwd.cpp src/util/passwd-utils.hpp
 
-
 clean : 
+	rm build/sha256-main
 	rm build/gen-passwd
 	rm build/check-passwd
