@@ -1,7 +1,21 @@
+#include "generateRT.h"
 #include <iostream>
+#include <string>
+
+const std::string PASSWORD_FILE("pwd.txt");
+const std::string HASH_FILE("hashes.txt");
+const std::string TAILS_FILE("tails.txt");
+
+using namespace be::esi::secl::pn;
 
 int main() {
 
-    std::cout << "Hello from generete" << std::endl;
+    //Generate NB_PASSWD passwords into pwd.txt
+    //and its hashes into hashes.txt
+    generatePasswords(PASSWORD_FILE, HASH_FILE);
+    //Call NB_REDUCE the function to get the tail and put them into tails.txt
+    generateTails(HASH_FILE, TAILS_FILE);
+    //TODO: Sort tails.txt by tail
+    //TODO: Remove duplicated tails to avoid collision    
 
 }
