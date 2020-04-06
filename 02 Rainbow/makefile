@@ -20,7 +20,7 @@ build/check-passwd : src/util/random.hpp src/util/sha256.cpp src/util/check-pass
 	g++ -o build/check-passwd -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/check-passwd.cpp src/util/passwd-utils.hpp
 
 build/generateRT : src/util/random.hpp src/util/sha256.cpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/main.cpp
- g++ -o build/generateRT -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/main.cpp
+	g++ -o build/generateRT -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/main.cpp
 
 clean : 
 	rm build/sha256-main

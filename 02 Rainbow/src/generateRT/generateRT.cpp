@@ -1,7 +1,11 @@
 #include "generateRT.h"
-#include "..\util\sha256.h"
-#include "..\util\passwd-utils.hpp"
+//TODO paths for windows and linux... Bug
+// #include "..\util\sha256.h"
+// #include "..\util\passwd-utils.hpp"
+#include "../util/sha256.h"
+#include "../util/passwd-utils.hpp"
 #include <fstream>
+#include <iostream>
 
 namespace be::esi::secl::pn
 {
@@ -13,6 +17,15 @@ void generatePasswords(const std::string &passwordsFile, const std::string &hash
 
 std::string reduce(const std::string hash)
 {
+    /*
+    
+    pwd = "764ddsjd"
+    add = 38
+    for(int i = 7; i >= 0; i--) {
+        pwd[i] = tab[ ( index(pwd[i]) + (add%36) ) % 36 ]
+        add /= 36
+    }
+    */
     static int c = 0;
 
     std::string pwd(hash.begin(), hash.begin() + MAX_PWD_SIZE - 1);
@@ -33,24 +46,27 @@ void generateTails(const std::string &hashFile, const std::string &tailsFile, un
 
     std::ifstream hashesInput(hashFile);
     std::ofstream tailsOutput(tailsFile);
-    std::string hash;
 
     if (!hashesInput.is_open())
         throw std::runtime_error("Hashes file can't be opened");
     if (!tailsOutput.is_open())
         throw std::runtime_error("Tails file can't be opened");
 
+    std::string reduced;
+    std::string hash;
+
     while (std::getline(hashesInput, hash)) //For each hash
     {
-        std::string reduced;
-        std::string newHash;
         for (unsigned i = 0; i < nb; i++)
         {
             reduced = reduce(hash);
-            newHash = sha256(reduced);
+            hash = sha256(reduced);
         }
         tailsOutput << reduced << '\n';
     }
+    
+    hashesInput.close();
+    tailsOutput.close();
 }
 
 } //NAMESPACE be::esi::secl::pn
