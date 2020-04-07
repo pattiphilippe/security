@@ -100,7 +100,7 @@ std::string reduce(const std::string &hash, int idxReduction); //TODO: doc
  * @param input The string to hash.
  * @return The hash of the input.
  */
-std::string hash(const std::string &input);
+std::string getHash(const std::string &input);
 
 /**
  * Generate the tails of all hash stored into file hashFile, into the file tailsFile.

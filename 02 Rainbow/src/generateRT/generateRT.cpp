@@ -28,7 +28,7 @@ std::string reduce(const std::string &hash, int idxReduction)
     return pwd;
 }
 
-std::string hash(const std::string &input)
+std::string getHash(const std::string &input)
 {
     return sha256(input);
 }
@@ -52,7 +52,7 @@ void generateTails(const std::string &hashFile, const std::string &tailsFile, un
         for (unsigned i = 0; i < nb; i++)
         {
             reduced = reduce(hash, i);
-            hash = sha256(reduced);
+            hash = getHash(reduced);
         }
         tailsOutput << reduced << '\n';
     }
