@@ -5,8 +5,8 @@
 namespace be::esi::secl::pn
 {
 
-inline const unsigned NB_PASSWD = 1;   /** How many password we generate for the RT */
-inline const unsigned NB_REDUCE = 2;    /** How many reduce function we use before getting the tail */
+inline const unsigned NB_PASSWD = 100;   /** How many password we generate for the RT */
+inline const unsigned NB_REDUCE = 1;    /** How many reduce function we use before getting the tail */
 inline const unsigned MIN_PWD_SIZE = 8; /** The minimal password size */
 inline const unsigned MAX_PWD_SIZE = 8; /** The maximal password size */
 inline const unsigned SIZE_AZ_O9 = 62;

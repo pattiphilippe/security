@@ -18,53 +18,18 @@ void generatePasswords(const std::string &passwordsFile, const std::string &hash
 std::string reduce(const std::string hash)
 {
     static int nbReduction = 1;
+    //TODO if running this method twice, nbReduction doesn't start at 0 ; ask nbReduction in param?
     int temp = nbReduction;
-    //TODO ask nbReduction in param
-    std::cout << "hash : " << hash << std::endl;
     std::string pwd(MAX_PWD_SIZE, 'A');
-    std::cout << "pwd : " << pwd << std::endl;
 
     for (int i = MAX_PWD_SIZE -1; i >= 0; i--)
     {
-        /*
-        pwd[i] = hash.at(i);
-        char indexActualChar = indexAlphanumeric(hash.at(i));
-        int move = nbReductionTemp % SIZE_ALPHA_NUM;
-        int newIndex = (indexActualChar + move) % SIZE_ALPHA_NUM;
-        pwd[i] = TAB_ALPHA_NUM[newIndex];
-        */
-        std::cout << "ID_AZ_O9[hash.at(i)] : " << ID_AZ_O9[hash.at(i)] << std::endl;
-        std::cout << "temp % SIZE_AZ_O9 : " << temp % SIZE_AZ_O9 << std::endl;
-        std::cout << "(ID_AZ_O9[hash.at(i)] + (temp % SIZE_AZ_O9)) : " << (ID_AZ_O9[hash.at(i)] + (temp % SIZE_AZ_O9)) << std::endl;
-        int j = (ID_AZ_O9[hash.at(i)] + (temp % SIZE_AZ_O9)) % SIZE_AZ_O9;
-        std::cout << "(ID_AZ_O9[hash.at(i)] + (temp % SIZE_AZ_O9)) % SIZE_AZ_O9 : " << j << std::endl;
-        std::cout << "AZ_O9[j] : " << AZ_O9[j] << std::endl;
         pwd[i] = AZ_O9[(ID_AZ_O9[hash.at(i)] + (temp % SIZE_AZ_O9)) % SIZE_AZ_O9];
         temp /= SIZE_AZ_O9;
     }
 
-    std::cout << "pwd : " << pwd << std::endl;
-
     nbReduction++;
     return pwd;
-
-    /*
-    pwd = "764ddsjd"
-    add = 38
-    for(int i = 7; i >= 0; i--) {
-        pwd[i] = tab[ ( index(pwd[i]) + (add%36) ) % 36 ]
-        add /= 36
-    }
-    */
-}
-
-int indexAlphanumeric(const char c)
-{
-    //TODO use a more performant method (hashmap, calculation on base of ascii codes, ... anything)
-    for (int i = 0; i < SIZE_AZ_O9; i++)
-        if (AZ_O9[i] == c)
-            return c;
-    throw std::runtime_error("Not an alphanumeric!");
 }
 
 std::string hash(const std::string &input)
