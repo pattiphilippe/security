@@ -15,20 +15,16 @@ void generatePasswords(const std::string &passwordsFile, const std::string &hash
     rainbow::mass_generate(nb, MIN_PWD_SIZE, MAX_PWD_SIZE, passwordsFile, hashFile);
 }
 
-std::string reduce(const std::string hash)
+std::string reduce(const std::string &hash, int idxReduction)
 {
-    static int nbReduction = 1;
-    //TODO if running this method twice, nbReduction doesn't start at 0 ; ask nbReduction in param?
-    int temp = nbReduction;
     std::string pwd(MAX_PWD_SIZE, 'A');
 
     for (int i = MAX_PWD_SIZE -1; i >= 0; i--)
     {
-        pwd[i] = AZ_O9[(ID_AZ_O9[hash.at(i)] + (temp % SIZE_AZ_O9)) % SIZE_AZ_O9];
-        temp /= SIZE_AZ_O9;
+        pwd[i] = AZ_O9[(ID_AZ_O9[hash.at(i)] + (idxReduction % SIZE_AZ_O9)) % SIZE_AZ_O9];
+        idxReduction /= SIZE_AZ_O9;
     }
 
-    nbReduction++;
     return pwd;
 }
 
@@ -53,9 +49,9 @@ void generateTails(const std::string &hashFile, const std::string &tailsFile, un
 
     while (std::getline(hashesInput, hash)) //For each hash
     {
-        for (unsigned i = 0; i < nb; i++) //TODO reset 1 to nb
+        for (unsigned i = 0; i < nb; i++)
         {
-            reduced = reduce(hash);
+            reduced = reduce(hash, i);
             hash = sha256(reduced);
         }
         tailsOutput << reduced << '\n';
