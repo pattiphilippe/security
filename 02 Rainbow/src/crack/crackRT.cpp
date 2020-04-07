@@ -43,9 +43,10 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
     crackedOutput.close();
 }
 
-unsigned findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxReduction)
+int findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxReduction)
 {
     std::string reduced = reduce(hash, idxReduction);
+    int line;
     while ((line = findPositionIntoFile(reduced, tailsInput)) == -1 && idxReduction-- >= 0)
     {
         reduced = reduce(hash, idxReduction);

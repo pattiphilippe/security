@@ -1,3 +1,6 @@
+#ifndef GENERATERT_H
+#define GENERATERT_H
+
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -93,7 +96,7 @@ void generatePasswords(const std::string &passwordsFile, const std::string &hash
  * For exemple, you hash and reduce a password 100 times. So, to reduce the first hash, 
  * idxReduction is set to 0.
  */
-std::string reduce(const std::string &hash, int idxReduction); //TODO: doc
+std::string reduce(const std::string &hash, int idxReduction);
 
 /**
  * Return the hash of a string using the SHA-256 algo.
@@ -112,3 +115,5 @@ std::string getHash(const std::string &input);
 void generateTails(const std::string &hashFile, const std::string &tailsFile, unsigned nb = NB_REDUCE);
 
 } //NAMESPACE be::esi::secl::pn
+
+#endif 

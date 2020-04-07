@@ -1,3 +1,6 @@
+#ifndef CRACK_H
+#define CRACK_H
+
 #include "../generateRT/generateRT.h"
 #include <string>
 
@@ -25,7 +28,7 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
  * @param idxReduction The first reduction to do. The value becomes the number of reductions to perform to get the password.
  * @return The line containing the hash, or -1 if not found.
  */
-unsigned findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxReduction);
+int findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxReduction);
 
 /**
  * Find at wich line a string is into a file.
@@ -46,3 +49,6 @@ int findPositionIntoFile(const std::string &str, std::ifstream &input);
 std::string findPwd(std::ifstream &headsInput, const unsigned line, const unsigned idxReduction);
 
 } //NAMESPACE be::esi::secl::pn
+
+
+#endif 
