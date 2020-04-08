@@ -67,7 +67,7 @@ int findPositionIntoFile(const std::string &str, std::ifstream &input)
 
     std::string current; //The read line
     input.clear();
-    input.seekg(0, std::ios::beg);      //Set the cursor at the start of the file
+    input.seekg(0);      //Set the cursor at the start of the file
     int index = 0;       //The current line index read into the file
 
     while (std::getline(input, current)) // For each tail
