@@ -1,7 +1,4 @@
 #include "generateRT.h"
-//TODO paths for windows and linux... Bug
-// #include "..\util\sha256.h"
-// #include "..\util\passwd-utils.hpp"
 #include "../util/sha256.h"
 #include "../util/passwd-utils.hpp"
 #include <fstream>
