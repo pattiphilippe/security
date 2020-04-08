@@ -7,9 +7,9 @@ namespace be::esi::secl::pn
 
 /** Set the number of caracters to get a new line in a file */
 #ifdef _WIN32
-const unsigned NB_NEW_LINE = 2;
+const unsigned NB_ESCAPE_CHAR = 2;
 #elif
-const unsigned NB_NEW_LINE = 1;
+const unsigned NB_ESCAPE_CHAR = 1;
 #endif
 
 void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedFile, unsigned nb)
@@ -91,7 +91,7 @@ int findPositionIntoFile(const std::string &str, std::ifstream &input)
 
 std::string findPwd(std::ifstream &headsInput, const unsigned line, const unsigned idxReduction)
 {
-    headsInput.seekg((MAX_PWD_SIZE + NB_NEW_LINE) * line);
+    headsInput.seekg((MAX_PWD_SIZE + NB_ESCAPE_CHAR) * line);
 
     std::string pwd;
     std::getline(headsInput, pwd);
