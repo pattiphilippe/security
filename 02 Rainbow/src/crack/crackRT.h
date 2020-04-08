@@ -17,7 +17,7 @@ namespace be::esi::secl::pn
  * @param nb The number of reduce fonction to apply before getting the tail. If not set, use default value.
  * @throw std::runtime_error if hashFile, headFile or tailsFile can't be opened.
  */
-void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackerFile, unsigned nb = NB_REDUCE);
+void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedFile, unsigned nb = NB_REDUCE);
 //TODO Make it crack different hashes on different threads to optimize cpu usage.
 
 /**
