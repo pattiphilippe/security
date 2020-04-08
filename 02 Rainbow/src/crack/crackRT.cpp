@@ -40,7 +40,7 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
         if (line != -1)
         {
             pwd = findPwd(headsInput, line, idxReduction); //Find pwd in line
-            crackedOutput << pwd << '\n';                  //Write found pwd
+            crackedOutput << hash << ';' << pwd << '\n';                  //Write found pwd
         }
         else
         {
