@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 
 #include "crackRT.h"
@@ -11,8 +10,6 @@ const std::string CRACKED_FILE("rsc/cracked.txt");
 using namespace be::esi::secl::pn;
 
 int main() {
-
-    std::cout << "Hello from crack" << std::endl;
 
     crack(HASH_FILE, PASSWORD_FILE, TAILS_FILE, CRACKED_FILE);
 }

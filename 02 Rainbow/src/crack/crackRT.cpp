@@ -27,15 +27,12 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
     int line;
     while (std::getline(hashesInput, hash)) // For each hash
     {
-        std::cout << "hash : " << hash << std::endl;
         idxReduction = NB_REDUCE - 1;
         line = findLine(hash, tailsInput, idxReduction); //Find line
-        std::cout << "line : " << line << std::endl;
 
         if (line != -1)
         {
             pwd = findPwd(headsInput, line, idxReduction); //Find pwd in line
-            std::cout << "pwd : " << pwd << std::endl;
             crackedOutput << pwd << '\n'; //Write found pwd
         }
         else
@@ -56,11 +53,9 @@ int findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxRe
     int line;
     while ((line = findPositionIntoFile(reduced, tailsInput)) == -1 && (idxReduction-- > 0))
     {
-        std::cout << "while line : " << line << ", idxReduction : " << idxReduction << std::endl;
         reduced = reduce(hash, idxReduction);
         for (unsigned i = idxReduction + 1; i < NB_REDUCE; i++)
         {
-            std::cout << "for i : " << i << std::endl;
             reduced = reduce(getHash(reduced), i);
         }
     }
@@ -77,7 +72,6 @@ int findPositionIntoFile(const std::string &str, std::ifstream &input)
 
     while (std::getline(input, current)) // For each tail
     {
-        std::cout << "while getLine : " << current << std::endl;
         if (str == current)
         { //If found, return the index
             return index;
