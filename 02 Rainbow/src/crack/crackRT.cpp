@@ -21,49 +21,6 @@ const unsigned NB_ESCAPE_CHAR = 2;
 const unsigned NB_ESCAPE_CHAR = 1;
 #endif
 
-std::string getHeadPwdOfLine(unsigned line, const std::string &headFile)
-{
-    std::ifstream headsInput(headFile);
-    if (!headsInput.is_open())
-        throw std::runtime_error("Heads file can't be opened");
-    std::string pwd;
-
-    headsInput.seekg((MAX_PWD_SIZE + NB_ESCAPE_CHAR) * line);
-    std::getline(headsInput, pwd);
-
-    headsInput.close();
-
-    return pwd;
-}
-
-void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedOutput, const std::string &headFile)
-{
-    std::string hash, pwd;
-    unsigned idxReduction;
-    int line;
-
-    mtxReadHead.lock();
-    std::getline(hashesInput, hash);
-    mtxReadHead.unlock();
-    while (hashesInput) // For each hash
-    {
-        idxReduction = NB_REDUCE - 1;
-        line = findLine(hash, tailsInput, idxReduction); //Find line
-
-        if (line != -1)
-        {
-            pwd = findPwd(getHeadPwdOfLine(line, headFile), idxReduction); //Find pwd of the password of line x
-            mtxPrintCracked.lock();
-            crackedOutput << hash << ';' << pwd << '\n'; //Write found pwd
-            //TODO: write hash in another file
-            mtxPrintCracked.unlock();
-        }
-        mtxReadHead.lock();
-        std::getline(hashesInput, hash);
-        mtxReadHead.unlock();
-    }
-}
-
 void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedFile)
 {
 
@@ -126,13 +83,56 @@ int findPositionIntoFile(const std::string &str, std::ifstream &input)
     return -1; //If not found
 }
 
-std::string findPwd(std::string pwd, const unsigned idxReduction)
+std::string findPwd(std::string pwd, unsigned idxReduction)
 {
     for (unsigned i = 0; i < idxReduction; i++)
     {
         pwd = reduce(getHash(pwd), i);
     }
     return pwd;
+}
+
+std::string getHeadPwdOfLine(unsigned line, const std::string &headFile)
+{
+    std::ifstream headsInput(headFile);
+    if (!headsInput.is_open())
+        throw std::runtime_error("Heads file can't be opened");
+    std::string pwd;
+
+    headsInput.seekg((MAX_PWD_SIZE + NB_ESCAPE_CHAR) * line);
+    std::getline(headsInput, pwd);
+
+    headsInput.close();
+
+    return pwd;
+}
+
+void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedOutput, const std::string &headFile)
+{
+    std::string hash, pwd;
+    unsigned idxReduction;
+    int line;
+
+    mtxReadHead.lock();
+    std::getline(hashesInput, hash);
+    mtxReadHead.unlock();
+    while (hashesInput) // For each hash
+    {
+        idxReduction = NB_REDUCE - 1;
+        line = findLine(hash, tailsInput, idxReduction); //Find line
+
+        if (line != -1)
+        {
+            pwd = findPwd(getHeadPwdOfLine(line, headFile), idxReduction); //Find pwd of the password of line x
+            mtxPrintCracked.lock();
+            crackedOutput << hash << ';' << pwd << '\n'; //Write found pwd
+            //TODO: write hash in another file
+            mtxPrintCracked.unlock();
+        }
+        mtxReadHead.lock();
+        std::getline(hashesInput, hash);
+        mtxReadHead.unlock();
+    }
 }
 
 } //NAMESPACE be::esi::secl::pn

@@ -10,29 +10,38 @@ namespace be::esi::secl::pn
 /**
  * Attempts to find passwords corresponding to the hashes given, at the hand of the tails.
  * With time, should replace heads and tails files by a rainbow table.
+ * Crack is performed into multiple threads.
  * @param hashFile The file's name containing the hashes to crack.
  * @param headFile The file's name containing the heads.
  * @param tailsFile The file's name containing the tails.
  * @param crackedFile The file's name where to print the cracked passwords
- * @param nb The number of reduce fonction to apply before getting the tail. If not set, use default value.
- * @throw std::runtime_error if hashFile, headFile or tailsFile can't be opened.
+ * @throw std::runtime_error if hashFile, headFile, tailsFile or crackedFile can't be opened.
  */
 void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedFile);
-//TODO Make it crack different hashes on different threads to optimize cpu usage.
 
 /**
- * Searches the line in tailsInput file that contains the hash.
- * If it doesn't find the line, line is set to -1.
- * @param hash The hash to find.
+ * Crack function to call with a thread.
+ * Read and write with file is performed with mutex.
+ * @param hashedInput The hashes file.
+ * @param tailsInput The tails input.
+ * @param crackedOutput The output file where to write the passwords found.
+ * @param headFile The name of the head file.
+ */
+void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedOutput, const std::string &headFile);
+
+/**
+ * Reduce the hash NB_REDUCE times and return at wich line the reduced hash is in the tailsInput file.
+ * If it doesn't find the line, return -1.
+ * @param hash The hash to reduce and to find.
  * @param tailsInput The file which contains the tails.
- * @param idxReduction The first reduction to do. The value becomes the number of reductions to perform to get the password.
+ * @param idxReduction The first reduction to do. At the end of the function, the value becomes the number of reductions to perform to get the password.
  * @return The line containing the hash, or -1 if not found.
  */
 int findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxReduction);
 
 /**
  * Find at wich line a string is into a file.
- * Set the cursor at the start of the file.
+ * Set the cursor at the start of the file to perform the search.
  * @param str The string to search.
  * @param input The input file.
  * @return the line of the string into the file. Or -1 if not found. 0 is the first line.
@@ -40,15 +49,21 @@ int findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxRe
 int findPositionIntoFile(const std::string &str, std::ifstream &input);
 
 /**
- * Searches the password at line in headsInput file, doing idxReduction reductions.
- * @param headsInput The file containing the heads of the RT.
- * @param line The line containing the password.
- * @param idxReduction The number of hash and reduction to process to get the password of the line'th head
+ * Perform idxReduction on the password and return the result.
+ * @param pwd The password to reducd.
+ * @param idxReduction The number of reduce to perform.
  * @return the password looked for
  */
-std::string findPwd(std::string pwd, const unsigned idxReduction);
+std::string findPwd(std::string pwd, unsigned idxReduction);
+
+/**
+ * Get the password stored at a line.
+ * @param line The line where is stored the password.
+ * @param headFile The file name which contain the passwords
+ * @return the password found.
+ */
+std::string getHeadPwdOfLine(unsigned line, const std::string &headFile);
 
 } //NAMESPACE be::esi::secl::pn
-
 
 #endif 
