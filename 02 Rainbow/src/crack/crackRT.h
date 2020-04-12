@@ -14,20 +14,24 @@ namespace be::esi::secl::pn
  * @param hashFile The file's name containing the hashes to crack.
  * @param headFile The file's name containing the heads.
  * @param tailsFile The file's name containing the tails.
- * @param crackedFile The file's name where to print the cracked passwords
+ * @param crackedPwdFile The file's name where to print the cracked passwords.
+ * @param crackedHashFile The file's name where to print the hash og the cracked passwords. Each line is the hash of the password of the same line 
+ * of the passwords file.
  * @throw std::runtime_error if hashFile, headFile, tailsFile or crackedFile can't be opened.
  */
-void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedFile);
+void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedPwdFile, const std::string &crackedHashFile);
 
 /**
  * Crack function to call with a thread.
  * Read and write with file is performed with mutex.
  * @param hashedInput The hashes file.
  * @param tailsInput The tails input.
- * @param crackedOutput The output file where to write the passwords found.
+ * @param crackedPwdOutput The output file where to write the passwords found.
+ * @param crackedHashOutput The output file where to write the hashes which matches with the password. Each line is the hash of the password of the same line 
+ * of the passwords file.
  * @param headFile The name of the head file.
  */
-void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedOutput, const std::string &headFile);
+void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, const std::string &headFile);
 
 /**
  * Reduce the hash NB_REDUCE times and return at wich line the reduced hash is in the tailsInput file.

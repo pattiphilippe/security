@@ -21,31 +21,36 @@ const unsigned NB_ESCAPE_CHAR = 2;
 const unsigned NB_ESCAPE_CHAR = 1;
 #endif
 
-void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedFile)
+void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedPwdFile, const std::string &crackedHashFile)
 {
 
     std::ifstream hashesInput(hashFile);
     std::ifstream tailsInput(tailsFile);
-    std::ofstream crackedOutput(crackedFile);
+    std::ofstream crackedPwdOutput(crackedPwdFile);
+    std::ofstream crackedHashOutput(crackedHashFile);
 
     if (!hashesInput.is_open())
         throw std::runtime_error("Hashes file can't be opened");
     if (!tailsInput.is_open())
         throw std::runtime_error("Tails file can't be opened");
-    if (!crackedOutput.is_open())
-        throw std::runtime_error("Cracked file can't be opened");
+    if (!crackedPwdOutput.is_open())
+        throw std::runtime_error("Cracked passwords file can't be opened");
+    if (!crackedHashOutput.is_open())
+        throw std::runtime_error("Cracked passwords hashes file can't be opened");
 
     std::vector<std::thread> threads;
     for (unsigned i = 0; i < NB_THREADS; i++)
     {
-        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), std::ref(tailsInput), std::ref(crackedOutput), std::ref(headFile)));
+        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), std::ref(tailsInput), 
+            std::ref(crackedPwdOutput), std::ref(crackedHashOutput), std::ref(headFile))); //Need to wrap the references
     }
 
     std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join(); });
 
     hashesInput.close();
     tailsInput.close();
-    crackedOutput.close();
+    crackedPwdOutput.close();
+    crackedHashOutput.close();
 }
 
 int findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxReduction)
@@ -107,7 +112,7 @@ std::string getHeadPwdOfLine(unsigned line, const std::string &headFile)
     return pwd;
 }
 
-void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedOutput, const std::string &headFile)
+void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, const std::string &headFile)
 {
     std::string hash, pwd;
     unsigned idxReduction;
@@ -125,8 +130,8 @@ void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::o
         {
             pwd = findPwd(getHeadPwdOfLine(line, headFile), idxReduction); //Find pwd of the password of line x
             mtxPrintCracked.lock();
-            crackedOutput << hash << ';' << pwd << '\n'; //Write found pwd
-            //TODO: write hash in another file
+            crackedPwdOutput << pwd << '\n'; //Write found pwd
+            crackedHashOutput << hash << '\n'; //Write hash
             mtxPrintCracked.unlock();
         }
         mtxReadHead.lock();
