@@ -14,14 +14,7 @@ std::mutex mtxReadHead;
 std::mutex mtxPrintCracked;
 const unsigned NB_THREADS = 10;
 
-/** Set the number of caracters to get a new line in a file */
-#ifdef _WIN32
-const unsigned NB_ESCAPE_CHAR = 2;
-#else
-const unsigned NB_ESCAPE_CHAR = 1;
-#endif
-
-void crack(const std::string &hashFile, const std::string &headFile, const std::string &tailsFile, const std::string &crackedPwdFile, const std::string &crackedHashFile)
+void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile)
 {
 
     std::ifstream hashesInput(hashFile);
@@ -38,8 +31,8 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
     std::vector<std::thread> threads;
     for (unsigned i = 0; i < NB_THREADS; i++)
     {
-        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), tailsFile,
-                                      std::ref(crackedPwdOutput), std::ref(crackedHashOutput), std::ref(headFile))); //Need to wrap the references
+        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), db,
+                                      std::ref(crackedPwdOutput), std::ref(crackedHashOutput))); //Need to wrap the references
     }
 
     std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join(); });
@@ -49,87 +42,28 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
     crackedHashOutput.close();
 }
 
-int findLine(const std::string &hash, std::ifstream &tailsInput, unsigned &idxReduction)
-{
-    std::string reduced = reduce(hash, idxReduction);
-    int line;
-    while ((line = findPositionIntoFile(reduced, tailsInput)) == -1 && (idxReduction-- > 0))
-    {
-        reduced = reduce(hash, idxReduction);
-        for (unsigned i = idxReduction + 1; i < NB_REDUCE; i++)
-        {
-            reduced = reduce(getHash(reduced), i);
-        }
-    }
-    return line;
-}
-
-int findPositionIntoFile(const std::string &str, std::ifstream &input)
-{
-
-    std::string current; //The read line
-    input.clear();
-    input.seekg(0); //Set the cursor at the start of the file
-    int index = 0;  //The current line index read into the file
-
-    while (std::getline(input, current)) // For each tail
-    {
-        if (str == current)
-        { //If found, return the index
-            return index;
-        }
-        index++;
-    }
-
-    return -1; //If not found
-}
-
-std::string findPwd(std::string pwd, unsigned idxReduction)
-{
-    for (unsigned i = 0; i < idxReduction; i++)
-    {
-        pwd = reduce(getHash(pwd), i);
-    }
-    return pwd;
-}
-
-std::string getHeadPwdOfLine(unsigned line, const std::string &headFile)
-{
-    std::ifstream headsInput(headFile);
-    if (!headsInput.is_open())
-        throw std::runtime_error("Heads file can't be opened");
-    std::string pwd;
-
-    headsInput.seekg((MAX_PWD_SIZE + NB_ESCAPE_CHAR) * line);
-    std::getline(headsInput, pwd);
-
-    headsInput.close();
-
-    return pwd;
-}
-
-void crackInThread(std::ifstream &hashesInput, const std::string &tailsFile, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, const std::string &headFile)
+void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput)
 {
     std::string hash, pwd;
     unsigned idxReduction;
-    int line;
+    std::string tail;
 
-    std::ifstream tailsInput(tailsFile);
-    if (!tailsInput.is_open())
-        throw std::runtime_error("Tails file can't be opened");
-
+    sqlite3_stmt *stmtReadTail, *stmtReadHead;
+    sqlite3_prepare_v2(db, SELECT_TAIL, -1, &stmtReadTail, 0);
+    sqlite3_prepare_v2(db, SELECT_HEAD, -1, &stmtReadHead, 0);
 
     mtxReadHead.lock();
     std::getline(hashesInput, hash);
     mtxReadHead.unlock();
+
     while (hashesInput) // For each hash
     {
         idxReduction = NB_REDUCE - 1;
-        line = findLine(hash, tailsInput, idxReduction); //Find line
+        tail = getTail(hash, stmtReadTail, idxReduction); //Find line
 
-        if (line != -1)
+        if (!tail.empty())
         {
-            pwd = findPwd(getHeadPwdOfLine(line, headFile), idxReduction); //Find pwd of the password of line x
+            pwd = findPwd(getHead(stmtReadHead, tail), idxReduction); //Get the head of the tail and search the search password after x reductions
             mtxPrintCracked.lock();
             crackedPwdOutput << pwd << '\n';   //Write found pwd
             crackedHashOutput << hash << '\n'; //Write hash
@@ -147,8 +81,53 @@ void crackInThread(std::ifstream &hashesInput, const std::string &tailsFile, std
         std::getline(hashesInput, hash);
         mtxReadHead.unlock();
     }
-    
-    tailsInput.close();
+}
+
+std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, unsigned &idxReduction)
+{
+    int rc;
+    std::string reduced = reduce(hash, idxReduction);
+    sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
+
+    while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--)
+    {
+        sqlite3_clear_bindings(stmtReadTail);
+        sqlite3_reset(stmtReadTail);
+        reduced = reduce(hash, idxReduction);
+        for (unsigned i = idxReduction + 1; i < NB_REDUCE; i++)
+        {
+            reduced = reduce(getHash(reduced), i);
+        }
+        sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
+    }
+
+    if (rc == SQLITE_ROW)
+    {
+        return reduced;
+    }
+    return std::string("");
+}
+
+std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
+{
+    sqlite3_bind_text(stmtGetHead, 1, tail.c_str(), tail.length(), SQLITE_STATIC);
+    if (sqlite3_step(stmtGetHead) != SQLITE_ROW)
+    {
+        throw std::runtime_error("Can't get the head of the tail");
+    }
+    std::string head(reinterpret_cast<const char *>(sqlite3_column_text(stmtGetHead, 0)));
+    sqlite3_clear_bindings(stmtGetHead);
+    sqlite3_reset(stmtGetHead);
+    return head;
+}
+
+std::string findPwd(std::string pwd, unsigned idxReduction)
+{
+    for (unsigned i = 0; i < idxReduction; i++)
+    {
+        pwd = reduce(getHash(pwd), i);
+    }
+    return pwd;
 }
 
 } //NAMESPACE be::esi::secl::pn

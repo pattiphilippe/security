@@ -84,15 +84,6 @@ inline const char * CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMAR
 inline const char * INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
 
 /**
- * Generate a number of alphanumerical password into the file 'outputFile' .
- * @param passwordFile The output file name for passwords. A file with this name will be created. If a file with this name already exist, it will be erased.
- * @param hashFile The output file name for passwords hashes. A file with this name will be created. If a file with this name already exist, it will be erased.
- * @param nb The number of password to generate. If not set, default number is used.
- * @throw std::runtime_error if passwordsFile or hashFile can't be opened.
- */
-void generatePasswords(const std::string &passwordsFile, const std::string &hashFile, unsigned nb = NB_PASSWD);
-
-/**
  * The reduce function.
  * The reduce function is very secret, so we don't tell here how it works..
  * @param hash The hash to reduce.

@@ -7,7 +7,7 @@
 run : build #install_sqlite
 	@echo
 	./build/generateRT
-	#./build/crackRT
+	./build/crackRT
 
 build : build/sha256-main build/gen-passwd build/check-passwd  build/generateRT build/crackRT
 

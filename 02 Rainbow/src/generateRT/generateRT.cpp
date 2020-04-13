@@ -7,11 +7,6 @@
 namespace be::esi::secl::pn
 {
 
-void generatePasswords(const std::string &passwordsFile, const std::string &hashFile, unsigned nb)
-{
-    rainbow::mass_generate(nb, MIN_PWD_SIZE, MAX_PWD_SIZE, passwordsFile, hashFile);
-}
-
 std::string reduce(const std::string &hash, int idxReduction)
 {
     std::string pwd(MAX_PWD_SIZE, 'A'); //Fill pwd with fake values
@@ -42,10 +37,17 @@ void generateRT(sqlite3 *db, unsigned nbReduce)
 
     std::string passwd, reduced, hash;
 
+    //TODO for debugging purposes
+    std::ofstream hashesOutput("rsc/hashes.txt");
+    if(!hashesOutput.is_open()){
+        std::cerr << "Couldn't open hashes output file!" << std::endl;
+    }
+
     for (int i = 0; i < NB_PASSWD; i++)
     {
         passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
         hash = getHash(passwd);
+        hashesOutput << hash << "\n";
         for (unsigned j = 0; j < nbReduce; j++)
         {
             reduced = reduce(hash, j);
@@ -56,6 +58,8 @@ void generateRT(sqlite3 *db, unsigned nbReduce)
         sqlite3_step(stmt);
         //TODO: check if error (not if not success)
     }
+
+    hashesOutput.close();
 }
 
 } //NAMESPACE be::esi::secl::pn
