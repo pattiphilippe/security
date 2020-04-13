@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <sqlite3.h>
 
 namespace be::esi::secl::pn
 {
@@ -78,6 +79,9 @@ inline std::unordered_map<char, int> ID_AZ_O9 = {
     {'8', 60},
     {'9', 61},
 };
+inline const char * DROP_RT = "DROP TABLE RAINBOW_TABLE;";
+inline const char * CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
+inline const char * INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
 
 /**
  * Generate a number of alphanumerical password into the file 'outputFile' .
@@ -106,13 +110,12 @@ std::string reduce(const std::string &hash, int idxReduction);
 std::string getHash(const std::string &input);
 
 /**
- * Generate the tails of all hash stored into file hashFile, into the file tailsFile.
- * The tails are getted after a number of reduce, based on their hash.
- * @param hashFile The name of the file who contain the hash.
- * @param tailsFile The output file to put the tails
- * @param nb The number of reduce fonction to apply before getting the tail. If not set, use default value.
+ * Generate the head and the tails of the RT, and write them into the DB.
+ * The tails are computed after a number of reductions, based on their hash.
+ * @param db The db to store the passwords and the tails. It must be a valid db.
+ * @param nb The number of reduction functions to apply to compute the tail. If not set, use default value.
  */
-void generateTails(const std::string &hashFile, const std::string &tailsFile, unsigned nb = NB_REDUCE);
+void generateRT(sqlite3* db, unsigned nbReduce = NB_REDUCE);
 
 } //NAMESPACE be::esi::secl::pn
 

@@ -1,6 +1,7 @@
 #include "generateRT.h"
 #include <iostream>
 #include <string>
+#include <sqlite3.h>
 
 const std::string PASSWORD_FILE("rsc/pwd.txt");
 const std::string HASH_FILE("rsc/hashes.txt");
@@ -10,11 +11,15 @@ using namespace be::esi::secl::pn;
 
 int main()
 {
-    //Generate NB_PASSWD passwords into pwd.txt
-    //and its hashes into hashes.txt
-    generatePasswords(PASSWORD_FILE, HASH_FILE);
-    //Call NB_REDUCE the function to get the tail and put them into tails.txt
-    generateTails(HASH_FILE, TAILS_FILE);
-    //TODO: Sort tails.txt by tail
-    //TODO: Remove duplicated tails to avoid collision
+    sqlite3 *db; //Open DB
+    if (sqlite3_open("rsc/rt.sqlite", &db))
+    {
+        std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
+        return -1;
+    }
+
+    //Generate passwords and tails and put them into the db
+    generateRT(db);
+
+    sqlite3_close(db);
 }
