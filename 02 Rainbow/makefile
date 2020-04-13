@@ -23,8 +23,8 @@ build/check-passwd : src/util/random.hpp src/util/sha256.cpp src/util/check-pass
 build/generateRT : src/util/random.hpp src/util/sha256.cpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/generateRT.h src/generateRT/main.cpp
 	g++ -o build/generateRT -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/main.cpp
 
-build/crackRT : src/generateRT/generateRT.h src/generateRT/generateRT.cpp src/crack/main.cpp src/crack/crackRT.cpp src/crack/crackRT.h
-	g++ -o build/crackRT -std=c++17 src/generateRT/generateRT.cpp src/util/passwd-utils.hpp src/util/sha256.cpp src/crack/crackRT.cpp src/crack/main.cpp 
+build/crackRT : src/generateRT/generateRT.h src/generateRT/generateRT.cpp src/crack/main.cpp src/crack/crackRT.cpp src/crack/crackRT.h src/util/random.hpp
+	g++ -o build/crackRT -std=c++17 src/generateRT/generateRT.cpp src/util/passwd-utils.hpp src/util/sha256.cpp src/crack/crackRT.cpp src/crack/main.cpp src/util/random.hpp
 
 clean : 
 	rm build/*
