@@ -14,9 +14,9 @@ void generatePasswords(const std::string &passwordsFile, const std::string &hash
 
 std::string reduce(const std::string &hash, int idxReduction)
 {
-    std::string pwd(MAX_PWD_SIZE, 'A');
+    std::string pwd(MAX_PWD_SIZE, 'A'); //Fill pwd with fake values
 
-    for (int i = MAX_PWD_SIZE -1; i >= 0; i--)
+    for (int i = MAX_PWD_SIZE -1; i >= 0; i--) //TODO generate pwd with length btw 6 and 8
     {
         pwd[i] = AZ_O9[(ID_AZ_O9[hash.at(i)] + (idxReduction % SIZE_AZ_O9)) % SIZE_AZ_O9];
         idxReduction /= SIZE_AZ_O9;
@@ -32,7 +32,6 @@ std::string getHash(const std::string &input)
 
 void generateTails(const std::string &hashFile, const std::string &tailsFile, unsigned nb)
 {
-
     std::ifstream hashesInput(hashFile);
     std::ofstream tailsOutput(tailsFile);
 
