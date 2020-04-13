@@ -17,7 +17,7 @@ const unsigned NB_THREADS = 10;
 /** Set the number of caracters to get a new line in a file */
 #ifdef _WIN32
 const unsigned NB_ESCAPE_CHAR = 2;
-#elif
+#else
 const unsigned NB_ESCAPE_CHAR = 1;
 #endif
 
