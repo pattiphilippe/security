@@ -31,7 +31,7 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
  * of the passwords file.
  * @param headFile The name of the head file.
  */
-void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, const std::string &headFile);
+void crackInThread(std::ifstream &hashesInput, const std::string &tailsFile, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, const std::string &headFile);
 
 /**
  * Reduce the hash NB_REDUCE times and return at wich line the reduced hash is in the tailsInput file.

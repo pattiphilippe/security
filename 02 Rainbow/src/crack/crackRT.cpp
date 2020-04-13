@@ -25,14 +25,11 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
 {
 
     std::ifstream hashesInput(hashFile);
-    std::ifstream tailsInput(tailsFile);
     std::ofstream crackedPwdOutput(crackedPwdFile);
     std::ofstream crackedHashOutput(crackedHashFile);
 
     if (!hashesInput.is_open())
         throw std::runtime_error("Hashes file can't be opened");
-    if (!tailsInput.is_open())
-        throw std::runtime_error("Tails file can't be opened");
     if (!crackedPwdOutput.is_open())
         throw std::runtime_error("Cracked passwords file can't be opened");
     if (!crackedHashOutput.is_open())
@@ -41,14 +38,13 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
     std::vector<std::thread> threads;
     for (unsigned i = 0; i < NB_THREADS; i++)
     {
-        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), std::ref(tailsInput),
+        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), tailsFile,
                                       std::ref(crackedPwdOutput), std::ref(crackedHashOutput), std::ref(headFile))); //Need to wrap the references
     }
 
     std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join(); });
 
     hashesInput.close();
-    tailsInput.close();
     crackedPwdOutput.close();
     crackedHashOutput.close();
 }
@@ -112,11 +108,16 @@ std::string getHeadPwdOfLine(unsigned line, const std::string &headFile)
     return pwd;
 }
 
-void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, const std::string &headFile)
+void crackInThread(std::ifstream &hashesInput, const std::string &tailsFile, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, const std::string &headFile)
 {
     std::string hash, pwd;
     unsigned idxReduction;
     int line;
+
+    std::ifstream tailsInput(tailsFile);
+    if (!tailsInput.is_open())
+        throw std::runtime_error("Tails file can't be opened");
+
 
     mtxReadHead.lock();
     std::getline(hashesInput, hash);
@@ -146,6 +147,8 @@ void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::o
         std::getline(hashesInput, hash);
         mtxReadHead.unlock();
     }
+    
+    tailsInput.close();
 }
 
 } //NAMESPACE be::esi::secl::pn
