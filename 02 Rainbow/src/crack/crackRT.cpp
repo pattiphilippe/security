@@ -41,8 +41,8 @@ void crack(const std::string &hashFile, const std::string &headFile, const std::
     std::vector<std::thread> threads;
     for (unsigned i = 0; i < NB_THREADS; i++)
     {
-        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), std::ref(tailsInput), 
-            std::ref(crackedPwdOutput), std::ref(crackedHashOutput), std::ref(headFile))); //Need to wrap the references
+        threads.push_back(std::thread(crackInThread, std::ref(hashesInput), std::ref(tailsInput),
+                                      std::ref(crackedPwdOutput), std::ref(crackedHashOutput), std::ref(headFile))); //Need to wrap the references
     }
 
     std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join(); });
@@ -130,10 +130,18 @@ void crackInThread(std::ifstream &hashesInput, std::ifstream &tailsInput, std::o
         {
             pwd = findPwd(getHeadPwdOfLine(line, headFile), idxReduction); //Find pwd of the password of line x
             mtxPrintCracked.lock();
-            crackedPwdOutput << pwd << '\n'; //Write found pwd
+            crackedPwdOutput << pwd << '\n';   //Write found pwd
             crackedHashOutput << hash << '\n'; //Write hash
             mtxPrintCracked.unlock();
         }
+        else
+        {
+            mtxPrintCracked.lock();
+            crackedPwdOutput << '\n';          //Write unfound pwd
+            crackedHashOutput << hash << '\n'; //Write hash
+            mtxPrintCracked.unlock();
+        }
+
         mtxReadHead.lock();
         std::getline(hashesInput, hash);
         mtxReadHead.unlock();
