@@ -2,19 +2,19 @@
 #include "../util/sha256.h"
 #include "../util/passwd-utils.hpp"
 #include <fstream>
-#include <iostream>
 
 namespace be::esi::secl::pn
 {
 
-std::string reduce(const std::string &hash, int idxReduction)
+std::string reduce(const std::string &hash, unsigned idxReduction)
 {
-    std::string pwd(MAX_PWD_SIZE, 'A'); //Fill pwd with fake values
+    unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36);
+    std::string pwd(MAX_PWD_SIZE, 'A');
 
-    for (int i = MAX_PWD_SIZE - 1; i >= 0; i--) //TODO generate pwd with length btw 6 and 8
+    for (int i = 0; i < MAX_PWD_SIZE; i++)
     {
-        pwd[i] = AZ_O9[(ID_AZ_O9[hash.at(i)] + (idxReduction % SIZE_AZ_O9)) % SIZE_AZ_O9];
-        idxReduction /= SIZE_AZ_O9;
+        pwd[i] = AZ_O9[x % SIZE_AZ_O9];
+        x /= SIZE_AZ_O9;
     }
 
     return pwd;
@@ -39,9 +39,6 @@ void generateRT(sqlite3 *db, unsigned nbReduce)
 
     //TODO for debugging purposes
     std::ofstream hashesOutput("rsc/hashes.txt");
-    if(!hashesOutput.is_open()){
-        std::cerr << "Couldn't open hashes output file!" << std::endl;
-    }
 
     for (int i = 0; i < NB_PASSWD; i++)
     {
@@ -55,8 +52,11 @@ void generateRT(sqlite3 *db, unsigned nbReduce)
         }
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
         sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
-        sqlite3_step(stmt);
-        //TODO: check if error (not if not success)
+        if (sqlite3_step(stmt) != SQLITE_DONE)
+            i--;
+
+        sqlite3_clear_bindings(stmt);
+        sqlite3_reset(stmt);
     }
 
     hashesOutput.close();

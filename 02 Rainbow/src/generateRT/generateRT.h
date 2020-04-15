@@ -9,10 +9,10 @@
 namespace be::esi::secl::pn
 {
 
-inline const unsigned NB_PASSWD = 100;  /** How many password we generate for the RT */
-inline const unsigned NB_REDUCE = 1000;    /** How many reduce function we use before getting the tail */
-inline const unsigned MIN_PWD_SIZE = 8; /** The minimal password size */
-inline const unsigned MAX_PWD_SIZE = 8; /** The maximal password size */
+inline const unsigned NB_PASSWD = 2000;  /** How many password we generate for the RT */
+inline const unsigned NB_REDUCE = 10000; /** How many reduce function we use before getting the tail */
+inline const unsigned MIN_PWD_SIZE = 6;  /** The minimal password size */
+inline const unsigned MAX_PWD_SIZE = 6;  /** The maximal password size */
 inline const unsigned SIZE_AZ_O9 = 62;
 inline const char AZ_O9[SIZE_AZ_O9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 inline std::unordered_map<char, int> ID_AZ_O9 = {
@@ -79,9 +79,9 @@ inline std::unordered_map<char, int> ID_AZ_O9 = {
     {'8', 60},
     {'9', 61},
 };
-inline const char * DROP_RT = "DROP TABLE RAINBOW_TABLE;";
-inline const char * CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
-inline const char * INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
+inline const char *DROP_RT = "DROP TABLE RAINBOW_TABLE;";
+inline const char *CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
+inline const char *INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
 
 /**
  * The reduce function.
@@ -91,7 +91,7 @@ inline const char * INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (
  * For exemple, you hash and reduce a password 100 times. So, to reduce the first hash, 
  * idxReduction is set to 0.
  */
-std::string reduce(const std::string &hash, int idxReduction);
+std::string reduce(const std::string &hash, unsigned idxReduction);
 
 /**
  * Return the hash of a string using the SHA-256 algo.
@@ -106,8 +106,8 @@ std::string getHash(const std::string &input);
  * @param db The db to store the passwords and the tails. It must be a valid db.
  * @param nb The number of reduction functions to apply to compute the tail. If not set, use default value.
  */
-void generateRT(sqlite3* db, unsigned nbReduce = NB_REDUCE);
+void generateRT(sqlite3 *db, unsigned nbReduce = NB_REDUCE);
 
 } //NAMESPACE be::esi::secl::pn
 
-#endif 
+#endif
