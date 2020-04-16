@@ -1,4 +1,2 @@
-//TODO check with teacher if passwords have to be 6 to 8 char long, or 6 or 7 or 8 to choice
-//TODO: readme.md
-//TODO: whole project
 //TODO: fcts inline in passwd-utils.hpp? why one?
+//TODO: a preprocessing script allowing to generate a "sufficiently large" rainbow table RT, The user can decide what is "sufficiently large"
