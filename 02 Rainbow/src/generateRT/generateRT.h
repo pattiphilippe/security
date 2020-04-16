@@ -9,7 +9,7 @@
 namespace be::esi::secl::pn
 {
 
-inline const unsigned NB_PASSWD = 1600000;  /** How many password we generate for the RT */
+inline const unsigned NB_HEAD = 1600000;  /** How many password we generate for the RT */
 inline const int NB_REDUCE = 50000; /** How many reduce function we use before getting the tail */
 inline const unsigned MIN_PWD_SIZE = 6;  /** The minimal password size */
 inline const unsigned MAX_PWD_SIZE = 6;  /** The maximal password size */
@@ -40,9 +40,10 @@ std::string getHash(const std::string &input);
  * Generate the head and the tails of the RT, and write them into the DB.
  * The tails are computed after a number of reductions, based on their hash.
  * @param db The db to store the passwords and the tails. It must be a valid db.
- * @param nb The number of reduction functions to apply to compute the tail. If not set, use default value.
+ * @param nbHead The number of head to generate.
+ * @param nbReduce The number of reduction functions to apply to compute the tail. If not set, use default value.
  */
-void generateRT(sqlite3 *db, int nbReduce = NB_REDUCE);
+void generateRT(sqlite3 *db, unsigned nbHead = NB_HEAD, int nbReduce = NB_REDUCE);
 
 } //NAMESPACE be::esi::secl::pn
 

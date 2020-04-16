@@ -25,7 +25,7 @@ std::string getHash(const std::string &input)
     return sha256(input);
 }
 
-void generateRT(sqlite3 *db, int nbReduce)
+void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
 {
     sqlite3_exec(db, DROP_RT, 0, 0, 0);
     if (sqlite3_exec(db, CREATE_RT, 0, 0, 0) != SQLITE_OK)
@@ -37,7 +37,7 @@ void generateRT(sqlite3 *db, int nbReduce)
 
     std::string passwd, reduced, hash;
 
-    for (int i = 0; i < NB_PASSWD; i++)
+    for (unsigned i = 0; i < nbHead; i++)
     {
         passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
         hash = getHash(passwd);
