@@ -12,7 +12,7 @@ Source files are in folder `src`.
 To set up the project and launch it, use command `make`. It will :
 * build the project,
 * install or update `sqlite` and `libsqlite3-dev`,
-* launch the project.
+* launch the project (wich will use default values).
 
 To build only, use command `make build`.
 
