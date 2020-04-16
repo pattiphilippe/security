@@ -23,14 +23,18 @@ int main(int argc, char *argv[])
     if (argc == 1)
     {
         generateRT(db);
-    } else
+    } else if (argc == 3)
     {
         unsigned nbHead;
         std::stringstream strValue;
         strValue << argv[1];
         strValue >> nbHead;
+        
+        unsigned nbReduce;
+        strValue << argv[2];
+        strValue >> nbReduce;
 
-        generateRT(db, nbHead);
+        generateRT(db, nbHead, nbReduce);
     }
     
     sqlite3_close(db);

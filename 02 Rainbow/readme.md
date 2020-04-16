@@ -9,12 +9,15 @@ Build files are in folder `build`.
 Source files are in folder `src`.
 
 ## How to
-To set up the project and launch it, use command `make`. It will :
+To set up the project and launch it with default values, use command `make`. It will :
 * build the project,
 * install or update `sqlite` and `libsqlite3-dev`,
-* launch the project (wich will use default values).
+* launch the project.
 
-To build only, use command `make build`.
+To set up the project and launch it :
+* install or update sqlite (wich is require) with command `make install_sqlite`,
+* build the project with command `make build`.
+* generate the rainbow table with command `build/generate numberOfHead numberOfReduce`.
 
 ## Know bugs
 None.
