@@ -12,7 +12,7 @@ using namespace be::esi::secl::pn;
 int main()
 {
     sqlite3 *db; //Open DB
-    if (sqlite3_open("rsc/rt.sqlite", &db))
+    if (sqlite3_open("rsc/rt_6.sqlite", &db))
     {
         std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
         return -1;

@@ -9,8 +9,8 @@
 namespace be::esi::secl::pn
 {
 
-inline const unsigned NB_PASSWD = 2000;  /** How many password we generate for the RT */
-inline const unsigned NB_REDUCE = 10000; /** How many reduce function we use before getting the tail */
+inline const unsigned NB_PASSWD = 1600000;  /** How many password we generate for the RT */
+inline const int NB_REDUCE = 50000; /** How many reduce function we use before getting the tail */
 inline const unsigned MIN_PWD_SIZE = 6;  /** The minimal password size */
 inline const unsigned MAX_PWD_SIZE = 6;  /** The maximal password size */
 inline const unsigned SIZE_AZ_O9 = 62; /** Number of valid caracters for a password */
@@ -27,7 +27,7 @@ inline const char *INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?
  * For exemple, you hash and reduce a password 100 times. So, to reduce the first hash, 
  * idxReduction is set to 0.
  */
-std::string reduce(const std::string &hash, unsigned idxReduction);
+std::string reduce(const std::string &hash, int idxReduction);
 
 /**
  * Return the hash of a string using the SHA-256 algo.
@@ -42,7 +42,7 @@ std::string getHash(const std::string &input);
  * @param db The db to store the passwords and the tails. It must be a valid db.
  * @param nb The number of reduction functions to apply to compute the tail. If not set, use default value.
  */
-void generateRT(sqlite3 *db, unsigned nbReduce = NB_REDUCE);
+void generateRT(sqlite3 *db, int nbReduce = NB_REDUCE);
 
 } //NAMESPACE be::esi::secl::pn
 

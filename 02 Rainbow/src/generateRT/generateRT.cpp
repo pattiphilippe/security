@@ -6,7 +6,7 @@
 namespace be::esi::secl::pn
 {
 
-std::string reduce(const std::string &hash, unsigned idxReduction)
+std::string reduce(const std::string &hash, int idxReduction)
 {
     unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36);
     std::string pwd(MAX_PWD_SIZE, 'A');
@@ -25,7 +25,7 @@ std::string getHash(const std::string &input)
     return sha256(input);
 }
 
-void generateRT(sqlite3 *db, unsigned nbReduce)
+void generateRT(sqlite3 *db, int nbReduce)
 {
     sqlite3_exec(db, DROP_RT, 0, 0, 0);
     if (sqlite3_exec(db, CREATE_RT, 0, 0, 0) != SQLITE_OK)
@@ -37,15 +37,11 @@ void generateRT(sqlite3 *db, unsigned nbReduce)
 
     std::string passwd, reduced, hash;
 
-    //TODO for debugging purposes
-    std::ofstream hashesOutput("rsc/hashes.txt");
-
     for (int i = 0; i < NB_PASSWD; i++)
     {
         passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
         hash = getHash(passwd);
-        hashesOutput << hash << "\n";
-        for (unsigned j = 0; j < nbReduce; j++)
+        for (int j = 0; j < nbReduce; j++)
         {
             reduced = reduce(hash, j);
             hash = getHash(reduced);
@@ -58,8 +54,6 @@ void generateRT(sqlite3 *db, unsigned nbReduce)
         sqlite3_clear_bindings(stmt);
         sqlite3_reset(stmt);
     }
-
-    hashesOutput.close();
 }
 
 } //NAMESPACE be::esi::secl::pn

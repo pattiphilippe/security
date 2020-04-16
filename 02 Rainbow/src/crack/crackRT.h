@@ -48,7 +48,7 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
  * @param idxReduction The number of reductions performed to find the hash.
  * @return The tail of the hash, or an empty string if no tail is found.
 */
-std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, unsigned &idxReduction);
+std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction);
 
 /**
  * Get the head of a tail.
@@ -65,7 +65,7 @@ std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail);
  * @param idxReduction The number of reductions to perform.
  * @return The found password.
 */
-std::string findPwd(std::string head, unsigned idxReduction);
+std::string findPwd(std::string head, int idxReduction);
 
 } //NAMESPACE be::esi::secl::pn
 
