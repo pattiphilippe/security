@@ -33,8 +33,8 @@ The constraints of the homework are :
 
 The util to [generate the passwords](@ref rainbow::generate_passwd), provided by the teachers, generate alphanumerical passwords, lower and uppercase.
 The point is that we can't build a table smaller than 12Gib which reach 75% success rate. Here is why :
-* each row take at least 8*2 = 16 byte (at least because the DB hold some informations),
-* an 12Gib table can hold 12.884.901.888/16 = 805.306.368 rows,
+* each row take at least `8*2 = 16` byte (at least because the DB hold some informations),
+* an 12Gib table can hold `12.884.901.888/16 = 805.306.368` rows,
 * with 805.306.368 rows, 50.000 reduce, a password of lenght 8, and 62 possible values for each char of the password, you can expect a success rate lower than 20% (according to the formula 3, page 6, of [this work](https://lasecwww.epfl.ch/pub/lasec/doc/Oech03.pdf)),
 * but we need at least 25% of success to get 75% of global success (`(100+100+25)/3`)
 
