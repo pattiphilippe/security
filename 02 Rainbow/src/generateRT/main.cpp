@@ -9,6 +9,7 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include "../util/rt-utils.hpp"
 
 unsigned long long SIZE_DB = 12ULL * 1024ULL * 1024ULL * 1024ULL; /**< The size of the file for the DB */
 
@@ -26,7 +27,7 @@ using namespace be::esi::secl::pn;
  * If the value is not correct, behavior is undetermined.
  */
 int main(int argc, char *argv[])
-{
+{ /*
     //Reserve space for the DB
     std::fstream db_file(DB_NAME);
     std::filesystem::resize_file(std::filesystem::path(DB_NAME), SIZE_DB);
@@ -68,4 +69,9 @@ int main(int argc, char *argv[])
 
     // Close DB
     sqlite3_close(db);
+    */
+
+    std::cout << "% with 1.000.000 row, 6000 reduces, 6 char : " << getPercentage(1000000.0, 6000, 6, 36) << std::endl;
+    std::cout << "% with 50.000.000 row, 6000 reduces, 7 char : " << getPercentage(50000000.0, 6000, 7, 36) << std::endl;
+    std::cout << "% with 500.000.000 row, 6000 reduces, 8 char : " << getPercentage(500000000.0, 6000, 8, 36) << std::endl;
 }

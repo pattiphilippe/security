@@ -11,7 +11,7 @@ namespace rainbow {
 
 inline std::string generate_passwd(int length)
 {
-	static const std::string char_policy = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN1234567890";
+	static const std::string char_policy = "azertyuiopqsdfghjklmwxcvbn1234567890";
 	static const int c_len = char_policy.length();
 
 	char str[length + 1];
