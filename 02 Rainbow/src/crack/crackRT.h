@@ -1,3 +1,7 @@
+/**
+ * @file crackRT.h
+ * @brief Declaration of functions of crackRT.h
+ */
 #ifndef CRACK_H
 #define CRACK_H
 

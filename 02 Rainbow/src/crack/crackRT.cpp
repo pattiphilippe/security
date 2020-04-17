@@ -1,3 +1,7 @@
+/**
+ * @file crackRT.cpp
+ * @brief Declaration of functions of crackRT.h
+ */
 #include "crackRT.h"
 #include <fstream>
 #include <iostream>
@@ -11,9 +15,9 @@
 namespace be::esi::secl::pn
 {
 
-std::mutex mtxReadHead;
-std::mutex mtxPrintCracked;
-const unsigned NB_THREADS = 10;
+std::mutex mtxReadHead;         /**< Mutex to read the head file with concurency */
+std::mutex mtxPrintCracked;     /**< Mutex to write cracked password and hashes with concurency */
+const unsigned NB_THREADS = 10; /**< How many threads to run to crack */
 
 void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile)
 {
