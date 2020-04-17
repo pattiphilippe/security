@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <sqlite3.h>
+#include <sstream>
 
 const std::string PASSWORD_FILE("rsc/pwd.txt");
 const std::string HASH_FILE("rsc/hashes.txt");
