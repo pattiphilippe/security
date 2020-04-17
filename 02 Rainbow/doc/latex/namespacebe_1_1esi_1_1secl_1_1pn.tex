@@ -1,0 +1,399 @@
+\hypertarget{namespacebe_1_1esi_1_1secl_1_1pn}{}\section{be\+:\+:esi\+:\+:secl\+:\+:pn Namespace Reference}
+\label{namespacebe_1_1esi_1_1secl_1_1pn}\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aad832fb30fa4cc9e74d15d7129d0c929}{crack} (const std\+::string \&hash\+File, sqlite3 $\ast$db, const std\+::string \&cracked\+Pwd\+File, const std\+::string \&cracked\+Hash\+File)
+\begin{DoxyCompactList}\small\item\em Attempts to find passwords corresponding to the hashes given, at the hand of the tails. \end{DoxyCompactList}\item 
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a5421a253f4c247695a0f26055ecc4dea}{crack\+In\+Thread} (std\+::ifstream \&hashes\+Input, sqlite3 $\ast$db, std\+::ofstream \&cracked\+Pwd\+Output, std\+::ofstream \&cracked\+Hash\+Output)
+\begin{DoxyCompactList}\small\item\em Crack function to call with a thread. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a44dea6059d3689561497f5f03e09dac2}{get\+Tail} (const std\+::string \&hash, sqlite3\+\_\+stmt $\ast$stmt\+Read\+Tail, int \&idx\+Reduction)
+\begin{DoxyCompactList}\small\item\em Searches the tail of the hash and return it. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a4f2bdcedf26f904e1e07776955d80d97}{get\+Head} (sqlite3\+\_\+stmt $\ast$stmt\+Get\+Head, std\+::string tail)
+\begin{DoxyCompactList}\small\item\em Get the head of a tail. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ae68f13fff76cabc930b60594c300a168}{find\+Pwd} (std\+::string head, int idx\+Reduction)
+\begin{DoxyCompactList}\small\item\em Computes the password after idx\+Reduction reductions. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a836b009c7f5659a17dfa8b4a72eb2d43}{reduce} (const std\+::string \&hash, int idx\+Reduction)
+\begin{DoxyCompactList}\small\item\em The reduce function. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ae632580f253a58884f56ee2cb4e7b59d}{get\+Hash} (const std\+::string \&input)
+\begin{DoxyCompactList}\small\item\em Return the hash of a string using the S\+H\+A-\/256 algo. \end{DoxyCompactList}\item 
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb1d}{generate\+RT} (sqlite3 $\ast$db, unsigned nb\+Head=\hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}{N\+B\+\_\+\+H\+E\+AD}, int nb\+Reduce=\hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}{N\+B\+\_\+\+R\+E\+D\+U\+CE})
+\begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\item 
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aaf5216f5718720c15b5925f7e8a94d10}{generate\+R\+T\+In\+Thread} (sqlite3 $\ast$db, unsigned nb\+Head, int nb\+Reduce)
+\begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\item 
+const std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a96589f0878fe9f2dbdf42d959f11b68e}{D\+B\+\_\+\+N\+A\+ME} (\char`\"{}rsc/rt\+\_\+6\+\_\+1\+\_\+500000000\+\_\+160.\+sqlite\char`\"{})
+\begin{DoxyCompactList}\small\item\em The relative path to the DB. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\+::mutex \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ad1391e7f8a94f1b945665f76d1965070}{mtx\+Read\+Head}
+\begin{DoxyCompactList}\small\item\em Mutex to read the head file with concurency. \end{DoxyCompactList}\item 
+std\+::mutex \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a11fbbf54ca476439788d44d4d50512ab}{mtx\+Print\+Cracked}
+\begin{DoxyCompactList}\small\item\em Mutex to write cracked password and hashes with concurency. \end{DoxyCompactList}\item 
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a0bd77d0531142c20d01ec002cd3c210a}{N\+B\+\_\+\+T\+H\+R\+E\+A\+DS} = 10
+\begin{DoxyCompactList}\small\item\em How many threads to run to crack. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a878205e4dbef8040fb12f6afb8717fa9}{S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL} = \char`\"{}S\+E\+L\+E\+CT tail F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE tail = ?;\char`\"{}
+\begin{DoxyCompactList}\small\item\em Select a tail. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a90db4018123c098c9cd9205b69c1d2e5}{S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD} = \char`\"{}S\+E\+L\+E\+CT head F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE tail = ?;\char`\"{}
+\begin{DoxyCompactList}\small\item\em Select the head of the tail. \end{DoxyCompactList}\item 
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6b1322df9a3137fe3dff27602a0dd390}{N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE} = 10
+\begin{DoxyCompactList}\small\item\em Number of thread to create to generate the RT. \end{DoxyCompactList}\item 
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}{N\+B\+\_\+\+H\+E\+AD} = 500000000
+\begin{DoxyCompactList}\small\item\em How many password we generate for the RT. \end{DoxyCompactList}\item 
+const int \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}{N\+B\+\_\+\+R\+E\+D\+U\+CE} = 160
+\begin{DoxyCompactList}\small\item\em How many reduce function we use before getting the tail. \end{DoxyCompactList}\item 
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ac4d6305d2a5baed196042f8a30533620}{M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 6
+\begin{DoxyCompactList}\small\item\em The minimal password size. \end{DoxyCompactList}\item 
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 6
+\begin{DoxyCompactList}\small\item\em The maximal password size. \end{DoxyCompactList}\item 
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a1ec87af9e9dbcae67e1e5974e7b96dde}{S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9} = 62
+\begin{DoxyCompactList}\small\item\em Number of valid caracters for a password. \end{DoxyCompactList}\item 
+const char \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a4c23196d41006571c781f0f6ca84e10a}{A\+Z\+\_\+\+O9} \mbox{[}\hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a1ec87af9e9dbcae67e1e5974e7b96dde}{S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9}\mbox{]} = \{\textquotesingle{}A\textquotesingle{}, \textquotesingle{}B\textquotesingle{}, \textquotesingle{}C\textquotesingle{}, \textquotesingle{}D\textquotesingle{}, \textquotesingle{}E\textquotesingle{}, \textquotesingle{}F\textquotesingle{}, \textquotesingle{}G\textquotesingle{}, \textquotesingle{}H\textquotesingle{}, \textquotesingle{}I\textquotesingle{}, \textquotesingle{}J\textquotesingle{}, \textquotesingle{}K\textquotesingle{}, \textquotesingle{}L\textquotesingle{}, \textquotesingle{}M\textquotesingle{}, \textquotesingle{}N\textquotesingle{}, \textquotesingle{}O\textquotesingle{}, \textquotesingle{}P\textquotesingle{}, \textquotesingle{}Q\textquotesingle{}, \textquotesingle{}R\textquotesingle{}, \textquotesingle{}S\textquotesingle{}, \textquotesingle{}T\textquotesingle{}, \textquotesingle{}U\textquotesingle{}, \textquotesingle{}V\textquotesingle{}, \textquotesingle{}W\textquotesingle{}, \textquotesingle{}X\textquotesingle{}, \textquotesingle{}Y\textquotesingle{}, \textquotesingle{}Z\textquotesingle{}, \textquotesingle{}a\textquotesingle{}, \textquotesingle{}b\textquotesingle{}, \textquotesingle{}c\textquotesingle{}, \textquotesingle{}d\textquotesingle{}, \textquotesingle{}e\textquotesingle{}, \textquotesingle{}f\textquotesingle{}, \textquotesingle{}g\textquotesingle{}, \textquotesingle{}h\textquotesingle{}, \textquotesingle{}i\textquotesingle{}, \textquotesingle{}j\textquotesingle{}, \textquotesingle{}k\textquotesingle{}, \textquotesingle{}l\textquotesingle{}, \textquotesingle{}m\textquotesingle{}, \textquotesingle{}n\textquotesingle{}, \textquotesingle{}o\textquotesingle{}, \textquotesingle{}p\textquotesingle{}, \textquotesingle{}q\textquotesingle{}, \textquotesingle{}r\textquotesingle{}, \textquotesingle{}s\textquotesingle{}, \textquotesingle{}t\textquotesingle{}, \textquotesingle{}u\textquotesingle{}, \textquotesingle{}v\textquotesingle{}, \textquotesingle{}w\textquotesingle{}, \textquotesingle{}x\textquotesingle{}, \textquotesingle{}y\textquotesingle{}, \textquotesingle{}z\textquotesingle{}, \textquotesingle{}0\textquotesingle{}, \textquotesingle{}1\textquotesingle{}, \textquotesingle{}2\textquotesingle{}, \textquotesingle{}3\textquotesingle{}, \textquotesingle{}4\textquotesingle{}, \textquotesingle{}5\textquotesingle{}, \textquotesingle{}6\textquotesingle{}, \textquotesingle{}7\textquotesingle{}, \textquotesingle{}8\textquotesingle{}, \textquotesingle{}9\textquotesingle{}\}
+\begin{DoxyCompactList}\small\item\em All valid char for a password. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6dae14cb83aa871e50c9aaea7f776055}{D\+R\+O\+P\+\_\+\+RT} = \char`\"{}D\+R\+OP T\+A\+B\+LE IF E\+X\+I\+S\+TS R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE;\char`\"{}
+\item 
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ab39f379fcf2d9342096df70dcf998d32}{C\+R\+E\+A\+T\+E\+\_\+\+RT} = \char`\"{}C\+R\+E\+A\+TE T\+A\+B\+LE R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head C\+H\+AR(8) P\+R\+I\+M\+A\+RY K\+EY, tail C\+H\+AR(8) N\+OT N\+U\+LL U\+N\+I\+Q\+UE);\char`\"{}
+\item 
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a93b0970fb08c37d478307bfadfb3b775}{I\+N\+S\+E\+R\+T\+\_\+\+RT} = \char`\"{}I\+N\+S\+E\+RT OR I\+G\+N\+O\+RE I\+N\+TO R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head, tail) V\+A\+L\+U\+ES (?, ?);\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_aad832fb30fa4cc9e74d15d7129d0c929}\label{namespacebe_1_1esi_1_1secl_1_1pn_aad832fb30fa4cc9e74d15d7129d0c929}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!crack@{crack}}
+\index{crack@{crack}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{crack()}{crack()}}
+{\footnotesize\ttfamily void be\+::esi\+::secl\+::pn\+::crack (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{hash\+File,  }\item[{sqlite3 $\ast$}]{db,  }\item[{const std\+::string \&}]{cracked\+Pwd\+File,  }\item[{const std\+::string \&}]{cracked\+Hash\+File }\end{DoxyParamCaption})}
+
+
+
+Attempts to find passwords corresponding to the hashes given, at the hand of the tails. 
+
+Using a opened sqlite rainbow table, should have been created with generate\+RT to have a good structure. Crack is performed in multiple threads. 
+\begin{DoxyParams}{Parameters}
+{\em hash\+File} & The file\textquotesingle{}s name containing the hashes to crack. \\
+\hline
+{\em db} & The db containing the rainbow table. \\
+\hline
+{\em cracked\+Pwd\+File} & The file\textquotesingle{}s name for the cracked passwords. \\
+\hline
+{\em cracked\+Hash\+File} & The file\textquotesingle{}s name for the hashes of the cracked passwords. Each line is the hash of the password of the same line of the passwords file. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if hash\+File, head\+File, tails\+File or cracked\+File can\textquotesingle{}t be opened. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a5421a253f4c247695a0f26055ecc4dea}\label{namespacebe_1_1esi_1_1secl_1_1pn_a5421a253f4c247695a0f26055ecc4dea}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!crack\+In\+Thread@{crack\+In\+Thread}}
+\index{crack\+In\+Thread@{crack\+In\+Thread}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{crack\+In\+Thread()}{crackInThread()}}
+{\footnotesize\ttfamily void be\+::esi\+::secl\+::pn\+::crack\+In\+Thread (\begin{DoxyParamCaption}\item[{std\+::ifstream \&}]{hashes\+Input,  }\item[{sqlite3 $\ast$}]{db,  }\item[{std\+::ofstream \&}]{cracked\+Pwd\+Output,  }\item[{std\+::ofstream \&}]{cracked\+Hash\+Output }\end{DoxyParamCaption})}
+
+
+
+Crack function to call with a thread. 
+
+Read and write with file is performed with mutex. 
+\begin{DoxyParams}{Parameters}
+{\em hashed\+Input} & The hashes file. \\
+\hline
+{\em db} & The DB. \\
+\hline
+{\em cracked\+Pwd\+Output} & The file\textquotesingle{}s name for the cracked passwords. \\
+\hline
+{\em cracked\+Hash\+Output} & The file\textquotesingle{}s name for the hashes of the cracked passwords. Each line is the hash of the password of the same line of the passwords file. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a96589f0878fe9f2dbdf42d959f11b68e}\label{namespacebe_1_1esi_1_1secl_1_1pn_a96589f0878fe9f2dbdf42d959f11b68e}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!D\+B\+\_\+\+N\+A\+ME@{D\+B\+\_\+\+N\+A\+ME}}
+\index{D\+B\+\_\+\+N\+A\+ME@{D\+B\+\_\+\+N\+A\+ME}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{D\+B\+\_\+\+N\+A\+M\+E()}{DB\_NAME()}}
+{\footnotesize\ttfamily const std\+::string be\+::esi\+::secl\+::pn\+::\+D\+B\+\_\+\+N\+A\+ME (\begin{DoxyParamCaption}\item[{\char`\"{}rsc/rt\+\_\+6\+\_\+1\+\_\+500000000\+\_\+160.\+sqlite\char`\"{}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The relative path to the DB. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_ae68f13fff76cabc930b60594c300a168}\label{namespacebe_1_1esi_1_1secl_1_1pn_ae68f13fff76cabc930b60594c300a168}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!find\+Pwd@{find\+Pwd}}
+\index{find\+Pwd@{find\+Pwd}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{find\+Pwd()}{findPwd()}}
+{\footnotesize\ttfamily std\+::string be\+::esi\+::secl\+::pn\+::find\+Pwd (\begin{DoxyParamCaption}\item[{std\+::string}]{head,  }\item[{int}]{idx\+Reduction }\end{DoxyParamCaption})}
+
+
+
+Computes the password after idx\+Reduction reductions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & The head of the line. \\
+\hline
+{\em idx\+Reduction} & The number of reductions to perform. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The found password. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb1d}\label{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb1d}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!generate\+RT@{generate\+RT}}
+\index{generate\+RT@{generate\+RT}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{generate\+R\+T()}{generateRT()}}
+{\footnotesize\ttfamily void be\+::esi\+::secl\+::pn\+::generate\+RT (\begin{DoxyParamCaption}\item[{sqlite3 $\ast$}]{db,  }\item[{unsigned}]{nb\+Head = {\ttfamily \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}{N\+B\+\_\+\+H\+E\+AD}},  }\item[{int}]{nb\+Reduce = {\ttfamily \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}{N\+B\+\_\+\+R\+E\+D\+U\+CE}} }\end{DoxyParamCaption})}
+
+
+
+Generate the head and the tails of the RT, and write them into the DB. 
+
+The tails are computed after a number of reductions, based on their hash. Drop the table if exists. 
+\begin{DoxyParams}{Parameters}
+{\em db} & The db to store the passwords and the tails. It must be a valid db. \\
+\hline
+{\em nb\+Head} & The number of head to generate. \\
+\hline
+{\em nb\+Reduce} & The number of reduction functions to apply to compute the tail. If not set, use default value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_aaf5216f5718720c15b5925f7e8a94d10}\label{namespacebe_1_1esi_1_1secl_1_1pn_aaf5216f5718720c15b5925f7e8a94d10}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!generate\+R\+T\+In\+Thread@{generate\+R\+T\+In\+Thread}}
+\index{generate\+R\+T\+In\+Thread@{generate\+R\+T\+In\+Thread}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{generate\+R\+T\+In\+Thread()}{generateRTInThread()}}
+{\footnotesize\ttfamily void be\+::esi\+::secl\+::pn\+::generate\+R\+T\+In\+Thread (\begin{DoxyParamCaption}\item[{sqlite3 $\ast$}]{db,  }\item[{unsigned}]{nb\+Head,  }\item[{int}]{nb\+Reduce }\end{DoxyParamCaption})}
+
+
+
+Generate the head and the tails of the RT, and write them into the DB. 
+
+This function is for thread. The tails are computed after a number of reductions, based on their hash. 
+\begin{DoxyParams}{Parameters}
+{\em db} & The db to store the passwords and the tails. It must be a valid db. \\
+\hline
+{\em nb\+Head} & The number of head to generate. \\
+\hline
+{\em nb\+Reduce} & The number of reduction functions to apply to compute the tail. If not set, use default value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_ae632580f253a58884f56ee2cb4e7b59d}\label{namespacebe_1_1esi_1_1secl_1_1pn_ae632580f253a58884f56ee2cb4e7b59d}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!get\+Hash@{get\+Hash}}
+\index{get\+Hash@{get\+Hash}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{get\+Hash()}{getHash()}}
+{\footnotesize\ttfamily std\+::string be\+::esi\+::secl\+::pn\+::get\+Hash (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{input }\end{DoxyParamCaption})}
+
+
+
+Return the hash of a string using the S\+H\+A-\/256 algo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & The string to hash. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The hash of the input. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a4f2bdcedf26f904e1e07776955d80d97}\label{namespacebe_1_1esi_1_1secl_1_1pn_a4f2bdcedf26f904e1e07776955d80d97}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!get\+Head@{get\+Head}}
+\index{get\+Head@{get\+Head}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{get\+Head()}{getHead()}}
+{\footnotesize\ttfamily std\+::string be\+::esi\+::secl\+::pn\+::get\+Head (\begin{DoxyParamCaption}\item[{sqlite3\+\_\+stmt $\ast$}]{stmt\+Get\+Head,  }\item[{std\+::string}]{tail }\end{DoxyParamCaption})}
+
+
+
+Get the head of a tail. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stmt\+Get\+Head} & The statement to apply. \\
+\hline
+{\em tail} & The tail of the search head \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the head of the tail 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if no tail found \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a44dea6059d3689561497f5f03e09dac2}\label{namespacebe_1_1esi_1_1secl_1_1pn_a44dea6059d3689561497f5f03e09dac2}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!get\+Tail@{get\+Tail}}
+\index{get\+Tail@{get\+Tail}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{get\+Tail()}{getTail()}}
+{\footnotesize\ttfamily std\+::string be\+::esi\+::secl\+::pn\+::get\+Tail (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{hash,  }\item[{sqlite3\+\_\+stmt $\ast$}]{stmt\+Read\+Tail,  }\item[{int \&}]{idx\+Reduction }\end{DoxyParamCaption})}
+
+
+
+Searches the tail of the hash and return it. 
+
+Otherwise, return an empty string 
+\begin{DoxyParams}{Parameters}
+{\em hash} & The src hash to find. \\
+\hline
+{\em stmt\+Read\+Tail} & The prepared statement to search a tail in the database. \\
+\hline
+{\em idx\+Reduction} & The number of reductions performed to find the hash. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The tail of the hash, or an empty string if no tail is found. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a836b009c7f5659a17dfa8b4a72eb2d43}\label{namespacebe_1_1esi_1_1secl_1_1pn_a836b009c7f5659a17dfa8b4a72eb2d43}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!reduce@{reduce}}
+\index{reduce@{reduce}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{reduce()}{reduce()}}
+{\footnotesize\ttfamily std\+::string be\+::esi\+::secl\+::pn\+::reduce (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{hash,  }\item[{int}]{idx\+Reduction }\end{DoxyParamCaption})}
+
+
+
+The reduce function. 
+
+The reduce function is very secret, so we don\textquotesingle{}t tell here how it works.. 
+\begin{DoxyParams}{Parameters}
+{\em hash} & The hash to reduce. \\
+\hline
+{\em idx\+Reduction} & The index of the hash into the table. For exemple, you hash and reduce a password 100 times. So, to reduce the first hash, idx\+Reduction is set to 0. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a4c23196d41006571c781f0f6ca84e10a}\label{namespacebe_1_1esi_1_1secl_1_1pn_a4c23196d41006571c781f0f6ca84e10a}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!A\+Z\+\_\+\+O9@{A\+Z\+\_\+\+O9}}
+\index{A\+Z\+\_\+\+O9@{A\+Z\+\_\+\+O9}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{A\+Z\+\_\+\+O9}{AZ\_O9}}
+{\footnotesize\ttfamily const char be\+::esi\+::secl\+::pn\+::\+A\+Z\+\_\+\+O9\mbox{[}\hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a1ec87af9e9dbcae67e1e5974e7b96dde}{S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9}\mbox{]} = \{\textquotesingle{}A\textquotesingle{}, \textquotesingle{}B\textquotesingle{}, \textquotesingle{}C\textquotesingle{}, \textquotesingle{}D\textquotesingle{}, \textquotesingle{}E\textquotesingle{}, \textquotesingle{}F\textquotesingle{}, \textquotesingle{}G\textquotesingle{}, \textquotesingle{}H\textquotesingle{}, \textquotesingle{}I\textquotesingle{}, \textquotesingle{}J\textquotesingle{}, \textquotesingle{}K\textquotesingle{}, \textquotesingle{}L\textquotesingle{}, \textquotesingle{}M\textquotesingle{}, \textquotesingle{}N\textquotesingle{}, \textquotesingle{}O\textquotesingle{}, \textquotesingle{}P\textquotesingle{}, \textquotesingle{}Q\textquotesingle{}, \textquotesingle{}R\textquotesingle{}, \textquotesingle{}S\textquotesingle{}, \textquotesingle{}T\textquotesingle{}, \textquotesingle{}U\textquotesingle{}, \textquotesingle{}V\textquotesingle{}, \textquotesingle{}W\textquotesingle{}, \textquotesingle{}X\textquotesingle{}, \textquotesingle{}Y\textquotesingle{}, \textquotesingle{}Z\textquotesingle{}, \textquotesingle{}a\textquotesingle{}, \textquotesingle{}b\textquotesingle{}, \textquotesingle{}c\textquotesingle{}, \textquotesingle{}d\textquotesingle{}, \textquotesingle{}e\textquotesingle{}, \textquotesingle{}f\textquotesingle{}, \textquotesingle{}g\textquotesingle{}, \textquotesingle{}h\textquotesingle{}, \textquotesingle{}i\textquotesingle{}, \textquotesingle{}j\textquotesingle{}, \textquotesingle{}k\textquotesingle{}, \textquotesingle{}l\textquotesingle{}, \textquotesingle{}m\textquotesingle{}, \textquotesingle{}n\textquotesingle{}, \textquotesingle{}o\textquotesingle{}, \textquotesingle{}p\textquotesingle{}, \textquotesingle{}q\textquotesingle{}, \textquotesingle{}r\textquotesingle{}, \textquotesingle{}s\textquotesingle{}, \textquotesingle{}t\textquotesingle{}, \textquotesingle{}u\textquotesingle{}, \textquotesingle{}v\textquotesingle{}, \textquotesingle{}w\textquotesingle{}, \textquotesingle{}x\textquotesingle{}, \textquotesingle{}y\textquotesingle{}, \textquotesingle{}z\textquotesingle{}, \textquotesingle{}0\textquotesingle{}, \textquotesingle{}1\textquotesingle{}, \textquotesingle{}2\textquotesingle{}, \textquotesingle{}3\textquotesingle{}, \textquotesingle{}4\textquotesingle{}, \textquotesingle{}5\textquotesingle{}, \textquotesingle{}6\textquotesingle{}, \textquotesingle{}7\textquotesingle{}, \textquotesingle{}8\textquotesingle{}, \textquotesingle{}9\textquotesingle{}\}\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+All valid char for a password. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_ab39f379fcf2d9342096df70dcf998d32}\label{namespacebe_1_1esi_1_1secl_1_1pn_ab39f379fcf2d9342096df70dcf998d32}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!C\+R\+E\+A\+T\+E\+\_\+\+RT@{C\+R\+E\+A\+T\+E\+\_\+\+RT}}
+\index{C\+R\+E\+A\+T\+E\+\_\+\+RT@{C\+R\+E\+A\+T\+E\+\_\+\+RT}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{C\+R\+E\+A\+T\+E\+\_\+\+RT}{CREATE\_RT}}
+{\footnotesize\ttfamily const char$\ast$ be\+::esi\+::secl\+::pn\+::\+C\+R\+E\+A\+T\+E\+\_\+\+RT = \char`\"{}C\+R\+E\+A\+TE T\+A\+B\+LE R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head C\+H\+AR(8) P\+R\+I\+M\+A\+RY K\+EY, tail C\+H\+AR(8) N\+OT N\+U\+LL U\+N\+I\+Q\+UE);\char`\"{}\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a6dae14cb83aa871e50c9aaea7f776055}\label{namespacebe_1_1esi_1_1secl_1_1pn_a6dae14cb83aa871e50c9aaea7f776055}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!D\+R\+O\+P\+\_\+\+RT@{D\+R\+O\+P\+\_\+\+RT}}
+\index{D\+R\+O\+P\+\_\+\+RT@{D\+R\+O\+P\+\_\+\+RT}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{D\+R\+O\+P\+\_\+\+RT}{DROP\_RT}}
+{\footnotesize\ttfamily const char$\ast$ be\+::esi\+::secl\+::pn\+::\+D\+R\+O\+P\+\_\+\+RT = \char`\"{}D\+R\+OP T\+A\+B\+LE IF E\+X\+I\+S\+TS R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE;\char`\"{}\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a93b0970fb08c37d478307bfadfb3b775}\label{namespacebe_1_1esi_1_1secl_1_1pn_a93b0970fb08c37d478307bfadfb3b775}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!I\+N\+S\+E\+R\+T\+\_\+\+RT@{I\+N\+S\+E\+R\+T\+\_\+\+RT}}
+\index{I\+N\+S\+E\+R\+T\+\_\+\+RT@{I\+N\+S\+E\+R\+T\+\_\+\+RT}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{I\+N\+S\+E\+R\+T\+\_\+\+RT}{INSERT\_RT}}
+{\footnotesize\ttfamily const char$\ast$ be\+::esi\+::secl\+::pn\+::\+I\+N\+S\+E\+R\+T\+\_\+\+RT = \char`\"{}I\+N\+S\+E\+RT OR I\+G\+N\+O\+RE I\+N\+TO R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head, tail) V\+A\+L\+U\+ES (?, ?);\char`\"{}\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}\label{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE@{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}}
+\index{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE@{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}{MAX\_PWD\_SIZE}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE = 6\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The maximal password size. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_ac4d6305d2a5baed196042f8a30533620}\label{namespacebe_1_1esi_1_1secl_1_1pn_ac4d6305d2a5baed196042f8a30533620}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE@{M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}}
+\index{M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE@{M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}{MIN\_PWD\_SIZE}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE = 6\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The minimal password size. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a11fbbf54ca476439788d44d4d50512ab}\label{namespacebe_1_1esi_1_1secl_1_1pn_a11fbbf54ca476439788d44d4d50512ab}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!mtx\+Print\+Cracked@{mtx\+Print\+Cracked}}
+\index{mtx\+Print\+Cracked@{mtx\+Print\+Cracked}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{mtx\+Print\+Cracked}{mtxPrintCracked}}
+{\footnotesize\ttfamily std\+::mutex be\+::esi\+::secl\+::pn\+::mtx\+Print\+Cracked}
+
+
+
+Mutex to write cracked password and hashes with concurency. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_ad1391e7f8a94f1b945665f76d1965070}\label{namespacebe_1_1esi_1_1secl_1_1pn_ad1391e7f8a94f1b945665f76d1965070}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!mtx\+Read\+Head@{mtx\+Read\+Head}}
+\index{mtx\+Read\+Head@{mtx\+Read\+Head}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{mtx\+Read\+Head}{mtxReadHead}}
+{\footnotesize\ttfamily std\+::mutex be\+::esi\+::secl\+::pn\+::mtx\+Read\+Head}
+
+
+
+Mutex to read the head file with concurency. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}\label{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!N\+B\+\_\+\+H\+E\+AD@{N\+B\+\_\+\+H\+E\+AD}}
+\index{N\+B\+\_\+\+H\+E\+AD@{N\+B\+\_\+\+H\+E\+AD}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{N\+B\+\_\+\+H\+E\+AD}{NB\_HEAD}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+H\+E\+AD = 500000000\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+How many password we generate for the RT. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}\label{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!N\+B\+\_\+\+R\+E\+D\+U\+CE@{N\+B\+\_\+\+R\+E\+D\+U\+CE}}
+\index{N\+B\+\_\+\+R\+E\+D\+U\+CE@{N\+B\+\_\+\+R\+E\+D\+U\+CE}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{N\+B\+\_\+\+R\+E\+D\+U\+CE}{NB\_REDUCE}}
+{\footnotesize\ttfamily const int be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+R\+E\+D\+U\+CE = 160\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+How many reduce function we use before getting the tail. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a0bd77d0531142c20d01ec002cd3c210a}\label{namespacebe_1_1esi_1_1secl_1_1pn_a0bd77d0531142c20d01ec002cd3c210a}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!N\+B\+\_\+\+T\+H\+R\+E\+A\+DS@{N\+B\+\_\+\+T\+H\+R\+E\+A\+DS}}
+\index{N\+B\+\_\+\+T\+H\+R\+E\+A\+DS@{N\+B\+\_\+\+T\+H\+R\+E\+A\+DS}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{N\+B\+\_\+\+T\+H\+R\+E\+A\+DS}{NB\_THREADS}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+T\+H\+R\+E\+A\+DS = 10}
+
+
+
+How many threads to run to crack. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a6b1322df9a3137fe3dff27602a0dd390}\label{namespacebe_1_1esi_1_1secl_1_1pn_a6b1322df9a3137fe3dff27602a0dd390}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE@{N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE}}
+\index{N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE@{N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE}{NB\_THREADS\_GENERATE}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE = 10\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Number of thread to create to generate the RT. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a90db4018123c098c9cd9205b69c1d2e5}\label{namespacebe_1_1esi_1_1secl_1_1pn_a90db4018123c098c9cd9205b69c1d2e5}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD@{S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD}}
+\index{S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD@{S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD}{SELECT\_HEAD}}
+{\footnotesize\ttfamily const char$\ast$ be\+::esi\+::secl\+::pn\+::\+S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD = \char`\"{}S\+E\+L\+E\+CT head F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE tail = ?;\char`\"{}\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Select the head of the tail. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a878205e4dbef8040fb12f6afb8717fa9}\label{namespacebe_1_1esi_1_1secl_1_1pn_a878205e4dbef8040fb12f6afb8717fa9}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL@{S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL}}
+\index{S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL@{S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL}{SELECT\_TAIL}}
+{\footnotesize\ttfamily const char$\ast$ be\+::esi\+::secl\+::pn\+::\+S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL = \char`\"{}S\+E\+L\+E\+CT tail F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE tail = ?;\char`\"{}\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Select a tail. 
+
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a1ec87af9e9dbcae67e1e5974e7b96dde}\label{namespacebe_1_1esi_1_1secl_1_1pn_a1ec87af9e9dbcae67e1e5974e7b96dde}} 
+\index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9@{S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9}}
+\index{S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9@{S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
+\subsubsection{\texorpdfstring{S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9}{SIZE\_AZ\_O9}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9 = 62\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Number of valid caracters for a password. 
+

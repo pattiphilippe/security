@@ -1,0 +1,81 @@
+\hypertarget{crack_2main_8cpp}{}\section{src/crack/main.cpp File Reference}
+\label{crack_2main_8cpp}\index{src/crack/main.\+cpp@{src/crack/main.\+cpp}}
+{\ttfamily \#include \char`\"{}crack\+R\+T.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../util/passwd-\/utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sqlite3.\+h$>$}\newline
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{crack_2main_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::string \hyperlink{crack_2main_8cpp_a4ec938e7b7ae40c2ec0db22f3968e4ec}{P\+W\+D\+\_\+\+F\+I\+LE} (\char`\"{}rsc/pwd\+To\+Crack.\+txt\char`\"{})
+\begin{DoxyCompactList}\small\item\em The file which will contain some passwords. \end{DoxyCompactList}\item 
+const std\+::string \hyperlink{crack_2main_8cpp_ab676e49dba7ead58917e5080eb754415}{H\+A\+S\+H\+\_\+\+F\+I\+LE} (\char`\"{}rsc/hash\+To\+Crack.\+txt\char`\"{})
+\begin{DoxyCompactList}\small\item\em The file which will contain the passwords hashes to crack. \end{DoxyCompactList}\item 
+const std\+::string \hyperlink{crack_2main_8cpp_aacc8f3b1b0f003879782a222a831aebb}{C\+R\+A\+C\+K\+E\+D\+\_\+\+P\+W\+D\+\_\+\+F\+I\+LE} (\char`\"{}rsc/cracked\+Pwd.\+txt\char`\"{})
+\begin{DoxyCompactList}\small\item\em The file which will contain the cracked passwords. \end{DoxyCompactList}\item 
+const std\+::string \hyperlink{crack_2main_8cpp_a6c3c6345561be266b0c9a7e40a477d45}{C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+LE} (\char`\"{}rsc/cracked\+Hash.\+txt\char`\"{})
+\begin{DoxyCompactList}\small\item\em The file which will contain the cracked passwords hashes. \end{DoxyCompactList}\item 
+int \hyperlink{crack_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\begin{DoxyCompactList}\small\item\em Entry for the crack. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{crack_2main_8cpp_a6c3c6345561be266b0c9a7e40a477d45}\label{crack_2main_8cpp_a6c3c6345561be266b0c9a7e40a477d45}} 
+\index{crack/main.\+cpp@{crack/main.\+cpp}!C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+LE@{C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+LE}}
+\index{C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+LE@{C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+LE}!crack/main.\+cpp@{crack/main.\+cpp}}
+\subsubsection{\texorpdfstring{C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+L\+E()}{CRACKED\_HASH\_FILE()}}
+{\footnotesize\ttfamily const std\+::string C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+LE (\begin{DoxyParamCaption}\item[{\char`\"{}rsc/cracked\+Hash.\+txt\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+The file which will contain the cracked passwords hashes. 
+
+\mbox{\Hypertarget{crack_2main_8cpp_aacc8f3b1b0f003879782a222a831aebb}\label{crack_2main_8cpp_aacc8f3b1b0f003879782a222a831aebb}} 
+\index{crack/main.\+cpp@{crack/main.\+cpp}!C\+R\+A\+C\+K\+E\+D\+\_\+\+P\+W\+D\+\_\+\+F\+I\+LE@{C\+R\+A\+C\+K\+E\+D\+\_\+\+P\+W\+D\+\_\+\+F\+I\+LE}}
+\index{C\+R\+A\+C\+K\+E\+D\+\_\+\+P\+W\+D\+\_\+\+F\+I\+LE@{C\+R\+A\+C\+K\+E\+D\+\_\+\+P\+W\+D\+\_\+\+F\+I\+LE}!crack/main.\+cpp@{crack/main.\+cpp}}
+\subsubsection{\texorpdfstring{C\+R\+A\+C\+K\+E\+D\+\_\+\+P\+W\+D\+\_\+\+F\+I\+L\+E()}{CRACKED\_PWD\_FILE()}}
+{\footnotesize\ttfamily const std\+::string C\+R\+A\+C\+K\+E\+D\+\_\+\+P\+W\+D\+\_\+\+F\+I\+LE (\begin{DoxyParamCaption}\item[{\char`\"{}rsc/cracked\+Pwd.\+txt\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+The file which will contain the cracked passwords. 
+
+\mbox{\Hypertarget{crack_2main_8cpp_ab676e49dba7ead58917e5080eb754415}\label{crack_2main_8cpp_ab676e49dba7ead58917e5080eb754415}} 
+\index{crack/main.\+cpp@{crack/main.\+cpp}!H\+A\+S\+H\+\_\+\+F\+I\+LE@{H\+A\+S\+H\+\_\+\+F\+I\+LE}}
+\index{H\+A\+S\+H\+\_\+\+F\+I\+LE@{H\+A\+S\+H\+\_\+\+F\+I\+LE}!crack/main.\+cpp@{crack/main.\+cpp}}
+\subsubsection{\texorpdfstring{H\+A\+S\+H\+\_\+\+F\+I\+L\+E()}{HASH\_FILE()}}
+{\footnotesize\ttfamily const std\+::string H\+A\+S\+H\+\_\+\+F\+I\+LE (\begin{DoxyParamCaption}\item[{\char`\"{}rsc/hash\+To\+Crack.\+txt\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+The file which will contain the passwords hashes to crack. 
+
+\mbox{\Hypertarget{crack_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{crack_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{crack/main.\+cpp@{crack/main.\+cpp}!main@{main}}
+\index{main@{main}!crack/main.\+cpp@{crack/main.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Entry for the crack. 
+
+It will generate some passwords (+ hashes), and crack them with the rainbow table. The cracked passwords and hashes are put into a new file. This is needed to keep the passwords and hashes sorted, due to the use of threads. \mbox{\Hypertarget{crack_2main_8cpp_a4ec938e7b7ae40c2ec0db22f3968e4ec}\label{crack_2main_8cpp_a4ec938e7b7ae40c2ec0db22f3968e4ec}} 
+\index{crack/main.\+cpp@{crack/main.\+cpp}!P\+W\+D\+\_\+\+F\+I\+LE@{P\+W\+D\+\_\+\+F\+I\+LE}}
+\index{P\+W\+D\+\_\+\+F\+I\+LE@{P\+W\+D\+\_\+\+F\+I\+LE}!crack/main.\+cpp@{crack/main.\+cpp}}
+\subsubsection{\texorpdfstring{P\+W\+D\+\_\+\+F\+I\+L\+E()}{PWD\_FILE()}}
+{\footnotesize\ttfamily const std\+::string P\+W\+D\+\_\+\+F\+I\+LE (\begin{DoxyParamCaption}\item[{\char`\"{}rsc/pwd\+To\+Crack.\+txt\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+
+
+The file which will contain some passwords. 
+
+This file is not necessary to crack 

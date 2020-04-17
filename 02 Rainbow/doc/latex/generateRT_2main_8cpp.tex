@@ -1,0 +1,59 @@
+\hypertarget{generateRT_2main_8cpp}{}\section{src/generate\+R\+T/main.cpp File Reference}
+\label{generateRT_2main_8cpp}\index{src/generate\+R\+T/main.\+cpp@{src/generate\+R\+T/main.\+cpp}}
+{\ttfamily \#include \char`\"{}generate\+R\+T.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$sqlite3.\+h$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$filesystem$>$}\newline
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{generateRT_2main_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{generateRT_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Entry point to generate the Rainbow Table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned long long \hyperlink{generateRT_2main_8cpp_afb61832834f9080d06074c378682025d}{S\+I\+Z\+E\+\_\+\+DB} = 12\+U\+L\+L $\ast$ 1024\+U\+L\+L $\ast$ 1024\+U\+L\+L $\ast$ 1024\+U\+LL
+\begin{DoxyCompactList}\small\item\em The size of the file for the DB. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{generateRT_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{generateRT_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{generate\+R\+T/main.\+cpp@{generate\+R\+T/main.\+cpp}!main@{main}}
+\index{main@{main}!generate\+R\+T/main.\+cpp@{generate\+R\+T/main.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Entry point to generate the Rainbow Table. 
+
+It will create and open a sqlite DB, and set it up with a configuration that maximizes speed. Note that with some configuration, the database can be corrupted in the event of a crash or power outage. After that, it will generate the RT with default (ne param) or user values (first param is the number of head to create, second is the number of reduce to apply). 
+\begin{DoxyParams}{Parameters}
+{\em argc} & The number of params \\
+\hline
+{\em argv} & The params. Can be empty. If not empty, param at position 1 and 2 must be numericals values. The first is the number of head to create, the second the number of reduce to apply on the head to get the tail. If the value is not correct, behavior is undetermined. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{generateRT_2main_8cpp_afb61832834f9080d06074c378682025d}\label{generateRT_2main_8cpp_afb61832834f9080d06074c378682025d}} 
+\index{generate\+R\+T/main.\+cpp@{generate\+R\+T/main.\+cpp}!S\+I\+Z\+E\+\_\+\+DB@{S\+I\+Z\+E\+\_\+\+DB}}
+\index{S\+I\+Z\+E\+\_\+\+DB@{S\+I\+Z\+E\+\_\+\+DB}!generate\+R\+T/main.\+cpp@{generate\+R\+T/main.\+cpp}}
+\subsubsection{\texorpdfstring{S\+I\+Z\+E\+\_\+\+DB}{SIZE\_DB}}
+{\footnotesize\ttfamily unsigned long long S\+I\+Z\+E\+\_\+\+DB = 12\+U\+L\+L $\ast$ 1024\+U\+L\+L $\ast$ 1024\+U\+L\+L $\ast$ 1024\+U\+LL}
+
+
+
+The size of the file for the DB. 
+

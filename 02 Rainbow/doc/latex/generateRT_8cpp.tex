@@ -1,0 +1,45 @@
+\hypertarget{generateRT_8cpp}{}\section{src/generate\+R\+T/generate\+RT.cpp File Reference}
+\label{generateRT_8cpp}\index{src/generate\+R\+T/generate\+R\+T.\+cpp@{src/generate\+R\+T/generate\+R\+T.\+cpp}}
+
+
+Definition of function of \hyperlink{generateRT_8h}{generate\+R\+T.\+h}.  
+
+
+{\ttfamily \#include \char`\"{}generate\+R\+T.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../util/sha256.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../util/passwd-\/utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+Include dependency graph for generate\+R\+T.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{generateRT_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn}{be\+::esi\+::secl\+::pn}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a836b009c7f5659a17dfa8b4a72eb2d43}{be\+::esi\+::secl\+::pn\+::reduce} (const std\+::string \&hash, int idx\+Reduction)
+\begin{DoxyCompactList}\small\item\em The reduce function. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ae632580f253a58884f56ee2cb4e7b59d}{be\+::esi\+::secl\+::pn\+::get\+Hash} (const std\+::string \&input)
+\begin{DoxyCompactList}\small\item\em Return the hash of a string using the S\+H\+A-\/256 algo. \end{DoxyCompactList}\item 
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb1d}{be\+::esi\+::secl\+::pn\+::generate\+RT} (sqlite3 $\ast$db, unsigned nb\+Head=N\+B\+\_\+\+H\+E\+AD, int nb\+Reduce=N\+B\+\_\+\+R\+E\+D\+U\+CE)
+\begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\item 
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aaf5216f5718720c15b5925f7e8a94d10}{be\+::esi\+::secl\+::pn\+::generate\+R\+T\+In\+Thread} (sqlite3 $\ast$db, unsigned nb\+Head, int nb\+Reduce)
+\begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6b1322df9a3137fe3dff27602a0dd390}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE} = 10
+\begin{DoxyCompactList}\small\item\em Number of thread to create to generate the RT. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Definition of function of \hyperlink{generateRT_8h}{generate\+R\+T.\+h}. 
+

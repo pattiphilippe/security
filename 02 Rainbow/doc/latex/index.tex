@@ -1,0 +1,38 @@
+\subsection*{Goal}
+
+The objective of this homework is to implement an attack on password tables with a rainbow table.
+
+\subsection*{Structure}
+
+Build files are in folder {\ttfamily build}.
+
+Source files are in folder {\ttfamily src}. You can find 3 subfolders, one to \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb1d}{generate the Rainbow Table}, one to do the \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aad832fb30fa4cc9e74d15d7129d0c929}{Rainbow Attack}, and some utils.
+
+{\ttfamily rsc} will contain the rainbow table, the cracked passwords and the cracked passwords hashes.
+
+\subsection*{How to}
+
+To set up the project and launch it with default values, use command {\ttfamily make}. It will \+:
+\begin{DoxyItemize}
+\item install or update {\ttfamily sqlite}, {\ttfamily libsqlite3-\/dev}, {\ttfamily gcc-\/8} and {\ttfamily g++-\/8},
+\item build the project,
+\item launch the project (generate the RT and crack some hashes).
+\end{DoxyItemize}
+
+To set up the project and launch it \+:
+\begin{DoxyItemize}
+\item install or update sqlite and gcc/g++ (wich are require) with command {\ttfamily make setup},
+\item build the project with command {\ttfamily make build}.
+\item generate the rainbow table with command {\ttfamily build/generate\+RT number\+Of\+Head number\+Of\+Reduce},
+\item generate the rainbow table with command {\ttfamily build/crack\+RT}.
+\end{DoxyItemize}
+
+\subsection*{Know bugs}
+
+None.
+
+\subsection*{Authors}
+
+43197 Patti Philippe.
+
+43121 Baltofski Nicolas. 
