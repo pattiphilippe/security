@@ -3,14 +3,13 @@
  * @brief Declaration of functions of crackRT.h
  */
 #include "crackRT.h"
+#include "../util/rt-utils.hpp"
+#include "../generateRT/generateRT.h"
 #include <fstream>
-#include <iostream>
 #include <thread>
 #include <mutex>
 #include <vector>
 #include <algorithm>
-#include <iostream>
-#include "../util/passwd-utils.hpp"
 
 namespace be::esi::secl::pn
 {
@@ -93,17 +92,17 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
 std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction)
 {
     int rc;
-    std::string reduced = reduce(hash, idxReduction);
+    std::string reduced = reduce(hash, idxReduction, MIN_PWD_SIZE, MAX_PWD_SIZE);
     sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
 
     while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--)
     {
         sqlite3_clear_bindings(stmtReadTail);
         sqlite3_reset(stmtReadTail);
-        reduced = reduce(hash, idxReduction);
+        reduced = reduce(hash, idxReduction, MIN_PWD_SIZE, MAX_PWD_SIZE);
         for (int i = idxReduction + 1; i < NB_REDUCE; i++)
         {
-            reduced = reduce(getHash(reduced), i);
+            reduced = reduce(getHash(reduced), i, MIN_PWD_SIZE, MAX_PWD_SIZE);
         }
         sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
     }
@@ -132,7 +131,7 @@ std::string findPwd(std::string pwd, int idxReduction)
 {
     for (int i = 0; i < idxReduction; i++)
     {
-        pwd = reduce(getHash(pwd), i);
+        pwd = reduce(getHash(pwd), i, MIN_PWD_SIZE, MAX_PWD_SIZE);
     }
     return pwd;
 }

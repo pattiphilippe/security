@@ -2,35 +2,17 @@
  * @file generateRT.cpp
  * @brief Definition of function of generateRT.h
  */
-#include "generateRT.h"
-#include "../util/sha256.h"
 #include "../util/passwd-utils.hpp"
+#include "../util/rt-utils.hpp"
+#include "generateRT.h"
 #include <fstream>
+#include <algorithm>
 #include <thread>
 
 namespace be::esi::secl::pn
 {
 
 inline const unsigned NB_THREADS_GENERATE = 10; /**< Number of thread to create to generate the RT */
-
-std::string reduce(const std::string &hash, int idxReduction)
-{
-    unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36);
-    std::string pwd(MAX_PWD_SIZE, 'A');
-
-    for (int i = 0; i < MAX_PWD_SIZE; i++)
-    {
-        pwd[i] = AZ_O9[x % SIZE_AZ_O9];
-        x /= SIZE_AZ_O9;
-    }
-
-    return pwd;
-}
-
-std::string getHash(const std::string &input)
-{
-    return sha256(input);
-}
 
 void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
 {
@@ -66,7 +48,7 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
             hash = getHash(passwd);
             for (int j = 0; j < nbReduce; j++)
             {
-                reduced = reduce(hash, j);
+                reduced = reduce(hash, j, MIN_PWD_SIZE, MAX_PWD_SIZE);
                 hash = getHash(reduced);
             }
             sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);

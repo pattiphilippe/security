@@ -4,6 +4,7 @@
  */
 #include "crackRT.h"
 #include "../util/passwd-utils.hpp"
+#include "../generateRT/generateRT.h"
 #include <string>
 #include <iostream>
 #include <sqlite3.h>

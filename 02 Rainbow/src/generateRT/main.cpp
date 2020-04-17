@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     sqlite3_close(db);
     */
 
-    std::cout << "% with 1.000.000 row, 6000 reduces, 6 char : " << getPercentage(1000000.0, 6000, 6, 36) << std::endl;
+    std::cout << "% with 1.000.000 row, 6000 reduces, 6 char : " << getPercentage(805306368.0, 50000, 8, 62) << std::endl;
     std::cout << "% with 50.000.000 row, 6000 reduces, 7 char : " << getPercentage(50000000.0, 6000, 7, 36) << std::endl;
     std::cout << "% with 500.000.000 row, 6000 reduces, 8 char : " << getPercentage(500000000.0, 6000, 8, 36) << std::endl;
 }

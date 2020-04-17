@@ -5,7 +5,6 @@
 #ifndef CRACK_H
 #define CRACK_H
 
-#include "../generateRT/generateRT.h"
 #include <string>
 #include <sqlite3.h>
 
