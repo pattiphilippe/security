@@ -10,6 +10,8 @@ Source files are in folder `src`. You can find 3 subfolders, one to [generate th
 
 `rsc` will contain the rainbow table, the cracked passwords and the cracked passwords hashes.
 
+You can find the documentation of the project into the `doc` folder. 
+
 ## How to
 To set up the project and launch it with default values, use command `make`. It will :
 * install or update `sqlite`, `libsqlite3-dev`, `gcc-8` and `g++-8`,

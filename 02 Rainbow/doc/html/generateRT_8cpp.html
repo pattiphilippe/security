@@ -73,17 +73,18 @@ $(function() {
 
 <p>Definition of function of <a class="el" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. ">generateRT.h</a>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="generateRT_8h_source.html">generateRT.h</a>&quot;</code><br />
-<code>#include &quot;../util/sha256.h&quot;</code><br />
-<code>#include &quot;../util/passwd-utils.hpp&quot;</code><br />
+<div class="textblock"><code>#include &quot;../util/passwd-utils.hpp&quot;</code><br />
+<code>#include &quot;../util/rt-utils.hpp&quot;</code><br />
+<code>#include &quot;<a class="el" href="generateRT_8h_source.html">generateRT.h</a>&quot;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;thread&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for generateRT.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="generateRT_8cpp__incl.png" border="0" usemap="#src_2generateRT_2generateRT_8cpp" alt=""/></div>
 <map name="src_2generateRT_2generateRT_8cpp" id="src_2generateRT_2generateRT_8cpp">
-<area shape="rect" id="node2" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="118,80,219,107"/>
+<area shape="rect" id="node4" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="323,80,425,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -94,12 +95,6 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a836b009c7f5659a17dfa8b4a72eb2d43"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a836b009c7f5659a17dfa8b4a72eb2d43">be::esi::secl::pn::reduce</a> (const std::string &amp;hash, int idxReduction)</td></tr>
-<tr class="memdesc:a836b009c7f5659a17dfa8b4a72eb2d43"><td class="mdescLeft">&#160;</td><td class="mdescRight">The reduce function.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a836b009c7f5659a17dfa8b4a72eb2d43">More...</a><br /></td></tr>
-<tr class="separator:a836b009c7f5659a17dfa8b4a72eb2d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae632580f253a58884f56ee2cb4e7b59d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#ae632580f253a58884f56ee2cb4e7b59d">be::esi::secl::pn::getHash</a> (const std::string &amp;input)</td></tr>
-<tr class="memdesc:ae632580f253a58884f56ee2cb4e7b59d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the hash of a string using the SHA-256 algo.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#ae632580f253a58884f56ee2cb4e7b59d">More...</a><br /></td></tr>
-<tr class="separator:ae632580f253a58884f56ee2cb4e7b59d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8b773cad93b0eb78b89f69721e4bb1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#af8b773cad93b0eb78b89f69721e4bb1d">be::esi::secl::pn::generateRT</a> (sqlite3 *db, unsigned nbHead=NB_HEAD, int nbReduce=NB_REDUCE)</td></tr>
 <tr class="memdesc:af8b773cad93b0eb78b89f69721e4bb1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the head and the tails of the RT, and write them into the DB.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#af8b773cad93b0eb78b89f69721e4bb1d">More...</a><br /></td></tr>
 <tr class="separator:af8b773cad93b0eb78b89f69721e4bb1d"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -6,17 +6,17 @@ Declaration of functions for \hyperlink{generateRT_8cpp}{generate\+R\+T.\+cpp}.
 
 
 {\ttfamily \#include $<$string$>$}\newline
-{\ttfamily \#include $<$vector$>$}\newline
-{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
 {\ttfamily \#include $<$sqlite3.\+h$>$}\newline
-Include dependency graph for generate\+R\+T.\+h\+:\nopagebreak
+Include dependency graph for generate\+R\+T.\+h\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{generateRT_8h__incl}
+\includegraphics[width=226pt]{generateRT_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -31,12 +31,8 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-const std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a96589f0878fe9f2dbdf42d959f11b68e}{be\+::esi\+::secl\+::pn\+::\+D\+B\+\_\+\+N\+A\+ME} (\char`\"{}rsc/rt\+\_\+6\+\_\+1\+\_\+500000000\+\_\+160.\+sqlite\char`\"{})
+const std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6b6903f68a7fbdcd8e705dc2b9c28c03}{be\+::esi\+::secl\+::pn\+::\+D\+B\+\_\+\+N\+A\+ME} (\char`\"{}rsc/rt\+\_\+6\+\_\+2\+\_\+1000000\+\_\+1000.\+sqlite\char`\"{})
 \begin{DoxyCompactList}\small\item\em The relative path to the DB. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a836b009c7f5659a17dfa8b4a72eb2d43}{be\+::esi\+::secl\+::pn\+::reduce} (const std\+::string \&hash, int idx\+Reduction)
-\begin{DoxyCompactList}\small\item\em The reduce function. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ae632580f253a58884f56ee2cb4e7b59d}{be\+::esi\+::secl\+::pn\+::get\+Hash} (const std\+::string \&input)
-\begin{DoxyCompactList}\small\item\em Return the hash of a string using the S\+H\+A-\/256 algo. \end{DoxyCompactList}\item 
 void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb1d}{be\+::esi\+::secl\+::pn\+::generate\+RT} (sqlite3 $\ast$db, unsigned nb\+Head=N\+B\+\_\+\+H\+E\+AD, int nb\+Reduce=N\+B\+\_\+\+R\+E\+D\+U\+CE)
 \begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\item 
 void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aaf5216f5718720c15b5925f7e8a94d10}{be\+::esi\+::secl\+::pn\+::generate\+R\+T\+In\+Thread} (sqlite3 $\ast$db, unsigned nb\+Head, int nb\+Reduce)
@@ -52,10 +48,6 @@ const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ac4d6305d2a5baed19604
 \begin{DoxyCompactList}\small\item\em The minimal password size. \end{DoxyCompactList}\item 
 const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}{be\+::esi\+::secl\+::pn\+::\+M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 6
 \begin{DoxyCompactList}\small\item\em The maximal password size. \end{DoxyCompactList}\item 
-const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a1ec87af9e9dbcae67e1e5974e7b96dde}{be\+::esi\+::secl\+::pn\+::\+S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9} = 62
-\begin{DoxyCompactList}\small\item\em Number of valid caracters for a password. \end{DoxyCompactList}\item 
-const char \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a4c23196d41006571c781f0f6ca84e10a}{be\+::esi\+::secl\+::pn\+::\+A\+Z\+\_\+\+O9} \mbox{[}S\+I\+Z\+E\+\_\+\+A\+Z\+\_\+\+O9\mbox{]} = \{\textquotesingle{}A\textquotesingle{}, \textquotesingle{}B\textquotesingle{}, \textquotesingle{}C\textquotesingle{}, \textquotesingle{}D\textquotesingle{}, \textquotesingle{}E\textquotesingle{}, \textquotesingle{}F\textquotesingle{}, \textquotesingle{}G\textquotesingle{}, \textquotesingle{}H\textquotesingle{}, \textquotesingle{}I\textquotesingle{}, \textquotesingle{}J\textquotesingle{}, \textquotesingle{}K\textquotesingle{}, \textquotesingle{}L\textquotesingle{}, \textquotesingle{}M\textquotesingle{}, \textquotesingle{}N\textquotesingle{}, \textquotesingle{}O\textquotesingle{}, \textquotesingle{}P\textquotesingle{}, \textquotesingle{}Q\textquotesingle{}, \textquotesingle{}R\textquotesingle{}, \textquotesingle{}S\textquotesingle{}, \textquotesingle{}T\textquotesingle{}, \textquotesingle{}U\textquotesingle{}, \textquotesingle{}V\textquotesingle{}, \textquotesingle{}W\textquotesingle{}, \textquotesingle{}X\textquotesingle{}, \textquotesingle{}Y\textquotesingle{}, \textquotesingle{}Z\textquotesingle{}, \textquotesingle{}a\textquotesingle{}, \textquotesingle{}b\textquotesingle{}, \textquotesingle{}c\textquotesingle{}, \textquotesingle{}d\textquotesingle{}, \textquotesingle{}e\textquotesingle{}, \textquotesingle{}f\textquotesingle{}, \textquotesingle{}g\textquotesingle{}, \textquotesingle{}h\textquotesingle{}, \textquotesingle{}i\textquotesingle{}, \textquotesingle{}j\textquotesingle{}, \textquotesingle{}k\textquotesingle{}, \textquotesingle{}l\textquotesingle{}, \textquotesingle{}m\textquotesingle{}, \textquotesingle{}n\textquotesingle{}, \textquotesingle{}o\textquotesingle{}, \textquotesingle{}p\textquotesingle{}, \textquotesingle{}q\textquotesingle{}, \textquotesingle{}r\textquotesingle{}, \textquotesingle{}s\textquotesingle{}, \textquotesingle{}t\textquotesingle{}, \textquotesingle{}u\textquotesingle{}, \textquotesingle{}v\textquotesingle{}, \textquotesingle{}w\textquotesingle{}, \textquotesingle{}x\textquotesingle{}, \textquotesingle{}y\textquotesingle{}, \textquotesingle{}z\textquotesingle{}, \textquotesingle{}0\textquotesingle{}, \textquotesingle{}1\textquotesingle{}, \textquotesingle{}2\textquotesingle{}, \textquotesingle{}3\textquotesingle{}, \textquotesingle{}4\textquotesingle{}, \textquotesingle{}5\textquotesingle{}, \textquotesingle{}6\textquotesingle{}, \textquotesingle{}7\textquotesingle{}, \textquotesingle{}8\textquotesingle{}, \textquotesingle{}9\textquotesingle{}\}
-\begin{DoxyCompactList}\small\item\em All valid char for a password. \end{DoxyCompactList}\item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6dae14cb83aa871e50c9aaea7f776055}{be\+::esi\+::secl\+::pn\+::\+D\+R\+O\+P\+\_\+\+RT} = \char`\"{}D\+R\+OP T\+A\+B\+LE IF E\+X\+I\+S\+TS R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE;\char`\"{}
 \item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ab39f379fcf2d9342096df70dcf998d32}{be\+::esi\+::secl\+::pn\+::\+C\+R\+E\+A\+T\+E\+\_\+\+RT} = \char`\"{}C\+R\+E\+A\+TE T\+A\+B\+LE R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head C\+H\+AR(8) P\+R\+I\+M\+A\+RY K\+EY, tail C\+H\+AR(8) N\+OT N\+U\+LL U\+N\+I\+Q\+UE);\char`\"{}
