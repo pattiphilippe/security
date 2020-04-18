@@ -47,12 +47,12 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
             passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
             hash = getHash(passwd);
             int idxReduction = 0;
-            while (idxReduction < 5882)
+            while (idxReduction < 48544)
             {
                 reduced = reduce(hash, idxReduction++, 7);
                 hash = getHash(reduced);
             }
-            while (idxReduction < 6000)
+            while (idxReduction < 50000)
             {
                 reduced = reduce(hash, idxReduction++, 6);
                 hash = getHash(reduced);

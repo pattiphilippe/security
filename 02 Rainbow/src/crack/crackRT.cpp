@@ -91,7 +91,7 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
 
 std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction)
 {
-    int rc;
+    int rc, length, tempReduction;
     std::string reduced = reduce(hash, idxReduction, MIN_PWD_SIZE);
     sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
 
@@ -99,11 +99,20 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
     {
         sqlite3_clear_bindings(stmtReadTail);
         sqlite3_reset(stmtReadTail);
-        reduced = reduce(hash, idxReduction, MIN_PWD_SIZE);
-        for (int i = idxReduction + 1; i < NB_REDUCE; i++)
+        //check if 7 or 6
+        length = idxReduction < 5882 ? 7 : 6;
+        reduced = reduce(hash, idxReduction, length);
+
+        // Reduce until getting the tail
+        for (tempReduction = idxReduction + 1; tempReduction < 5882; tempReduction++)
         {
-            reduced = reduce(getHash(reduced), i, MIN_PWD_SIZE);
+            reduced = reduce(getHash(reduced), tempReduction, 7);
         }
+        for (tempReduction = 5882; tempReduction < NB_REDUCE; tempReduction++)
+        {
+            reduced = reduce(getHash(reduced), tempReduction, 6);
+        }
+
         sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
     }
 
