@@ -10,6 +10,8 @@ Source files are in folder {\ttfamily src}. You can find 3 subfolders, one to \h
 
 {\ttfamily rsc} will contain the rainbow table, the cracked passwords and the cracked passwords hashes.
 
+You can find the documentation of the project into the {\ttfamily doc} folder.
+
 \subsection*{How to}
 
 To set up the project and launch it with default values, use command {\ttfamily make}. It will \+:
@@ -41,8 +43,8 @@ The constraints of the homework are \+:
 
 The util to generate the passwords, provided by the teachers, generate alphanumerical passwords, lower and uppercase. The point is that we can\textquotesingle{}t build a table smaller than 12\+Gib which reach 75\% success rate. Here is why \+:
 \begin{DoxyItemize}
-\item each row take at least 8$\ast$2 = 16 byte (at least because the DB hold some informations),
-\item an 12\+Gib table can hold 12.\+884.\+901.\+888/16 = 805.\+306.\+368 rows,
+\item each row take at least {\ttfamily 8$\ast$2 = 16} byte (at least because the DB hold some informations),
+\item an 12\+Gib table can hold {\ttfamily 12.\+884.\+901.\+888/16 = 805.\+306.\+368} rows,
 \item with 805.\+306.\+368 rows, 50.\+000 reduce, a password of lenght 8, and 62 possible values for each char of the password, you can expect a success rate lower than 20\% (according to the formula 3, page 6, of \href{https://lasecwww.epfl.ch/pub/lasec/doc/Oech03.pdf}{\tt this work}),
 \item but we need at least 25\% of success to get 75\% of global success ({\ttfamily (100+100+25)/3})
 \end{DoxyItemize}

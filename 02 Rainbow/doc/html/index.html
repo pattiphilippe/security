@@ -68,6 +68,7 @@ $(function() {
 <p>Build files are in folder <code>build</code>.</p>
 <p>Source files are in folder <code>src</code>. You can find 3 subfolders, one to <a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#af8b773cad93b0eb78b89f69721e4bb1d">generate the Rainbow Table</a>, one to do the <a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#aad832fb30fa4cc9e74d15d7129d0c929">Rainbow Attack</a>, and some utils.</p>
 <p><code>rsc</code> will contain the rainbow table, the cracked passwords and the cracked passwords hashes.</p>
+<p>You can find the documentation of the project into the <code>doc</code> folder.</p>
 <h2>How to</h2>
 <p>To set up the project and launch it with default values, use command <code>make</code>. It will :</p><ul>
 <li>install or update <code>sqlite</code>, <code>libsqlite3-dev</code>, <code>gcc-8</code> and <code>g++-8</code>,</li>
@@ -90,8 +91,8 @@ $(function() {
 <li>the hashes to crack are probably generated with rainbow::mass_generate, which mean there is 33% of chance to get a password of size 6, 7 or 8.</li>
 </ul>
 <p>The util to generate the passwords, provided by the teachers, generate alphanumerical passwords, lower and uppercase. The point is that we can't build a table smaller than 12Gib which reach 75% success rate. Here is why :</p><ul>
-<li>each row take at least 8*2 = 16 byte (at least because the DB hold some informations),</li>
-<li>an 12Gib table can hold 12.884.901.888/16 = 805.306.368 rows,</li>
+<li>each row take at least <code>8*2 = 16</code> byte (at least because the DB hold some informations),</li>
+<li>an 12Gib table can hold <code>12.884.901.888/16 = 805.306.368</code> rows,</li>
 <li>with 805.306.368 rows, 50.000 reduce, a password of lenght 8, and 62 possible values for each char of the password, you can expect a success rate lower than 20% (according to the formula 3, page 6, of <a href="https://lasecwww.epfl.ch/pub/lasec/doc/Oech03.pdf">this work</a>),</li>
 <li>but we need at least 25% of success to get 75% of global success (<code>(100+100+25)/3</code>)</li>
 </ul>
