@@ -46,7 +46,7 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
  */
 inline std::string reduce(const std::string &hash, int idxReduction, unsigned pwdSize)
 {
-    unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36);
+    unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36) + idxReduction;
     std::string pwd(pwdSize, 'A');
 
     for (int i = 0; i < pwdSize; i++)
