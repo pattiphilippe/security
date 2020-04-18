@@ -8,9 +8,12 @@
 #include <fstream>
 #include <algorithm>
 #include <thread>
+#include <iostream>
 
 namespace be::esi::secl::pn
 {
+
+inline int e = 0;
 
 inline const unsigned NB_THREADS_GENERATE = 10; /**< Number of thread to create to generate the RT */
 
@@ -38,37 +41,35 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
 
     std::string passwd, reduced, hash;
 
-    for (unsigned i = 1; i <= (nbHead / 1000); ++i)
+    for (unsigned i = 1; i <= nbHead; ++i)
     {
-        sqlite3_exec(db, "BEGIN TRANSACTION", 0, 0, 0);
-
-        for (unsigned j = 0; j < 1000; j++)
+        passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
+        hash = getHash(passwd);
+        int idxReduction = 0;
+        while (idxReduction < 48544)
         {
-            passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
-            hash = getHash(passwd);
-            int idxReduction = 0;
-            while (idxReduction < 48544)
-            {
-                reduced = reduce(hash, idxReduction++, 7);
-                hash = getHash(reduced);
-            }
-            while (idxReduction < 50000)
-            {
-                reduced = reduce(hash, idxReduction++, 6);
-                hash = getHash(reduced);
-            }
-
-            sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
-            sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
-            sqlite3_step(stmt);
-            // if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
-            //     i--; 
-
-            sqlite3_clear_bindings(stmt);
-            sqlite3_reset(stmt);
+            reduced = reduce(hash, idxReduction++, 7);
+            hash = getHash(reduced);
+        }
+        while (idxReduction < 50000)
+        {
+            reduced = reduce(hash, idxReduction++, 6);
+            hash = getHash(reduced);
         }
 
-        sqlite3_exec(db, "END TRANSACTION", 0, 0, 0);
+        sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
+        sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
+        int rc = sqlite3_step(stmt);
+
+        if (rc != SQLITE_DONE)
+        {
+            std::cout << "erreo insert " << e++ << std::endl;
+        }
+        if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
+            i--;
+
+        sqlite3_clear_bindings(stmt);
+        sqlite3_reset(stmt);
     }
 }
 
