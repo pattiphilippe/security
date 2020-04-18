@@ -27,11 +27,11 @@ using namespace be::esi::secl::pn;
  * If the value is not correct, behavior is undetermined.
  */
 int main(int argc, char *argv[])
-{ /*
+{ 
     //Reserve space for the DB
-    std::fstream db_file(DB_NAME);
-    std::filesystem::resize_file(std::filesystem::path(DB_NAME), SIZE_DB);
-    db_file.close();
+    // std::fstream db_file(DB_NAME);
+    // std::filesystem::resize_file(std::filesystem::path(DB_NAME), SIZE_DB);
+    // db_file.close();
 
     //Open DB
     sqlite3 *db;
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 
     // Close DB
     sqlite3_close(db);
-    */
+    
 
     std::cout << "% with 1.000.000 row, 6000 reduces, 6 char : " << getPercentage(805306368.0, 50000, 8, 62) << std::endl;
     std::cout << "% with 50.000.000 row, 6000 reduces, 7 char : " << getPercentage(50000000.0, 6000, 7, 36) << std::endl;

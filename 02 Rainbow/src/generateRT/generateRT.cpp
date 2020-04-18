@@ -46,16 +46,23 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
         {
             passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
             hash = getHash(passwd);
-            for (int j = 0; j < nbReduce; j++)
+            int idxReduction = 0;
+            while (idxReduction < 5882)
             {
-                reduced = reduce(hash, j, MIN_PWD_SIZE, MAX_PWD_SIZE);
+                reduced = reduce(hash, idxReduction++, 7);
                 hash = getHash(reduced);
             }
+            while (idxReduction < 6000)
+            {
+                reduced = reduce(hash, idxReduction++, 6);
+                hash = getHash(reduced);
+            }
+
             sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
             sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
             sqlite3_step(stmt);
             // if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
-            //     i--;
+            //     i--; 
 
             sqlite3_clear_bindings(stmt);
             sqlite3_reset(stmt);

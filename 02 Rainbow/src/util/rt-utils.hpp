@@ -42,15 +42,14 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
  * The reduce function is very secret, so we don't tell here how it works..
  * @param hash The hash to reduce.
  * @param idxReduction The index of the hash into the table. To reduce the head's hash, the value is 0.
- * @param pwdMinSize The minimal password size.
- * @param pwdMaxSize The maximal password size.
+ * @param pwdSize The password size.
  */
-inline std::string reduce(const std::string &hash, int idxReduction, unsigned pwdMinSize, unsigned pwdMaxSize)
+inline std::string reduce(const std::string &hash, int idxReduction, unsigned pwdSize)
 {
     unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36);
-    std::string pwd(pwdMaxSize, 'A');
+    std::string pwd(pwdSize, 'A');
 
-    for (int i = 0; i < pwdMaxSize; i++)
+    for (int i = 0; i < pwdSize; i++)
     {
         pwd[i] = AZ_O9[x % SIZE_AZ_O9];
         x /= SIZE_AZ_O9;

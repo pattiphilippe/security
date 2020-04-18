@@ -11,14 +11,14 @@
 namespace be::esi::secl::pn
 {
 
-inline const unsigned NB_HEAD = 500000000; /**< How many password we generate for the RT */
-inline const int NB_REDUCE = 160;          /**< How many reduce function we use before getting the tail */
+inline const unsigned NB_HEAD = 51000000; /**< How many password we generate for the RT */
+inline const int NB_REDUCE = 6000;          /**< How many reduce function we use before getting the tail */
 inline const unsigned MIN_PWD_SIZE = 6;    /**< The minimal password size */
 inline const unsigned MAX_PWD_SIZE = 6;    /**< The maximal password size */
 inline const char *DROP_RT = "DROP TABLE IF EXISTS RAINBOW_TABLE;";
 inline const char *CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
 inline const char *INSERT_RT = "INSERT OR IGNORE INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
-inline const std::string DB_NAME("rsc/rt_6_2_1000000_1000.sqlite"); /**< The relative path to the DB */
+inline const std::string DB_NAME("rsc/rt_6-7_1_51000000_6000.sqlite"); /**< The relative path to the DB */
 
 /**
  * Generate the head and the tails of the RT, and write them into the DB.
