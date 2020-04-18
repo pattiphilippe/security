@@ -100,15 +100,15 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
         sqlite3_clear_bindings(stmtReadTail);
         sqlite3_reset(stmtReadTail);
         //check if 7 or 6
-        length = idxReduction < 5882 ? 7 : 6;
+        length = idxReduction < 48544 ? 7 : 6;
         reduced = reduce(hash, idxReduction, length);
 
         // Reduce until getting the tail
-        for (tempReduction = idxReduction + 1; tempReduction < 5882; tempReduction++)
+        for (tempReduction = idxReduction + 1; tempReduction < 48544; tempReduction++)
         {
             reduced = reduce(getHash(reduced), tempReduction, 7);
         }
-        for (tempReduction = 5882; tempReduction < NB_REDUCE; tempReduction++)
+        for (tempReduction = 48544; tempReduction < NB_REDUCE; tempReduction++)
         {
             reduced = reduce(getHash(reduced), tempReduction, 6);
         }
@@ -138,10 +138,26 @@ std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
 
 std::string findPwd(std::string pwd, int idxReduction)
 {
-    for (int i = 0; i < idxReduction; i++)
+    int i;
+    if (idxReduction < 48544)
     {
-        pwd = reduce(getHash(pwd), i, MIN_PWD_SIZE);
+        for (i = 0; i < idxReduction; i++)
+        {
+            pwd = reduce(getHash(pwd), i, 7);
+        }
     }
+    else
+    {
+        for (i = 0; i < 48544; i++)
+        {
+            pwd = reduce(getHash(pwd), i, 7);
+        }
+        for (; i < idxReduction; i++)
+        {
+            pwd = reduce(getHash(pwd), i, 6);
+        }
+    }
+
     return pwd;
 }
 
