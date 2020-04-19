@@ -17,7 +17,7 @@ void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb
 \begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\item 
 void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aaf5216f5718720c15b5925f7e8a94d10}{generate\+R\+T\+In\+Thread} (sqlite3 $\ast$db, unsigned nb\+Head, int nb\+Reduce)
 \begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\item 
-const std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6b6903f68a7fbdcd8e705dc2b9c28c03}{D\+B\+\_\+\+N\+A\+ME} (\char`\"{}rsc/rt\+\_\+6\+\_\+2\+\_\+1000000\+\_\+1000.\+sqlite\char`\"{})
+const std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a78cbe51f7d2cc08391438e6f0c798e23}{D\+B\+\_\+\+N\+A\+ME} (\char`\"{}rsc/rt\+\_\+6-\/7-\/8\+\_\+1\+\_\+255000000\+\_\+10000.\+sqlite\char`\"{})
 \begin{DoxyCompactList}\small\item\em The relative path to the DB. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -34,19 +34,19 @@ const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a90db4018123c098c9
 \begin{DoxyCompactList}\small\item\em Select the head of the tail. \end{DoxyCompactList}\item 
 const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6b1322df9a3137fe3dff27602a0dd390}{N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE} = 10
 \begin{DoxyCompactList}\small\item\em Number of thread to create to generate the RT. \end{DoxyCompactList}\item 
-const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}{N\+B\+\_\+\+H\+E\+AD} = 500000000
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}{N\+B\+\_\+\+H\+E\+AD} = 255000000
 \begin{DoxyCompactList}\small\item\em How many password we generate for the RT. \end{DoxyCompactList}\item 
-const int \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}{N\+B\+\_\+\+R\+E\+D\+U\+CE} = 160
+const int \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}{N\+B\+\_\+\+R\+E\+D\+U\+CE} = 10000
 \begin{DoxyCompactList}\small\item\em How many reduce function we use before getting the tail. \end{DoxyCompactList}\item 
 const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ac4d6305d2a5baed196042f8a30533620}{M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 6
 \begin{DoxyCompactList}\small\item\em The minimal password size. \end{DoxyCompactList}\item 
-const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 6
+const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 8
 \begin{DoxyCompactList}\small\item\em The maximal password size. \end{DoxyCompactList}\item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6dae14cb83aa871e50c9aaea7f776055}{D\+R\+O\+P\+\_\+\+RT} = \char`\"{}D\+R\+OP T\+A\+B\+LE IF E\+X\+I\+S\+TS R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE;\char`\"{}
 \item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ab39f379fcf2d9342096df70dcf998d32}{C\+R\+E\+A\+T\+E\+\_\+\+RT} = \char`\"{}C\+R\+E\+A\+TE T\+A\+B\+LE R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head C\+H\+AR(8) P\+R\+I\+M\+A\+RY K\+EY, tail C\+H\+AR(8) N\+OT N\+U\+LL U\+N\+I\+Q\+UE);\char`\"{}
 \item 
-const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a93b0970fb08c37d478307bfadfb3b775}{I\+N\+S\+E\+R\+T\+\_\+\+RT} = \char`\"{}I\+N\+S\+E\+RT OR I\+G\+N\+O\+RE I\+N\+TO R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head, tail) V\+A\+L\+U\+ES (?, ?);\char`\"{}
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a93b0970fb08c37d478307bfadfb3b775}{I\+N\+S\+E\+R\+T\+\_\+\+RT} = \char`\"{}I\+N\+S\+E\+RT I\+N\+TO R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head, tail) V\+A\+L\+U\+ES (?, ?);\char`\"{}
 \end{DoxyCompactItemize}
 
 
@@ -98,11 +98,11 @@ Read and write with file is performed with mutex.
 {\em cracked\+Hash\+Output} & The file\textquotesingle{}s name for the hashes of the cracked passwords. Each line is the hash of the password of the same line of the passwords file. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a6b6903f68a7fbdcd8e705dc2b9c28c03}\label{namespacebe_1_1esi_1_1secl_1_1pn_a6b6903f68a7fbdcd8e705dc2b9c28c03}} 
+\mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a78cbe51f7d2cc08391438e6f0c798e23}\label{namespacebe_1_1esi_1_1secl_1_1pn_a78cbe51f7d2cc08391438e6f0c798e23}} 
 \index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!D\+B\+\_\+\+N\+A\+ME@{D\+B\+\_\+\+N\+A\+ME}}
 \index{D\+B\+\_\+\+N\+A\+ME@{D\+B\+\_\+\+N\+A\+ME}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
 \subsubsection{\texorpdfstring{D\+B\+\_\+\+N\+A\+M\+E()}{DB\_NAME()}}
-{\footnotesize\ttfamily const std\+::string be\+::esi\+::secl\+::pn\+::\+D\+B\+\_\+\+N\+A\+ME (\begin{DoxyParamCaption}\item[{\char`\"{}rsc/rt\+\_\+6\+\_\+2\+\_\+1000000\+\_\+1000.\+sqlite\char`\"{}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily const std\+::string be\+::esi\+::secl\+::pn\+::\+D\+B\+\_\+\+N\+A\+ME (\begin{DoxyParamCaption}\item[{\char`\"{}rsc/rt\+\_\+6-\/7-\/8\+\_\+1\+\_\+255000000\+\_\+10000.\+sqlite\char`\"{}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -232,13 +232,13 @@ The tail of the hash, or an empty string if no tail is found.
 \index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!I\+N\+S\+E\+R\+T\+\_\+\+RT@{I\+N\+S\+E\+R\+T\+\_\+\+RT}}
 \index{I\+N\+S\+E\+R\+T\+\_\+\+RT@{I\+N\+S\+E\+R\+T\+\_\+\+RT}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
 \subsubsection{\texorpdfstring{I\+N\+S\+E\+R\+T\+\_\+\+RT}{INSERT\_RT}}
-{\footnotesize\ttfamily const char$\ast$ be\+::esi\+::secl\+::pn\+::\+I\+N\+S\+E\+R\+T\+\_\+\+RT = \char`\"{}I\+N\+S\+E\+RT OR I\+G\+N\+O\+RE I\+N\+TO R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head, tail) V\+A\+L\+U\+ES (?, ?);\char`\"{}\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily const char$\ast$ be\+::esi\+::secl\+::pn\+::\+I\+N\+S\+E\+R\+T\+\_\+\+RT = \char`\"{}I\+N\+S\+E\+RT I\+N\+TO R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head, tail) V\+A\+L\+U\+ES (?, ?);\char`\"{}\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}\label{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}} 
 \index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE@{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}}
 \index{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE@{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
 \subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE}{MAX\_PWD\_SIZE}}
-{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE = 6\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE = 8\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -278,7 +278,7 @@ Mutex to read the head file with concurency.
 \index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!N\+B\+\_\+\+H\+E\+AD@{N\+B\+\_\+\+H\+E\+AD}}
 \index{N\+B\+\_\+\+H\+E\+AD@{N\+B\+\_\+\+H\+E\+AD}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
 \subsubsection{\texorpdfstring{N\+B\+\_\+\+H\+E\+AD}{NB\_HEAD}}
-{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+H\+E\+AD = 500000000\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily const unsigned be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+H\+E\+AD = 255000000\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -288,7 +288,7 @@ How many password we generate for the RT.
 \index{be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}!N\+B\+\_\+\+R\+E\+D\+U\+CE@{N\+B\+\_\+\+R\+E\+D\+U\+CE}}
 \index{N\+B\+\_\+\+R\+E\+D\+U\+CE@{N\+B\+\_\+\+R\+E\+D\+U\+CE}!be\+::esi\+::secl\+::pn@{be\+::esi\+::secl\+::pn}}
 \subsubsection{\texorpdfstring{N\+B\+\_\+\+R\+E\+D\+U\+CE}{NB\_REDUCE}}
-{\footnotesize\ttfamily const int be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+R\+E\+D\+U\+CE = 160\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily const int be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+R\+E\+D\+U\+CE = 10000\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 

@@ -63,7 +63,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>Goal</h2>
-<p>The objective of this homework is to implement an attack on password tables with a rainbow table with a success rate of 75%.</p>
+<p>Implement a rainbow attack with a success rate of 75% for alphanumeric passwords of length[6-8].</p>
 <h2>Structure</h2>
 <p>Build files are in folder <code>build</code>.</p>
 <p>Source files are in folder <code>src</code>. You can find 3 subfolders, one to <a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#af8b773cad93b0eb78b89f69721e4bb1d">generate the Rainbow Table</a>, one to do the <a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#aad832fb30fa4cc9e74d15d7129d0c929">Rainbow Attack</a>, and some utils.</p>
@@ -71,12 +71,12 @@ $(function() {
 <p>You can find the documentation of the project into the <code>doc</code> folder.</p>
 <h2>How to</h2>
 <p>To set up the project and launch it with default values, use command <code>make</code>. It will :</p><ul>
-<li>install or update <code>sqlite</code>, <code>libsqlite3-dev</code>, <code>gcc-8</code> and <code>g++-8</code>,</li>
+<li>install or update <code>sqlite</code> and <code>libsqlite3-dev</code>,</li>
 <li>build the project,</li>
 <li>launch the project (generate the RT and crack some hashes).</li>
 </ul>
 <p>To set up the project and launch it :</p><ul>
-<li>install or update sqlite and gcc/g++ (wich are require) with command <code>make setup</code>,</li>
+<li>install or update sqlite (wich is require) with command <code>make setup</code>,</li>
 <li>build the project with command <code>make build</code>.</li>
 <li>generate the rainbow table with command <code>build/generateRT numberOfHead numberOfReduce</code>,</li>
 <li>generate the rainbow table with command <code>build/crackRT</code>.</li>
@@ -94,13 +94,15 @@ $(function() {
 <li>each row take at least <code>8*2 = 16</code> byte (at least because the DB hold some informations),</li>
 <li>an 12Gib table can hold <code>12.884.901.888/16 = 805.306.368</code> rows,</li>
 <li>with 805.306.368 rows, 50.000 reduce, a password of lenght 8, and 62 possible values for each char of the password, you can expect a success rate lower than 20% (according to the formula 3, page 6, of <a href="https://lasecwww.epfl.ch/pub/lasec/doc/Oech03.pdf">this work</a>),</li>
-<li>but we need at least 25% of success to get 75% of global success (<code>(100+100+25)/3</code>)</li>
+<li>to find 75 % of pwd, we can find a maximum of pwd of size 6 and 7, which are easier to find,</li>
+<li>then we only need 33% of success to get 75% of global success (<code>~75% = (% pwd6 + % pwd7 + % pwd8)/3 : (100+100+33)/3</code>),</li>
+<li>as said before, the max we can reach is lower than 20% =&gt; impossible, CQFD.</li>
 </ul>
 <blockquote class="doxtable">
-<p>Due to these problems, we decided to work with the same constraints, except for the alphanumerical password. We will use alphanumerical <b>lower case</b> password only </p>
+<p>Due to these problems, we decided to work with the same constraints, except for the alphanumerical password. We will use alphanumerical <b>lower case</b> password only. </p>
 </blockquote>
 <h2>Know bugs</h2>
-<p>None.</p>
+<p>At the moment, we're nowhere near the expected performances. Our algorythm uses threads, and is optimised at many places. The reduction function is the best we could think of. Possibly, we just need to use another combination of nbReduce, nbRows, and ratio for pwd of length 6, 7 and 8.</p>
 <h2>Authors</h2>
 <p>43197 Patti Philippe.</p>
 <p>43121 Baltofski Nicolas </p>
