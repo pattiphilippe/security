@@ -1,7 +1,7 @@
 # Rainbow attack
 
 ## Goal
-The objective of this homework is to implement an attack on password tables with a rainbow table with a success rate of 75%.
+Implement a rainbow attack with a success rate of 75% for alphanumeric passwords of length[6-8].
 
 ## Structure
 Build files are in folder `build`.
@@ -14,12 +14,12 @@ You can find the documentation of the project into the `doc` folder.
 
 ## How to
 To set up the project and launch it with default values, use command `make`. It will :
-* install or update `sqlite`, `libsqlite3-dev`, `gcc-8` and `g++-8`,
+* install or update `sqlite` and `libsqlite3-dev`,
 * build the project,
 * launch the project (generate the RT and crack some hashes).
 
 To set up the project and launch it :
-* install or update sqlite and gcc/g++ (wich are require) with command `make setup`,
+* install or update sqlite (wich is require) with command `make setup`,
 * build the project with command `make build`.
 * generate the rainbow table with command `build/generateRT numberOfHead numberOfReduce`,
 * generate the rainbow table with command `build/crackRT`.
@@ -38,12 +38,16 @@ The point is that we can't build a table smaller than 12Gib which reach 75% succ
 * each row take at least `8*2 = 16` byte (at least because the DB hold some informations),
 * an 12Gib table can hold `12.884.901.888/16 = 805.306.368` rows,
 * with 805.306.368 rows, 50.000 reduce, a password of lenght 8, and 62 possible values for each char of the password, you can expect a success rate lower than 20% (according to the formula 3, page 6, of [this work](https://lasecwww.epfl.ch/pub/lasec/doc/Oech03.pdf)),
-* but we need at least 25% of success to get 75% of global success (`(100+100+25)/3`)
+* to find 75 % of pwd, we can find a maximum of pwd of size 6 and 7, which are easier to find,
+* then we only need 33% of success to get 75% of global success (`~75% = (% pwd6 + % pwd7 + % pwd8)/3 : (100+100+33)/3`),
+* as said before, the max we can reach is lower than 20% => impossible, CQFD.
 
-> Due to these problems, we decided to work with the same constraints, except for the alphanumerical password. We will use alphanumerical **lower case** password only
+> Due to these problems, we decided to work with the same constraints, except for the alphanumerical password. We will use alphanumerical **lower case** password only.
 
 ## Know bugs
-None.
+At the moment, we're nowhere near the expected performances. 
+Our algorythm uses threads, and is optimised at many places. The reduction function is the best we could think of.
+Possibly, we just need to use another combination of nbReduce, nbRows, and ratio for pwd of length 6, 7 and 8. 
 
 ## Authors
 43197 Patti Philippe.
