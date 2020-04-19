@@ -8,7 +8,6 @@
 #include <fstream>
 #include <algorithm>
 #include <thread>
-#include <iostream>
 
 namespace be::esi::secl::pn
 {
@@ -40,33 +39,22 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
     sqlite3_prepare_v2(db, INSERT_RT, -1, &stmt, 0);
 
     std::string passwd, reduced, hash;
+    int idxReduction;
 
     for (unsigned i = 1; i <= nbHead; ++i)
     {
-        passwd = rainbow::generate_passwd(MAX_PWD_SIZE);
-        hash = getHash(passwd);
-        int idxReduction = 0;
-        while (idxReduction < 48544)
-        {
-            reduced = reduce(hash, idxReduction++, 7);
-            hash = getHash(reduced);
-        }
-        while (idxReduction < 50000)
-        {
-            reduced = reduce(hash, idxReduction++, 6);
-            hash = getHash(reduced);
-        }
+        idxReduction = 0;
+        passwd = rainbow::generate_passwd(rainbow::random(MIN_PWD_SIZE, MAX_PWD_SIZE));
+        reduced = reduce(getHash(passwd), idxReduction++);
+        for (; idxReduction < nbReduce; idxReduction++)
+            reduced = reduce(getHash(reduced), idxReduction++);
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
         sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
-        int rc = sqlite3_step(stmt);
+        sqlite3_step(stmt);
 
-        if (rc != SQLITE_DONE)
-        {
-            std::cout << "erreo insert " << e++ << std::endl;
-        }
-        if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
-            i--;
+        // if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
+        //     i--;
 
         sqlite3_clear_bindings(stmt);
         sqlite3_reset(stmt);

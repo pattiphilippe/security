@@ -18,7 +18,7 @@ inline const unsigned MAX_PWD_SIZE = 7;    /**< The maximal password size */
 inline const char *DROP_RT = "DROP TABLE IF EXISTS RAINBOW_TABLE;";
 inline const char *CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
 inline const char *INSERT_RT = "INSERT OR IGNORE INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
-inline const std::string DB_NAME("rsc/rt_6-7_2_51000000_6000.sqlite"); /**< The relative path to the DB */
+inline const std::string DB_NAME("rsc/rt_6-7_3_5150000_50000.sqlite"); /**< The relative path to the DB */
 
 /**
  * Generate the head and the tails of the RT, and write them into the DB.

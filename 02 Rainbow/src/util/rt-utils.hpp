@@ -38,15 +38,23 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
 }
 
 /**
- * The reduce function.
+ * The reduce function for passwords of lenght 6, 7 or 8.
  * The reduce function is very secret, so we don't tell here how it works..
+ * It generate more passwords of lenght 8 than lenght 7, and more lenght 7 than lenght 6, predetermined by a chosen success rate (37%, 98%, 97%).
  * @param hash The hash to reduce.
  * @param idxReduction The index of the hash into the table. To reduce the head's hash, the value is 0.
- * @param pwdSize The password size.
  */
-inline std::string reduce(const std::string &hash, int idxReduction, unsigned pwdSize)
+inline std::string reduce(const std::string &hash, int idxReduction)
 {
-    unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36) + idxReduction;
+    unsigned long long x = std::stoull(hash.substr(0, 10), 0, 36) + std::stoull(hash.substr(10, 10), 0, 36) + idxReduction;
+    int pwdSize = std::stoi(hash.substr(0, 2), 0, 36);
+    if (pwdSize <= 26)
+        pwdSize = 6;
+    else if (pwdSize <= 534)
+        pwdSize = 7;
+    else
+        pwdSize = 8;
+
     std::string pwd(pwdSize, 'A');
 
     for (int i = 0; i < pwdSize; i++)
