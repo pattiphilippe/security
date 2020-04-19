@@ -344,7 +344,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Generate the head and the tails of the RT, and write them into the DB. </p>
-<p>The tails are computed after a number of reductions, based on their hash. Drop the table if exists. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>The tails are computed after a number of reductions, based on their hash. Drop the table if exists. When a merge occure, the row is not put into the DB. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">db</td><td>The db to store the passwords and the tails. It must be a valid db. </td></tr>
     <tr><td class="paramname">nbHead</td><td>The number of head to generate. </td></tr>

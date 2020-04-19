@@ -24,6 +24,7 @@ inline const std::string DB_NAME("rsc/rt_6-7-8_1_255000000_10000.sqlite"); /**< 
  * Generate the head and the tails of the RT, and write them into the DB.
  * The tails are computed after a number of reductions, based on their hash.
  * Drop the table if exists.
+ * When a merge occure, the row is not put into the DB.
  * @param db The db to store the passwords and the tails. It must be a valid db.
  * @param nbHead The number of head to generate.
  * @param nbReduce The number of reduction functions to apply to compute the tail. If not set, use default value.

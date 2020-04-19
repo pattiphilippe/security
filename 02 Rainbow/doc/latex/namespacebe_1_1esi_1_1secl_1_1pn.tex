@@ -138,7 +138,7 @@ The found password.
 
 Generate the head and the tails of the RT, and write them into the DB. 
 
-The tails are computed after a number of reductions, based on their hash. Drop the table if exists. 
+The tails are computed after a number of reductions, based on their hash. Drop the table if exists. When a merge occure, the row is not put into the DB. 
 \begin{DoxyParams}{Parameters}
 {\em db} & The db to store the passwords and the tails. It must be a valid db. \\
 \hline
