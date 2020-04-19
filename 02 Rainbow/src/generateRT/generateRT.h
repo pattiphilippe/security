@@ -11,10 +11,10 @@
 namespace be::esi::secl::pn
 {
 
-inline const unsigned NB_HEAD = 5150000; /**< How many password we generate for the RT */
-inline const int NB_REDUCE = 50000;      /**< How many reduce function we use before getting the tail */
-inline const unsigned MIN_PWD_SIZE = 6;  /**< The minimal password size */
-inline const unsigned MAX_PWD_SIZE = 7;  /**< The maximal password size */
+inline const unsigned NB_HEAD = 255000000; /**< How many password we generate for the RT */
+inline const int NB_REDUCE = 10000;        /**< How many reduce function we use before getting the tail */
+inline const unsigned MIN_PWD_SIZE = 6;    /**< The minimal password size */
+inline const unsigned MAX_PWD_SIZE = 8;    /**< The maximal password size */
 inline const char *DROP_RT = "DROP TABLE IF EXISTS RAINBOW_TABLE;";
 inline const char *CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
 inline const char *INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
