@@ -12,8 +12,6 @@
 namespace be::esi::secl::pn
 {
 
-inline int e = 0;
-
 inline const unsigned NB_THREADS_GENERATE = 10; /**< Number of thread to create to generate the RT */
 
 void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
@@ -51,10 +49,9 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
         sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
-        sqlite3_step(stmt);
 
-        // if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
-        //     i--;
+        if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
+            i--;
 
         sqlite3_clear_bindings(stmt);
         sqlite3_reset(stmt);

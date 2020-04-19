@@ -8,10 +8,7 @@
 #include <sqlite3.h>
 #include <sstream>
 #include <fstream>
-#include <filesystem>
 #include "../util/rt-utils.hpp"
-
-unsigned long long SIZE_DB = 12ULL * 1024ULL * 1024ULL * 1024ULL; /**< The size of the file for the DB */
 
 using namespace be::esi::secl::pn;
 
@@ -27,12 +24,7 @@ using namespace be::esi::secl::pn;
  * If the value is not correct, behavior is undetermined.
  */
 int main(int argc, char *argv[])
-{ 
-    //Reserve space for the DB
-    // std::fstream db_file(DB_NAME);
-    // std::filesystem::resize_file(std::filesystem::path(DB_NAME), SIZE_DB);
-    // db_file.close();
-
+{
     //Open DB
     sqlite3 *db;
     if (sqlite3_open(DB_NAME.c_str(), &db))
@@ -69,20 +61,4 @@ int main(int argc, char *argv[])
 
     // Close DB
     sqlite3_close(db);
-    
-    // std::cout << "% with 750.000 row, 50000 reduces, 6 char : " << getPercentage(750000.0, 50000, 6, 36) << std::endl; // 100, 32
-    // std::cout << "% with 15.000.000 row, 50000 reduces, 7 char : " << getPercentage(15000000.0, 50000, 7, 36) << std::endl; // 100, 32
-    // std::cout << "% with 20.000.000 row, 50000 reduces, 7 char : " << getPercentage(20000000.0, 50000, 7, 36) << std::endl; // 100, 32
-    // std::cout << "% with 30.000.000 row, 50000 reduces, 8 char : " << getPercentage(30000000.0, 50000, 8, 36) << std::endl; // 35, 11
-
-
-    
-    
-    std::cout << "% with 5.000.000 row, 10000 reduces, 6 char : " << getPercentage(5000000.0, 10000, 6, 36) << std::endl; // 100, 32
-    std::cout << "% with 40.000.000 row, 10000 reduces, 7 char : " << getPercentage(40000000.0, 10000, 7, 36) << std::endl; // 100, 32
-    std::cout << "% with 50.000.000 row, 10000 reduces, 7 char : " << getPercentage(50000000.0, 10000, 7, 36) << std::endl; // 100, 32
-    std::cout << "% with 100.000.000 row, 10000 reduces, 7 char : " << getPercentage(100000000.0, 10000, 7, 36) << std::endl; // 100, 32
-    std::cout << "% with 150.000.000 row, 10000 reduces, 8 char : " << getPercentage(150000000.0, 10000, 8, 36) << std::endl; // 35, 11
-    std::cout << "% with 175.000.000 row, 10000 reduces, 8 char : " << getPercentage(175000000.0, 10000, 8, 36) << std::endl; // 35, 11
-    
 }
