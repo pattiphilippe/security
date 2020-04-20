@@ -12,7 +12,7 @@
 namespace be::esi::secl::pn
 {
 
-inline unsigned PWD_SIZE = 5;    /**< The minimal password size */
+inline unsigned PWD_SIZE = 5;                                                                                                                                                                                               /**< The minimal password size */
 inline const unsigned SIZE_AZ_O9 = 36;                                                                                                                                                                                      /**< Number of valid caracters for a password */
 inline const char AZ_O9[SIZE_AZ_O9] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; /**< All valid char for a password */
 
@@ -45,23 +45,12 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
  * @param hash The hash to reduce.
  * @param idxReduction The index of the hash into the table. To reduce the head's hash, the value is 0.
  */
-inline void reduce(std::string &&hash, int idxReduction, std::string&pwd) //TODO: pwdSize
+inline void reduce(char digest[], int idxReduction, std::string &pwd) //TODO: pwdSize
 {
-    std::size_t x = std::hash<std::string>{}(hash) + idxReduction;
-    
-    for (short i = 0; i < 8; i++)
-    {
-        pwd[i] = AZ_O9[x % SIZE_AZ_O9];
-        x >>= 5;
-    }
+    // std::size_t x = std::hash<std::string>{}(hash) + idxReduction;
+    char *end = digest + 32;
+    unsigned long long x = strtoull(digest, &end, 16);
 
-    //return pwd; // Implicitly treated as an rvalue
-}
-
-inline void reduce(const std::string &hash, int idxReduction, std::string&pwd) //TODO: pwdSize
-{
-    std::size_t x = std::hash<std::string>{}(hash) + idxReduction;
-    
     for (short i = 0; i < 8; i++)
     {
         pwd[i] = AZ_O9[x % SIZE_AZ_O9];

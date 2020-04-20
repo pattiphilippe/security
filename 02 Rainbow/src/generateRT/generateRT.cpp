@@ -39,15 +39,20 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
 
     std::string passwd, reduced, hash;
     int idxReduction;
+    unsigned char digset[SHA256::DIGEST_SIZE];
 
     for (unsigned i = 1; i <= nbHead; ++i)
     {
         idxReduction = 0;
         passwd = rainbow::generate_passwd(rainbow::random(PWD_SIZE, PWD_SIZE));
-        
-        reduced = reduce(sha256(passwd), idxReduction++);
+
+        sha256(passwd, digset);
+        reduce(reinterpret_cast<char *>(digset), idxReduction, reduced);
         for (; idxReduction < nbReduce; idxReduction++)
-            reduced = reduce(sha256(reduced), idxReduction++);
+        {
+            sha256(reduced, digset);
+            reduce(reinterpret_cast<char *>(digset), idxReduction, reduced);
+        }
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
         sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
