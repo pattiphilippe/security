@@ -25,7 +25,7 @@ build/generateRT : src/util/random.hpp src/util/sha256.cpp src/util/passwd-utils
 
 build/crackRT : src/generateRT/generateRT.h src/crack/main.cpp src/crack/crackRT.cpp src/crack/crackRT.h src/util/random.hpp src/util/rt-utils.hpp
 	g++ -o build/crackRT -std=c++17 src/util/passwd-utils.hpp src/util/rt-utils.hpp src/util/sha256.cpp src/crack/crackRT.cpp src/crack/main.cpp src/util/random.hpp -lsqlite3 -pthread
-
+#TODO check what do -O3 or -o3
 setup : 
 	sudo apt install sqlite libsqlite3-dev
 

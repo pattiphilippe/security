@@ -46,7 +46,9 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
  */
 inline std::string reduce(const std::string &hash, int idxReduction)
 {
+    //unsigned long long x = (std::hash(hash.substr(0, 8), 0, 36) << 8) + std::hash(hash.substr(8, 8), 0, 36) + idxReduction; //TODO Check if better
     unsigned long long x = (std::stoull(hash.substr(0, 8), 0, 36) << 8) + std::stoull(hash.substr(8, 8), 0, 36) + idxReduction;
+    //int pwdSize = std::hash(hash.substr(0, 2), 0, 36); //TODO Check
     int pwdSize = std::stoi(hash.substr(0, 2), 0, 36);
     if (pwdSize < 27)
         pwdSize = 6;
@@ -62,7 +64,7 @@ inline std::string reduce(const std::string &hash, int idxReduction)
         x >>= 5;
     }
 
-    return pwd;
+    return pwd; //TODO return with && (move sem)
 }
 
 /**
@@ -73,6 +75,7 @@ inline std::string reduce(const std::string &hash, int idxReduction)
 inline std::string getHash(const std::string &input)
 {
     return sha256(input);
+    //TODO move sem
 }
 
 } //NAMESPACE be::esi::secl::pn
