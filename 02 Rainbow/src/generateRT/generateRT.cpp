@@ -4,6 +4,7 @@
  */
 #include "../util/passwd-utils.hpp"
 #include "../util/rt-utils.hpp"
+#include "../util/sha256.h"
 #include "generateRT.h"
 #include <fstream>
 #include <algorithm>
@@ -42,13 +43,15 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
     for (unsigned i = 1; i <= nbHead; ++i)
     {
         idxReduction = 0;
-        passwd = rainbow::generate_passwd(rainbow::random(MIN_PWD_SIZE, MAX_PWD_SIZE));
-        reduced = reduce(getHash(passwd), idxReduction++);
+        passwd = rainbow::generate_passwd(rainbow::random(PWD_SIZE, PWD_SIZE));
+        
+        reduced = reduce(sha256(passwd), idxReduction++);
         for (; idxReduction < nbReduce; idxReduction++)
-            reduced = reduce(getHash(reduced), idxReduction++);
+            reduced = reduce(sha256(reduced), idxReduction++);
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
         sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
+        sqlite3_step(stmt);
 
         // if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
         //     i--;

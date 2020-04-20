@@ -5,13 +5,14 @@
 #ifndef RT_UTILS_H
 #define RT_UTILS_H
 
-#include "../util/sha256.h"
 #include <cmath>
 #include <string>
+#include <functional>
 
 namespace be::esi::secl::pn
 {
 
+inline unsigned PWD_SIZE = 5;    /**< The minimal password size */
 inline const unsigned SIZE_AZ_O9 = 36;                                                                                                                                                                                      /**< Number of valid caracters for a password */
 inline const char AZ_O9[SIZE_AZ_O9] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; /**< All valid char for a password */
 
@@ -44,38 +45,30 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
  * @param hash The hash to reduce.
  * @param idxReduction The index of the hash into the table. To reduce the head's hash, the value is 0.
  */
-inline std::string reduce(const std::string &hash, int idxReduction)
+inline void reduce(std::string &&hash, int idxReduction, std::string&pwd) //TODO: pwdSize
 {
-    //unsigned long long x = (std::hash(hash.substr(0, 8), 0, 36) << 8) + std::hash(hash.substr(8, 8), 0, 36) + idxReduction; //TODO Check if better
-    unsigned long long x = (std::stoull(hash.substr(0, 8), 0, 36) << 8) + std::stoull(hash.substr(8, 8), 0, 36) + idxReduction;
-    //int pwdSize = std::hash(hash.substr(0, 2), 0, 36); //TODO Check
-    int pwdSize = std::stoi(hash.substr(0, 2), 0, 36);
-    if (pwdSize < 27)
-        pwdSize = 6;
-    else if (pwdSize < 535)
-        pwdSize = 7;
-    else
-        pwdSize = 8;
-
-    std::string pwd(pwdSize, 'A');
-    while (pwdSize--)
+    std::size_t x = std::hash<std::string>{}(hash) + idxReduction;
+    
+    for (short i = 0; i < 8; i++)
     {
-        pwd[pwdSize] = AZ_O9[x % SIZE_AZ_O9];
+        pwd[i] = AZ_O9[x % SIZE_AZ_O9];
         x >>= 5;
     }
 
-    return pwd; //TODO return with && (move sem)
+    //return pwd; // Implicitly treated as an rvalue
 }
 
-/**
- * Return the hash of a string using the SHA-256 algo.
- * @param input The string to hash.
- * @return The hash of the input.
- */
-inline std::string getHash(const std::string &input)
+inline void reduce(const std::string &hash, int idxReduction, std::string&pwd) //TODO: pwdSize
 {
-    return sha256(input);
-    //TODO move sem
+    std::size_t x = std::hash<std::string>{}(hash) + idxReduction;
+    
+    for (short i = 0; i < 8; i++)
+    {
+        pwd[i] = AZ_O9[x % SIZE_AZ_O9];
+        x >>= 5;
+    }
+
+    //return pwd; // Implicitly treated as an rvalue
 }
 
 } //NAMESPACE be::esi::secl::pn

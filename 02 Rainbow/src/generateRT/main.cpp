@@ -26,39 +26,47 @@ using namespace be::esi::secl::pn;
 int main(int argc, char *argv[])
 {
     //Open DB
-    sqlite3 *db;
-    if (sqlite3_open(DB_NAME.c_str(), &db))
-    {
-        std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
-        return -1;
-    }
+    // sqlite3 *db;
+    // if (sqlite3_open(DB_NAME.c_str(), &db))
+    // {
+    //     std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
+    //     return -1;
+    // }
 
-    //Set up DB
-    sqlite3_exec(db, "PRAGMA synchronous = OFF", 0, 0, 0);   // Don’t Sync to Disk After Every Insert. WARNING: could cause a database corruption in the event of a crash or power outage
-    sqlite3_exec(db, "PRAGMA journal_mode = OFF", 0, 0, 0);  // Disable Rollback Journal. WARNING: can loose some data in case of error
-    sqlite3_exec(db, "PRAGMA cache_size = 100000", 0, 0, 0); // Increase cache size to hold the transaction
-    sqlite3_exec(db, "PRAGMA page_size = 16384", 0, 0, 0);   // Increase page size
+    // //Set up DB
+    // sqlite3_exec(db, "PRAGMA synchronous = OFF", 0, 0, 0);   // Don’t Sync to Disk After Every Insert. WARNING: could cause a database corruption in the event of a crash or power outage
+    // sqlite3_exec(db, "PRAGMA journal_mode = OFF", 0, 0, 0);  // Disable Rollback Journal. WARNING: can loose some data in case of error
+    // sqlite3_exec(db, "PRAGMA cache_size = 100000", 0, 0, 0); // Increase cache size to hold the transaction
+    // sqlite3_exec(db, "PRAGMA page_size = 16384", 0, 0, 0);   // Increase page size
 
-    //Generate passwords and tails and put them into the DB
-    if (argc == 1)
-    {
-        generateRT(db); // With default values
-    }
-    else if (argc == 3)
-    {
-        // With user values
-        unsigned nbHead;
-        std::stringstream strValue;
-        strValue << argv[1];
-        strValue >> nbHead;
+    // //Generate passwords and tails and put them into the DB
+    // if (argc == 1)
+    // {
+    //     generateRT(db); // With default values
+    // }
+    // else if (argc == 4)
+    // {
+    //     // With user values
+    //     unsigned nbHead;
+    //     std::stringstream strValue;
+    //     strValue << argv[1];
+    //     strValue >> nbHead;
 
-        unsigned nbReduce;
-        strValue << argv[2];
-        strValue >> nbReduce;
+    //     unsigned nbReduce;
+    //     strValue << argv[2];
+    //     strValue >> nbReduce;
 
-        generateRT(db, nbHead, nbReduce);
-    }
+    //     strValue << argv[3];
+    //     strValue >> PWD_SIZE;
 
-    // Close DB
-    sqlite3_close(db);
+    //     generateRT(db, nbHead, nbReduce);
+    // }
+
+    // // Close DB
+    // sqlite3_close(db);
+
+    std::cout << "getPercentage(5000, 50000, 5, 36) : " << getPercentage(5000, 50000, 5, 36) << std::endl;
+    std::cout << "getPercentage(10000, 50000, 5, 36) : " << getPercentage(10000, 50000, 5, 36) << std::endl;
+    std::cout << "getPercentage(20000, 50000, 5, 36) : " << getPercentage(20000, 50000, 5, 36) << std::endl;
+    std::cout << "getPercentage(50000, 50000, 5, 36) : " << getPercentage(50000, 50000, 5, 36) << std::endl;
 }
