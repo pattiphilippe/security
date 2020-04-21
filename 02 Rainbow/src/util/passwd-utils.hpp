@@ -37,7 +37,7 @@ inline void mass_generate(int n, int mc, int MC, const std::string& of_pwd, cons
 			std::string pass = generate_passwd(rainbow::random(mc, MC));
 			passwd_file << pass << std::endl;
 
-			std::string hash;// = sha256(pass);
+			std::string hash = sha256(pass);
 			hash_file << hash << std::endl;
 		}
 
@@ -50,8 +50,7 @@ inline void mass_generate(int n, int mc, int MC, const std::string& of_pwd, cons
 
 inline bool check_pwd(const std::string& pwd, const std::string& hash)
 {
-	return true;
-	//return sha256(pwd) == hash;
+	return sha256(pwd) == hash;
 }
 
 inline double mass_check(const std::string& if_pwd, const std::string& if_hash)

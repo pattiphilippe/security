@@ -68,7 +68,7 @@ std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail);
  * @param idxReduction The number of reductions to perform.
  * @return The found password.
 */
-std::string findPwd(std::string &&head, int idxReduction);
+void findPwd(std::string &pwd, int idxReduction); //TODO doc
 
 } //NAMESPACE be::esi::secl::pn
 

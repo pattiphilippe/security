@@ -72,8 +72,9 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
 
             if (!tail.empty())
             {
-                pwd = findPwd(getHead(stmtReadHead, tail), idxReduction);
-                //isCollision = sha256ToHex(pwd) != hash;
+                pwd = getHead(stmtReadHead, tail);
+                findPwd(pwd, idxReduction);
+                isCollision = sha256(pwd) != hash;
             }
         } while (!tail.empty() && isCollision && idxReduction > 0);
         if (!tail.empty() && !isCollision)
@@ -101,24 +102,28 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
 {
     int rc, i, tempReduction;
     std::string pwd(PWD_SIZE, 'A');
-    unsigned char digest[SHA256::DIGEST_SIZE];
+    unsigned char digest[SHA256::DIGEST_SIZE], hash_dec[SHA256::DIGEST_SIZE];
+    //TODO make static tables?
 
-    reduce(pwd, digest, idxReduction);
+    sha256ToDec(hash, hash_dec);
+    reduce(pwd, hash_dec, idxReduction);
     sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
-/*
+
     while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--)
     {
-        std::cout << "idxReduction : " << idxReduction << std::endl;
         sqlite3_clear_bindings(stmtReadTail);
         sqlite3_reset(stmtReadTail);
 
-        reduce(hash, idxReduction, pwd);
+        reduce(pwd, hash_dec, idxReduction);
         for (i = idxReduction + 1; i < NB_REDUCE; i++)
-            reduce(sha256(pwd), i, pwd);
+        {
+            sha256(pwd, digest);
+            reduce(pwd, digest, idxReduction);
+        }
 
         sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
     }
-*/
+
     if (rc == SQLITE_ROW)
     {
         return pwd;
@@ -139,12 +144,13 @@ std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
     return head;
 }
 
-std::string findPwd(std::string &&pwd, int idxReduction)
-{/*
-    for (int i = 0; i < idxReduction; i++)
-        reduce(sha256(pwd), i, pwd);
-*/
-    return pwd;
+void findPwd(std::string &pwd, int idxReduction)
+{ 
+    unsigned char digest[SHA256::DIGEST_SIZE];
+    for(int i = 0; i < idxReduction; i++){
+        sha256(pwd, digest);
+        reduce(pwd, digest, i);
+    }
 }
 
 } //NAMESPACE be::esi::secl::pn
