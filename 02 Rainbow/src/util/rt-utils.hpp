@@ -8,11 +8,12 @@
 #include <cmath>
 #include <string>
 #include <functional>
+#include <iostream>
 
 namespace be::esi::secl::pn
 {
 
-inline unsigned PWD_SIZE = 5;                                                                                                                                                                                               /**< The minimal password size */
+inline unsigned PWD_SIZE = 8;                                                                                                                                                                                               /**< The minimal password size */
 inline const unsigned SIZE_AZ_O9 = 36;                                                                                                                                                                                      /**< Number of valid caracters for a password */
 inline const char AZ_O9[SIZE_AZ_O9] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; /**< All valid char for a password */
 
@@ -38,6 +39,35 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
     return 1 - temp;
 }
 
+inline void reduce(std::string &pwd, const uint8_t *in, int red_by)
+{
+    static unsigned o_idx;
+    red_by %= 32;
+    for (o_idx = 0; o_idx < PWD_SIZE; o_idx++)
+    {
+        pwd[o_idx] = AZ_O9[in[red_by] % SIZE_AZ_O9];
+        red_by = (red_by + 9) % 32;
+    }
+}
+
+inline void mystrtoull(unsigned char digest[], unsigned long long &x)
+{
+    x = 0;
+    char c;
+    for (int i = 0, mult = 1; i < 11; i++)
+    {
+        printf("digest[i] as u : %u ", digest[i]);
+        c = digest[i];
+        if (isdigit(c))
+            c -= '0';
+        else if (isalpha(c))
+            c -= ('a' - 10);
+        printf(", c : %d ", c);
+        x += c * mult;
+        mult *= 16;
+    }
+}
+
 /**
  * The reduce function for passwords of lenght 6, 7 or 8.
  * The reduce function is very secret, so we don't tell here how it works..
@@ -45,13 +75,22 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
  * @param hash The hash to reduce.
  * @param idxReduction The index of the hash into the table. To reduce the head's hash, the value is 0.
  */
-inline void reduce(char digest[], int idxReduction, std::string &pwd) //TODO: pwdSize
+inline void OLDreduce(unsigned char digest[], int idxReduction, std::string &pwd) //TODO: pwdSize
 {
     // std::size_t x = std::hash<std::string>{}(hash) + idxReduction;
-    char *end = digest + 32;
-    unsigned long long x = strtoull(digest, &end, 16);
+    //char *end = &(digest[32]);
+    printf("in reduce digest before strtoull : \n");
+    for (int i = 0; i < 32; i++)
+        printf("%02x", (unsigned char)digest[i]);
+    printf("\n");
+    //const char * test = "2e5e08fed97 3a586ecae2e6c2fbf4e6c88f0eac3c8a61aaf46214c912c85e2b4";
+    // unsigned char * test_u = (unsigned char *)test;
+    // digest[12] = ' ';
+    unsigned long long x; // = strtoull((char*)test, NULL, 16);
+    mystrtoull(digest, x);
+    printf("reduce , x : %llu\n", x);
 
-    for (short i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
         pwd[i] = AZ_O9[x % SIZE_AZ_O9];
         x >>= 5;

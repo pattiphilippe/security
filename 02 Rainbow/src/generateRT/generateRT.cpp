@@ -37,29 +37,25 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
     sqlite3_stmt *stmt;
     sqlite3_prepare_v2(db, INSERT_RT, -1, &stmt, 0);
 
-    std::string passwd, reduced, hash;
+    std::string passwd, reduced(PWD_SIZE, 'A'), hash;
     int idxReduction;
-    unsigned char digset[SHA256::DIGEST_SIZE];
+    unsigned char digest[SHA256::DIGEST_SIZE];
 
     for (unsigned i = 1; i <= nbHead; ++i)
     {
         idxReduction = 0;
         passwd = rainbow::generate_passwd(rainbow::random(PWD_SIZE, PWD_SIZE));
 
-        sha256(passwd, digset);
-        reduce(reinterpret_cast<char *>(digset), idxReduction, reduced);
+        sha256(passwd, digest);
         for (; idxReduction < nbReduce; idxReduction++)
         {
-            sha256(reduced, digset);
-            reduce(reinterpret_cast<char *>(digset), idxReduction, reduced);
+            sha256(reduced, digest);
+            reduce(reduced, digest, idxReduction);
         }
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
         sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
         sqlite3_step(stmt);
-
-        // if (sqlite3_step(stmt) != SQLITE_DONE) //Can take a lot of time when a lot of collisions appends
-        //     i--;
 
         sqlite3_clear_bindings(stmt);
         sqlite3_reset(stmt);
