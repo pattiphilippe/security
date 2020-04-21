@@ -7,7 +7,9 @@
 #include "../generateRT/generateRT.h"
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <sqlite3.h>
+#include "../util/sha256.h"
 
 const std::string PWD_FILE("rsc/pwdToCrack.txt");           /**< The file which will contain some passwords. This file is not necessary to crack */
 const std::string HASH_FILE("rsc/hashToCrack.txt");         /**< The file which will contain the passwords hashes to crack */
@@ -23,7 +25,7 @@ using namespace be::esi::secl::pn;
  * and hashes sorted, due to the use of threads.
  */
 int main()
-{
+{ 
     //Generate passwords and hashes to crack
     rainbow::mass_generate(100, 5, 5, PWD_FILE, HASH_FILE);
 
@@ -38,4 +40,19 @@ int main()
     // Launch the crack and print the success rate
     crack(HASH_FILE, db, CRACKED_PWD_FILE, CRACKED_HASH_FILE);
     std::cout << "Success : " << rainbow::mass_check(CRACKED_PWD_FILE, CRACKED_HASH_FILE) << std::endl;
+
+    // std::string pwd = rainbow::generate_passwd(8);
+    // std::cout << "pwd " << pwd << std::endl;
+    // unsigned char digest[32], digest2[32];
+
+    // sha256(pwd, digest);
+
+    // std::string hashHex = sha256ToHex(digest);
+    // std::cout << "hashHex " << std::endl
+    //           << hashHex << std::endl;
+
+    // sha256ToDec(hashHex, digest2);
+    // std::string hashHex2 = sha256ToHex(digest2);
+    // std::cout << "hashHex2 " << std::endl
+    //           << hashHex2 << std::endl;
 }

@@ -60,9 +60,10 @@ protected:
     unsigned char m_block[2*SHA224_256_BLOCK_SIZE];
     uint32 m_h[8];
 };
- 
-std::string sha256(const std::string &input);
+
 void sha256(const std::string &input, unsigned char digest []);
+std::string sha256ToHex(unsigned char digest []);
+void sha256ToDec(const std::string &hash, unsigned char digest[]);
  
 #define SHA2_SHFR(x, n)    (x >> n)
 #define SHA2_ROTR(x, n)   ((x >> n) | (x << ((sizeof(x) << 3) - n)))

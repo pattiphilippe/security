@@ -6,10 +6,10 @@
 
 run : build #setup
 	@echo
-	./build/generateRT
+	#./build/generateRT
 	./build/crackRT
 
-build : build/generateRT #build/crackRT build/sha256-main build/gen-passwd build/check-passwd  
+build : build/generateRT build/crackRT #build/sha256-main build/gen-passwd build/check-passwd  
 
 build/sha256-main : src/util/sha256-main.cpp src/util/sha256.cpp
 	g++ -o build/sha256-main -std=c++17 src/util/sha256-main.cpp src/util/sha256.cpp

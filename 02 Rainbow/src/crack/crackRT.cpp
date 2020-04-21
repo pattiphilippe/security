@@ -73,7 +73,7 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
             if (!tail.empty())
             {
                 pwd = findPwd(getHead(stmtReadHead, tail), idxReduction);
-                isCollision = sha256(pwd) != hash;
+                //isCollision = sha256ToHex(pwd) != hash;
             }
         } while (!tail.empty() && isCollision && idxReduction > 0);
         if (!tail.empty() && !isCollision)
@@ -101,9 +101,11 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
 {
     int rc, i, tempReduction;
     std::string pwd(PWD_SIZE, 'A');
-    reduce(hash, idxReduction, pwd);
-    sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
+    unsigned char digest[SHA256::DIGEST_SIZE];
 
+    reduce(pwd, digest, idxReduction);
+    sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
+/*
     while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--)
     {
         std::cout << "idxReduction : " << idxReduction << std::endl;
@@ -116,7 +118,7 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
 
         sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
     }
-
+*/
     if (rc == SQLITE_ROW)
     {
         return pwd;
@@ -138,10 +140,10 @@ std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
 }
 
 std::string findPwd(std::string &&pwd, int idxReduction)
-{
+{/*
     for (int i = 0; i < idxReduction; i++)
         reduce(sha256(pwd), i, pwd);
-
+*/
     return pwd;
 }
 
