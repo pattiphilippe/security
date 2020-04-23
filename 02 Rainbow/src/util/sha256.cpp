@@ -165,9 +165,9 @@ std::string sha256(const std::string &input){
 
 void sha256(const std::string &input, unsigned char digest[])
 {
-    memset(digest, 0, SHA256::DIGEST_SIZE);
+    //memset(digest, 0, SHA256::DIGEST_SIZE);
 
-    SHA256 ctx = SHA256();
+    static SHA256 ctx = SHA256();
     ctx.init();
     ctx.update((unsigned char *)input.c_str(), input.length());
     ctx.final(digest);

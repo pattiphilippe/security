@@ -1,3 +1,6 @@
 TODO inline var to constexpr ? #DEFINE ?
 
 param de sortie? adresse ou référence ?
+
+avoid any i++, replace with ++i;
+i++; i+=1;

@@ -50,7 +50,7 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
         for (; idxReduction < nbReduce; idxReduction++)
         {
             sha256(reduced, digest);
-            reduce(reduced, digest, idxReduction);
+            REDUCE(reduced, digest, idxReduction);
         }
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
