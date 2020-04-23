@@ -104,21 +104,27 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
     std::string pwd(PWD_SIZE, 'A');
     unsigned char digest[SHA256::DIGEST_SIZE], hash_dec[SHA256::DIGEST_SIZE];
     //TODO make static tables?
+    unsigned red_by, cpt;
 
+    red_by = idxReduction;
     sha256ToDec(hash, hash_dec);
-    REDUCE(pwd, hash_dec, idxReduction);
+    REDUCE(pwd, hash_dec, red_by, cpt);
     sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
 
     while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--)
     {
         sqlite3_clear_bindings(stmtReadTail);
         sqlite3_reset(stmtReadTail);
-        
-        REDUCE(pwd, hash_dec, idxReduction);
+
+        std::cout << "idx " << idxReduction << std::endl;
+
+        red_by = idxReduction;
+        REDUCE(pwd, hash_dec, red_by, cpt);
         for (i = idxReduction + 1; i < NB_REDUCE; i++)
         {
             sha256(pwd, digest);
-            REDUCE(pwd, digest, idxReduction);
+            red_by = idxReduction;
+            REDUCE(pwd, digest, red_by, cpt);
         }
 
         sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
@@ -145,11 +151,14 @@ std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
 }
 
 void findPwd(std::string &pwd, int idxReduction)
-{ 
+{
+    unsigned red_by, cpt;
     unsigned char digest[SHA256::DIGEST_SIZE];
-    for(int i = 0; i < idxReduction; i++){
+    for (int i = 0; i < idxReduction; i++)
+    {
         sha256(pwd, digest);
-        REDUCE(pwd, digest, i);
+        red_by = i;
+        REDUCE(pwd, digest, red_by, cpt);
     }
 }
 

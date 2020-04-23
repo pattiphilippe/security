@@ -40,6 +40,7 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
     std::string passwd, reduced(PWD_SIZE, 'A'), hash;
     int idxReduction;
     unsigned char digest[SHA256::DIGEST_SIZE];
+    unsigned cpt, red_by;
 
     for (unsigned i = 1; i <= nbHead; ++i)
     {
@@ -49,8 +50,10 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
         sha256(passwd, digest);
         for (; idxReduction < nbReduce; idxReduction++)
         {
+            cpt = 0;
             sha256(reduced, digest);
-            REDUCE(reduced, digest, idxReduction);
+            red_by = idxReduction;
+            REDUCE(reduced, digest, red_by, cpt);
         }
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
