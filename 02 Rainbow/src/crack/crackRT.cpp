@@ -116,8 +116,6 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
         sqlite3_clear_bindings(stmtReadTail);
         sqlite3_reset(stmtReadTail);
 
-        std::cout << "idx " << idxReduction << std::endl;
-
         red_by = idxReduction;
         REDUCE(pwd, hash_dec, red_by, cpt);
         for (i = idxReduction + 1; i < NB_REDUCE; i++)
