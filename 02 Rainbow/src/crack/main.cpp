@@ -27,7 +27,7 @@ using namespace be::esi::secl::pn;
 int main()
 { 
     //Generate passwords and hashes to crack
-    rainbow::mass_generate(100, 5, 5, PWD_FILE, HASH_FILE);
+    rainbow::mass_generate(1000, 5, 5, PWD_FILE, HASH_FILE);
 
     //Open DB
     sqlite3 *db;

@@ -120,9 +120,8 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
         REDUCE(pwd, hash_dec, red_by, cpt);
         for (i = idxReduction + 1; i < NB_REDUCE; i++)
         {
-            sha256(pwd, digest);
             red_by = idxReduction;
-            REDUCE(pwd, digest, red_by, cpt);
+            SHA256_REDUCE(pwd, digest, red_by, cpt);
         }
 
         sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
@@ -154,9 +153,8 @@ void findPwd(std::string &pwd, int idxReduction)
     unsigned char digest[SHA256::DIGEST_SIZE];
     for (int i = 0; i < idxReduction; i++)
     {
-        sha256(pwd, digest);
         red_by = i;
-        REDUCE(pwd, digest, red_by, cpt);
+        SHA256_REDUCE(pwd, digest, red_by, cpt);
     }
 }
 

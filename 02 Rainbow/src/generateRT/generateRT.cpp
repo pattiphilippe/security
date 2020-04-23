@@ -34,6 +34,7 @@ void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
 
 void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
 {
+    std::ofstream out("rsc/tamer");
     sqlite3_stmt *stmt;
     sqlite3_prepare_v2(db, INSERT_RT, -1, &stmt, 0);
 
@@ -44,16 +45,16 @@ void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
 
     for (unsigned i = 1; i <= nbHead; ++i)
     {
-        idxReduction = 0;
         passwd = rainbow::generate_passwd(rainbow::random(PWD_SIZE, PWD_SIZE));
-
         sha256(passwd, digest);
-        for (; idxReduction < nbReduce; idxReduction++)
+        out << sha256ToHex(digest) << '\n';
+        red_by = 0;
+        REDUCE(reduced, digest, red_by, cpt);
+
+        for (idxReduction = 1; idxReduction < nbReduce; ++idxReduction)
         {
-            cpt = 0;
-            sha256(reduced, digest);
             red_by = idxReduction;
-            REDUCE(reduced, digest, red_by, cpt);
+            SHA256_REDUCE(reduced, digest, red_by, cpt);
         }
 
         sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
