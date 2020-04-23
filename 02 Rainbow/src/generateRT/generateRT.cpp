@@ -13,7 +13,7 @@
 namespace be::esi::secl::pn
 {
 
-inline const unsigned NB_THREADS_GENERATE = 10; /**< Number of thread to create to generate the RT */
+constexpr unsigned NB_THREADS_GENERATE = 10; /**< Number of thread to create to generate the RT */
 
 void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
 {

@@ -14,11 +14,11 @@ namespace be::esi::secl::pn
 /**
  * Select a tail
  */
-inline const char *SELECT_TAIL = "SELECT tail FROM RAINBOW_TABLE WHERE tail = ?;";
+constexpr char *SELECT_TAIL = "SELECT tail FROM RAINBOW_TABLE WHERE tail = ?;";
 /**
  * Select the head of the tail
  */
-inline const char *SELECT_HEAD = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;";
+constexpr char *SELECT_HEAD = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;";
 
 /**
  * Attempts to find passwords corresponding to the hashes given, at the hand of the tails.
