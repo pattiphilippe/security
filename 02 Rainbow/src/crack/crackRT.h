@@ -5,11 +5,13 @@
 #ifndef CRACK_H
 #define CRACK_H
 
+#include "../generateRT/generateRT.h" // For constants
 #include <string>
 #include <sqlite3.h>
 
 namespace be::esi::secl::pn
 {
+
 
 /**
  * Select a tail
@@ -29,9 +31,11 @@ inline const char *SELECT_HEAD = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;
  * @param crackedPwdFile The file's name for the cracked passwords.
  * @param crackedHashFile The file's name for the hashes of the cracked passwords. Each line is the hash of the password of the same line 
  * of the passwords file.
+ * @param pwdSize The passwords's lenght of the table.
+ * @param nbReduce The number of reduce to apply before getting the tail.
  * @throw std::runtime_error if hashFile, headFile, tailsFile or crackedFile can't be opened.
  */
-void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile);
+void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile, unsigned pwdSize = PWD_SIZE, int nbReduce = NB_REDUCE);
 
 /**
  * Crack function to call with a thread.
@@ -41,17 +45,21 @@ void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedP
  * @param crackedPwdOutput The file's name for the cracked passwords.
  * @param crackedHashOutput The file's name for the hashes of the cracked passwords. Each line is the hash of the password of the same line 
  * of the passwords file.
+ * @param pwdSize The passwords's lenght of the table.
+ * @param nbReduce The number of reduce to apply before getting the tail.
  */
-void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput);
+void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, unsigned pwdSize, int nbReduce);
 
 /**
  * Searches the tail of the hash and return it. Otherwise, return an empty string
  * @param hash The src hash to find.
  * @param stmtReadTail The prepared statement to search a tail in the database.
  * @param idxReduction The number of reductions performed to find the hash.
+ * @param pwdSize The passwords's lenght of the table.
+ * @param nbReduce The number of reduce to apply before getting the tail.
  * @return The tail of the hash, or an empty string if no tail is found.
 */
-std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction);
+std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction, unsigned pwdSize, int nbReduce);
 
 /**
  * Get the head of a tail.
@@ -60,15 +68,16 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
  * @return the head of the tail
  * @throw std::runtime_error if no tail found 
  */
-std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail);
+std::string getHead(sqlite3_stmt *stmtGetHead, const std::string &tail);
 
 /**
  * Computes the password after idxReduction reductions.
  * @param head The head of the line.
  * @param idxReduction The number of reductions to perform.
+ * @param pwdSize The passwords's lenght of the table.
  * @return The found password.
 */
-std::string findPwd(std::string head, int idxReduction);
+std::string findPwd(std::string head, int idxReduction, unsigned pwdSize);
 
 } //NAMESPACE be::esi::secl::pn
 

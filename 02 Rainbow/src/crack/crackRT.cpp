@@ -18,7 +18,7 @@ std::mutex mtxReadHead;         /**< Mutex to read the head file with concurency
 std::mutex mtxPrintCracked;     /**< Mutex to write cracked password and hashes with concurency */
 const unsigned NB_THREADS = 10; /**< How many threads to run to crack */
 
-void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile)
+void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile, unsigned pwdSize, int nbReduce)
 {
 
     std::ifstream hashesInput(hashFile);
@@ -36,7 +36,7 @@ void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedP
     for (unsigned i = 0; i < NB_THREADS; i++)
     {
         threads.push_back(std::thread(crackInThread, std::ref(hashesInput), db,
-                                      std::ref(crackedPwdOutput), std::ref(crackedHashOutput))); //Need to wrap the references
+                                      std::ref(crackedPwdOutput), std::ref(crackedHashOutput), pwdSize, nbReduce)); //Need to wrap the references
     }
 
     std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join(); });
@@ -46,7 +46,7 @@ void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedP
     crackedHashOutput.close();
 }
 
-void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput)
+void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, unsigned pwdSize, int nbReduce)
 {
     std::string hash, pwd, head;
     int idxReduction;
@@ -63,30 +63,31 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
 
     while (hashesInput) // For each hash
     {
-        idxReduction = NB_REDUCE;
+        idxReduction = nbReduce;
         do
         {
-            tail = getTail(hash, stmtReadTail, --idxReduction); //Find line
+            tail = getTail(hash, stmtReadTail, --idxReduction, pwdSize, nbReduce); //Find line
+
             if (!tail.empty())
             {
                 head = getHead(stmtReadHead, tail);
-                pwd = findPwd(head, idxReduction);
-                isCollision = getHash(pwd) != hash;
+                pwd = findPwd(head, idxReduction, pwdSize);
+                isCollision = getHash(pwd) != hash; //TODO check if needed
             }
-        } while (!tail.empty() && isCollision && idxReduction > 0);
+        } while (!tail.empty() && isCollision);
 
         if (!tail.empty() && !isCollision)
         {
             mtxPrintCracked.lock();
-            crackedPwdOutput << pwd << std::endl;   //Write found pwd
-            crackedHashOutput << hash << std::endl; //Write hash
+            crackedPwdOutput << pwd << '\n';   //Write found pwd
+            crackedHashOutput << hash << '\n'; //Write hash
             mtxPrintCracked.unlock();
         }
         else
         {
             mtxPrintCracked.lock();
-            crackedPwdOutput << std::endl;          //Write unfound pwd
-            crackedHashOutput << hash << std::endl; //Write hash
+            crackedPwdOutput << '\n';          //Write unfound pwd
+            crackedHashOutput << hash << '\n'; //Write hash
             mtxPrintCracked.unlock();
         }
 
@@ -96,10 +97,10 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
     }
 }
 
-std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction)
+std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction, unsigned pwdSize, int nbReduce)
 {
-    int rc, i, tempReduction;
-    std::string reduced = reduce(hash, idxReduction);
+    int rc, i;
+    std::string reduced = reduce(hash, idxReduction, pwdSize);
     sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
 
     while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--)
@@ -108,12 +109,15 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
         sqlite3_reset(stmtReadTail);
 
         //Reduce until supposed tail
-        reduced = reduce(hash, idxReduction);
-        for (i = idxReduction + 1; i < NB_REDUCE; i++)
-            reduced = reduce(getHash(reduced), i);
+        reduced = reduce(hash, idxReduction, pwdSize);
+        for (i = idxReduction + 1; i < nbReduce; i++) 
+            reduced = reduce(getHash(reduced), i, pwdSize);
 
         sqlite3_bind_text(stmtReadTail, 1, reduced.c_str(), reduced.length(), SQLITE_STATIC);
     }
+
+    sqlite3_clear_bindings(stmtReadTail);
+    sqlite3_reset(stmtReadTail);
 
     if (rc == SQLITE_ROW)
     {
@@ -122,23 +126,23 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
     return std::string("");
 }
 
-std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
+std::string getHead(sqlite3_stmt *stmtGetHead, const std::string &tail)
 {
     sqlite3_bind_text(stmtGetHead, 1, tail.c_str(), tail.length(), SQLITE_STATIC);
     if (sqlite3_step(stmtGetHead) != SQLITE_ROW)
     {
         throw std::runtime_error("Can't get the head of the tail");
     }
-    std::string head(reinterpret_cast<const char *>(sqlite3_column_text(stmtGetHead, 0)));
+    std::string head((const char *)sqlite3_column_text(stmtGetHead, 0));
     sqlite3_clear_bindings(stmtGetHead);
     sqlite3_reset(stmtGetHead);
     return head;
 }
 
-std::string findPwd(std::string pwd, int idxReduction)
+std::string findPwd(std::string pwd, int idxReduction, unsigned pwdSize)
 {
     for (int i = 0; i < idxReduction; i++)
-        pwd = reduce(getHash(pwd), i);
+        pwd = reduce(getHash(pwd), i, pwdSize);
 
     return pwd;
 }

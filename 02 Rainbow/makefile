@@ -6,10 +6,9 @@
 
 run : build setup
 	@echo
-	./build/generateRT
-	./build/crackRT
+	./build/rainbow-attack
 
-build : build/sha256-main build/gen-passwd build/check-passwd  build/generateRT build/crackRT
+build : build/sha256-main build/gen-passwd build/check-passwd  build/rainbow-attack
 
 build/sha256-main : src/util/sha256-main.cpp src/util/sha256.cpp
 	g++ -o build/sha256-main -std=c++17 src/util/sha256-main.cpp src/util/sha256.cpp
@@ -20,12 +19,9 @@ build/gen-passwd : src/util/random.hpp src/util/sha256.cpp src/util/gen-passwd.c
 build/check-passwd : src/util/random.hpp src/util/sha256.cpp src/util/check-passwd.cpp src/util/passwd-utils.hpp
 	g++ -o build/check-passwd -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/check-passwd.cpp src/util/passwd-utils.hpp
 
-build/generateRT : src/util/random.hpp src/util/sha256.cpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/generateRT.h src/generateRT/main.cpp src/util/rt-utils.hpp
-	g++ -o build/generateRT -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/rt-utils.hpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/main.cpp -lsqlite3 -pthread
+build/rainbow-attack : src/util/random.hpp src/util/sha256.cpp src/util/sha256.h src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/generateRT/generateRT.h src/util/rt-utils.hpp src/crack/crackRT.cpp src/crack/crackRT.h src/main.cpp
+	g++ -O3 -o build/rainbow-attack -std=c++17 src/util/random.hpp src/util/sha256.cpp src/util/rt-utils.hpp src/util/passwd-utils.hpp src/generateRT/generateRT.cpp src/crack/crackRT.cpp src/main.cpp -lsqlite3 -pthread
 
-build/crackRT : src/generateRT/generateRT.h src/crack/main.cpp src/crack/crackRT.cpp src/crack/crackRT.h src/util/random.hpp src/util/rt-utils.hpp
-	g++ -o build/crackRT -std=c++17 src/util/passwd-utils.hpp src/util/rt-utils.hpp src/util/sha256.cpp src/crack/crackRT.cpp src/crack/main.cpp src/util/random.hpp -lsqlite3 -pthread
-#TODO check what do -O3 or -o3
 setup : 
 	sudo apt install sqlite libsqlite3-dev
 
