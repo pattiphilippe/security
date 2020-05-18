@@ -157,13 +157,19 @@ void SHA256::final(unsigned char *digest)
         SHA2_UNPACK32(m_h[i], &digest[i << 2]);
     }
 }
+
 std::string sha256(const std::string &input){
+    SHA256 ctx = SHA256();
+    return sha256(ctx, input);
+}
+
+std::string sha256(SHA256 &ctx, const std::string &input){
     unsigned char digest [SHA256::DIGEST_SIZE];
-    sha256(input, digest);
+    sha256(ctx, input, digest);
     return sha256ToHex(digest);
 }
 
-void sha256(const std::string &input, unsigned char digest[])
+void sha256(SHA256 &ctx, const std::string &input, unsigned char digest[])
 {
     memset(digest, 0, SHA256::DIGEST_SIZE);
     ctx.init();

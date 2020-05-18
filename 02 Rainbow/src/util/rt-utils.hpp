@@ -58,7 +58,8 @@ inline void reduce(std::string &pwd, const uint8_t *in, int red_by, unsigned o_i
             red_by >>= 2;                                                \
         }
 
-#define SHA256_REDUCE(str, in, red_by, o_idx)                   \
+#define SHA256_REDUCE(ctx, str, in, red_by, o_idx)                   \
+        memset(in, 0, SHA256::DIGEST_SIZE);                     \
         ctx.init();                                             \
         ctx.update((unsigned char *)str.c_str(), str.length()); \
         ctx.final(in);                                          \

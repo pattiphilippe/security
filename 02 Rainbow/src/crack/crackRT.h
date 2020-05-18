@@ -5,6 +5,7 @@
 #ifndef CRACK_H
 #define CRACK_H
 
+#include "../util/sha256.h"
 #include <string>
 #include <sqlite3.h>
 
@@ -51,7 +52,7 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
  * @param idxReduction The number of reductions performed to find the hash.
  * @return The tail of the hash, or an empty string if no tail is found.
 */
-std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction);
+std::string getTail(SHA256 &ctx, const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction); //TODO doc of sha
 
 /**
  * Get the head of a tail.
@@ -68,7 +69,7 @@ std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail);
  * @param idxReduction The number of reductions to perform.
  * @return The found password.
 */
-void findPwd(std::string &pwd, int idxReduction); //TODO doc
+void findPwd(SHA256 &ctx, std::string &pwd, int idxReduction); //TODO doc
 
 } //NAMESPACE be::esi::secl::pn
 

@@ -61,10 +61,11 @@ protected:
     uint32 m_h[8];
 };
 
-inline SHA256 ctx = SHA256();
+//inline SHA256 ctx = SHA256(); //TODO check if removed correctly
 
 std::string sha256(const std::string &input);
-void sha256(const std::string &input, unsigned char digest []);
+std::string sha256(SHA256 &ctx, const std::string &input);
+void sha256(SHA256 &ctx, const std::string &input, unsigned char digest []);
 std::string sha256ToHex(unsigned char digest []);
 void sha256ToDec(const std::string &hash, unsigned char digest[]);
  

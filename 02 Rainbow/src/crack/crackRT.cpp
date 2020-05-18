@@ -5,13 +5,13 @@
 #include "crackRT.h"
 #include "../util/rt-utils.hpp"
 #include "../generateRT/generateRT.h"
-#include "../util/sha256.h"
 #include <fstream>
 #include <thread>
 #include <mutex>
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <string.h>
 
 namespace be::esi::secl::pn
 {
@@ -54,6 +54,7 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
     int idxReduction;
     std::string tail;
     bool isCollision;
+    SHA256 ctx = SHA256();
 
     sqlite3_stmt *stmtReadTail, *stmtReadHead;
     sqlite3_prepare_v2(db, SELECT_TAIL, -1, &stmtReadTail, 0);
@@ -68,13 +69,13 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
         idxReduction = NB_REDUCE;
         do
         {
-            tail = getTail(hash, stmtReadTail, --idxReduction); //Find line
+            tail = getTail(ctx, hash, stmtReadTail, --idxReduction); //Find line
 
             if (!tail.empty())
             {
                 pwd = getHead(stmtReadHead, tail);
-                findPwd(pwd, idxReduction);
-                isCollision = sha256(pwd) != hash;
+                findPwd(ctx, pwd, idxReduction);
+                isCollision = sha256(ctx, pwd) != hash; //TODO check if can optimize
             }
         } while (!tail.empty() && isCollision && idxReduction > 0);
         if (!tail.empty() && !isCollision)
@@ -98,7 +99,7 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
     }
 }
 
-std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction)
+std::string getTail(SHA256 &ctx, const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction)
 {
     int rc, i, tempReduction;
     std::string pwd(PWD_SIZE, 'A');
@@ -121,7 +122,7 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
         for (i = idxReduction + 1; i < NB_REDUCE; i++)
         {
             red_by = idxReduction;
-            SHA256_REDUCE(pwd, digest, red_by, cpt);
+            SHA256_REDUCE(ctx, pwd, digest, red_by, cpt);
         }
 
         sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
@@ -136,25 +137,25 @@ std::string getTail(const std::string &hash, sqlite3_stmt *stmtReadTail, int &id
 
 std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
 {
+    sqlite3_clear_bindings(stmtGetHead);
+    sqlite3_reset(stmtGetHead);
     sqlite3_bind_text(stmtGetHead, 1, tail.c_str(), tail.length(), SQLITE_STATIC);
     if (sqlite3_step(stmtGetHead) != SQLITE_ROW)
     {
         throw std::runtime_error("Can't get the head of the tail");
     }
     std::string head(reinterpret_cast<const char *>(sqlite3_column_text(stmtGetHead, 0)));
-    sqlite3_clear_bindings(stmtGetHead);
-    sqlite3_reset(stmtGetHead);
     return head;
 }
 
-void findPwd(std::string &pwd, int idxReduction)
+void findPwd(SHA256 &ctx, std::string &pwd, int idxReduction)
 {
     unsigned red_by, cpt;
     unsigned char digest[SHA256::DIGEST_SIZE];
     for (int i = 0; i < idxReduction; i++)
     {
         red_by = i;
-        SHA256_REDUCE(pwd, digest, red_by, cpt);
+        SHA256_REDUCE(ctx, pwd, digest, red_by, cpt);
     }
 }
 

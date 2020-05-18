@@ -6,7 +6,7 @@
 
 run : build #setup
 	@echo
-	#./build/generateRT
+	./build/generateRT
 	./build/crackRT
 
 build : build/generateRT build/crackRT #build/sha256-main build/gen-passwd build/check-passwd  
