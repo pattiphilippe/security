@@ -25,10 +25,10 @@ using namespace be::esi::secl::pn;
  * and hashes sorted, due to the use of threads.
  */
 int main()
-{ 
+{
     //Generate passwords and hashes to crack
     //rainbow::mass_generate(1000, 5, 5, PWD_FILE, HASH_FILE);
-/*
+
     //Open DB
     sqlite3 *db;
     if (sqlite3_open(DB_NAME.c_str(), &db))
@@ -40,37 +40,32 @@ int main()
     // Launch the crack and print the success rate
     crack(HASH_FILE, db, CRACKED_PWD_FILE, CRACKED_HASH_FILE);
     std::cout << "Success : " << rainbow::mass_check(CRACKED_PWD_FILE, CRACKED_HASH_FILE) << std::endl;
-*/
-    std::string pwd = rainbow::generate_passwd(8);
-    std::cout << "pwd " << pwd << std::endl;
-    unsigned char digest[32], digest2[32];
 
-    SHA256 ctx = SHA256();
-    sha256(ctx, pwd, digest);
+    // std::string pwd = rainbow::generate_passwd(8);
+    // std::cout << "pwd " << pwd << std::endl;
+    // unsigned char digest[32], digest2[32];
 
-    std::string hashHex = sha256ToHex(digest);
-    std::cout << "hashHex1 : " 
-              << hashHex << std::endl;
+    // SHA256 ctx = SHA256();
+    // sha256(ctx, pwd, digest);
 
-    sha256ToDec(hashHex, digest2);
-    std::string hashHex2 = sha256ToHex(digest2);
-    std::cout << "hashHex2 : "
-              << hashHex2 << std::endl;
+    // std::string hashHex = sha256ToHex(digest);
+    // std::cout << "hashHex1 : "
+    //           << hashHex << std::endl;
 
+    // sha256ToDec(hashHex, digest2);
+    // std::string hashHex2 = sha256ToHex(digest2);
+    // std::cout << "hashHex2 : "
+    //           << hashHex2 << std::endl;
 
+    // std::cout << "pwd test 2 " << pwd << std::endl;
+    // sha256(ctx, pwd, digest);
 
-    std::cout << "pwd test 2 " << pwd << std::endl;
-    sha256(ctx, pwd, digest);
+    // hashHex = sha256ToHex(digest);
+    // std::cout << "hashHex1 : "
+    //           << hashHex << std::endl;
 
-    hashHex = sha256ToHex(digest);
-    std::cout << "hashHex1 : " 
-              << hashHex << std::endl;
-
-    sha256ToDec(hashHex, digest2);
-    hashHex2 = sha256ToHex(digest2);
-    std::cout << "hashHex2 : "
-              << hashHex2 << std::endl;
-
-
-
+    // sha256ToDec(hashHex, digest2);
+    // hashHex2 = sha256ToHex(digest2);
+    // std::cout << "hashHex2 : "
+    //           << hashHex2 << std::endl;
 }

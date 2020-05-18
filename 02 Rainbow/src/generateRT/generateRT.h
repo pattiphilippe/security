@@ -12,8 +12,8 @@
 namespace be::esi::secl::pn
 {
 
-constexpr unsigned NB_HEAD = 100; /**< How many password we generate for the RT */
-constexpr int NB_REDUCE = 10;    /**< How many reduce function we use before getting the tail */
+constexpr unsigned NB_HEAD = 5; /**< How many password we generate for the RT */
+constexpr int NB_REDUCE = 100;    /**< How many reduce function we use before getting the tail */
 inline const char *DROP_RT = "DROP TABLE IF EXISTS RAINBOW_TABLE;";
 inline const char *CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
 inline const char *INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
@@ -37,7 +37,7 @@ void generateRT(sqlite3 *db, unsigned nbHead = NB_HEAD, int nbReduce = NB_REDUCE
  * @param nbHead The number of head to generate.
  * @param nbReduce The number of reduction functions to apply to compute the tail. If not set, use default value.
  */
-void generateRTInThread(std::ofstream &out, sqlite3 *db, unsigned nbHead, int nbReduce);
+void generateRTInThread(std::ofstream &outPwd, std::ofstream &outHash, sqlite3 *db, unsigned nbHead, int nbReduce);
 
 } //NAMESPACE be::esi::secl::pn
 
