@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <sqlite3.h>
 #include "../util/sha256.h"
+#include "../util/rt-utils.hpp"
 
 const std::string PWD_FILE("rsc/pwdToCrack.txt");           /**< The file which will contain some passwords. This file is not necessary to crack */
 const std::string HASH_FILE("rsc/hashToCrack.txt");         /**< The file which will contain the passwords hashes to crack */
@@ -40,6 +41,33 @@ int main()
     // Launch the crack and print the success rate
     crack(HASH_FILE, db, CRACKED_PWD_FILE, CRACKED_HASH_FILE);
     std::cout << "Success : " << rainbow::mass_check(CRACKED_PWD_FILE, CRACKED_HASH_FILE) << std::endl;
+
+    std::cout << "getPercentage(10000, 5000, 5, 36) : " << getPercentage(10000, 5000, 5, 36) << std::endl;
+
+    std::string pwd("5iwad");
+    sqlite3_stmt *stmtReadTail;
+    int rc = 0;
+    sqlite3_prepare_v2(db, SELECT_TAIL, -1, &stmtReadTail, 0);
+
+    sqlite3_clear_bindings(stmtReadTail);
+    sqlite3_reset(stmtReadTail);
+    sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
+    if((rc = sqlite3_step(stmtReadTail)) == SQLITE_ROW ){
+        std::cout << "found tail" << std::endl;
+    } else {
+        std::cout << "didn't found tail" << std::endl;
+    }
+
+    pwd = "qdlskfjmqsdkjf";
+    sqlite3_clear_bindings(stmtReadTail);
+    sqlite3_reset(stmtReadTail);
+    sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
+    if((rc = sqlite3_step(stmtReadTail)) == SQLITE_ROW ){
+        std::cout << "found tail" << std::endl;
+    } else {
+        std::cout << "didn't found tail" << std::endl;
+    }
+
 
     // std::string pwd = rainbow::generate_passwd(8);
     // std::cout << "pwd " << pwd << std::endl;

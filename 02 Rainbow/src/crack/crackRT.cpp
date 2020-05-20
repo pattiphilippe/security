@@ -67,6 +67,7 @@ namespace be::esi::secl::pn
         while (hashesInput) // For each hash
         {
             idxReduction = NB_REDUCE;
+            int nbCollisions = 0;
             do
             {
                 tail = getTail(ctx, hash, stmtReadTail, --idxReduction); //Find line
@@ -76,8 +77,11 @@ namespace be::esi::secl::pn
                     pwd = getHead(stmtReadHead, tail);
                     findPwd(ctx, pwd, idxReduction);
                     isCollision = sha256(ctx, pwd) != hash; //TODO check if can optimize
+                    std::cout << std::boolalpha << "isCollision : " << isCollision << std::endl;
+                    nbCollisions++;
                 }
             } while (!tail.empty() && isCollision && idxReduction > 0);
+            std::cout << "nbCollisions for 1 pwd : " << nbCollisions << std::endl;
             if (!tail.empty() && !isCollision)
             {
                 mtxPrintCracked.lock();
@@ -103,18 +107,11 @@ namespace be::esi::secl::pn
     {
         int rc, i;
         std::string pwd(PWD_SIZE, 'A');
-        unsigned char digest[SHA256::DIGEST_SIZE], hash_dec[SHA256::DIGEST_SIZE];
-        //TODO make static tables?
+        unsigned char digest[SHA256::DIGEST_SIZE], hash_dec[SHA256::DIGEST_SIZE]; //TODO make static tables?
         unsigned red_by, cpt;
-
-        red_by = idxReduction;
         sha256ToDec(hash, hash_dec);
-        REDUCE(pwd, hash_dec, red_by, cpt);
-        sqlite3_clear_bindings(stmtReadTail);
-        sqlite3_reset(stmtReadTail);
-        sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
 
-        while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--)
+        do
         {
             red_by = idxReduction;
             REDUCE(pwd, hash_dec, red_by, cpt);
@@ -127,12 +124,14 @@ namespace be::esi::secl::pn
             sqlite3_clear_bindings(stmtReadTail);
             sqlite3_reset(stmtReadTail);
             sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
-        }
+        } while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--);
 
         if (rc == SQLITE_ROW)
         {
+            std::cout << "return getTail() = : " << pwd << ", idxReduction : " << idxReduction << std::endl;
             return pwd;
         }
+        std::cout << "return getTail() = empty string " << std::endl;
         return std::string("");
     }
 

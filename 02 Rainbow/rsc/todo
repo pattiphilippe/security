@@ -4,3 +4,13 @@ param de sortie? adresse ou référence ?
 
 avoid any i++, replace with ++i;
 i++; i+=1;
+
+nbCollisions for 1 pwd : 1
+return getTail() = : 9m2cl, idxReduction : 0
+nbCollisions for 1 pwd : 1
+return getTail() = : apvrj, idxReduction : 0
+nbCollisions for 1 pwd : 1
+return getTail() = : iv970, idxReduction : 0
+VOILA L ERREUR
+return getTail() = : 6r7fn, idxReduction : 1
+return getTail() = empty string 

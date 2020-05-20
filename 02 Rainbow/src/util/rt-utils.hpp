@@ -55,7 +55,7 @@ inline void reduce(std::string &pwd, const uint8_t *in, int red_by, unsigned o_i
         for (o_idx = 0; o_idx < PWD_SIZE; ++o_idx)                       \
         {                                                                \
             pwd[o_idx] = AZ_O9[(in[o_idx] + (red_by & 7)) % SIZE_AZ_O9]; \
-            red_by >>= 2;                                                \
+            red_by >>= 3;                                                \
         }
 
 #define SHA256_REDUCE(ctx, str, in, red_by, o_idx)                   \
