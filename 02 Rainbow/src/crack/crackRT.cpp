@@ -128,7 +128,7 @@ namespace be::esi::secl::pn
 
         if (rc == SQLITE_ROW)
         {
-            // std::cout << "return getTail() = : " << pwd << ", idxReduction : " << idxReduction << std::endl;
+            std::cout << "tail : " << pwd << ", red : " << idxReduction << std::endl;
             return pwd;
         }
         std::cout << "return getTail() = empty string " << std::endl;

@@ -42,7 +42,7 @@ namespace be::esi::secl::pn
         sqlite3_prepare_v2(db, INSERT_RT, -1, &stmt, 0);
 
         std::string passwd, reduced(PWD_SIZE, 'A'), hash;
-        int idxReduction;
+        int idxReduction, rc;
         unsigned char digest[SHA256::DIGEST_SIZE];
         unsigned cpt, red_by;
         SHA256 ctx = SHA256();
@@ -65,12 +65,13 @@ namespace be::esi::secl::pn
                 SHA256_REDUCE(ctx, reduced, digest, red_by, cpt);
             }
 
-            sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
-            sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
-            sqlite3_step(stmt);
-
             sqlite3_clear_bindings(stmt);
             sqlite3_reset(stmt);
+            sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
+            sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
+            rc = sqlite3_step(stmt);
+            // if (rc != SQLITE_DONE)
+            //     i--;
         }
     }
 

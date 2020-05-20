@@ -13,7 +13,7 @@
 namespace be::esi::secl::pn
 {
 
-inline unsigned PWD_SIZE = 5;                                                                                                                                                                                            /**< The minimal password size */
+inline unsigned PWD_SIZE = 4;                                                                                                                                                                                            /**< The minimal password size */
 constexpr unsigned SIZE_AZ_O9 = 36;                                                                                                                                                                                      /**< Number of valid caracters for a password */
 constexpr char AZ_O9[SIZE_AZ_O9] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; /**< All valid char for a password */
 
@@ -38,18 +38,6 @@ inline double getPercentage(double mn, int nbReduce, int nbChar, unsigned nbPoss
     }
     return 1 - temp;
 }
-
-/*
-inline void reduce(std::string &pwd, const uint8_t *in, int red_by, unsigned o_idx)
-{
-    // red_by %= 32;
-    for (o_idx = 0; o_idx < PWD_SIZE; o_idx++)
-    {
-        pwd[o_idx] = AZ_O9[(in[o_idx] + (red_by & 4)) % SIZE_AZ_O9];
-        // red_by = (red_by + 9) % 32;
-        red_by >>= 2;
-    }
-}*/
 
 #define REDUCE(pwd, in, red_by, o_idx)                                   \
         for (o_idx = 0; o_idx < PWD_SIZE; ++o_idx)                       \

@@ -28,7 +28,7 @@ using namespace be::esi::secl::pn;
 int main()
 {
     //Generate passwords and hashes to crack
-    //rainbow::mass_generate(1000, 5, 5, PWD_FILE, HASH_FILE);
+    rainbow::mass_generate(100, 4, 4, PWD_FILE, HASH_FILE);
 
     //Open DB
     sqlite3 *db;
@@ -42,7 +42,7 @@ int main()
     crack(HASH_FILE, db, CRACKED_PWD_FILE, CRACKED_HASH_FILE);
     std::cout << "Success : " << rainbow::mass_check(CRACKED_PWD_FILE, CRACKED_HASH_FILE) << std::endl;
 
-    std::cout << "getPercentage(10000, 5000, 5, 36) : " << getPercentage(10000, 5000, 5, 36) << std::endl;
+    std::cout << "getPercentage(10000, 65536, 4, 36) : " << getPercentage(1000, 10000, 4, 36) << std::endl;
 
     std::string pwd("5iwad");
     sqlite3_stmt *stmtReadTail;
