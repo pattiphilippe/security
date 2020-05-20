@@ -10,11 +10,12 @@
 #include <algorithm>
 #include <thread>
 #include <string.h>
+#include <mutex>
 
 namespace be::esi::secl::pn
 {
-
-    constexpr unsigned NB_THREADS_GENERATE = 1; /**< Number of thread to create to generate the RT */
+    std::mutex mtx;
+    constexpr unsigned NB_THREADS_GENERATE = 10; /**< Number of thread to create to generate the RT */
 
     void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
     {
@@ -51,8 +52,10 @@ namespace be::esi::secl::pn
             passwd = rainbow::generate_passwd(rainbow::random(PWD_SIZE, PWD_SIZE));
             sha256(ctx, passwd, digest);
             hash = sha256ToHex(digest);
+            mtx.lock();
             outPwd << passwd << '\n';
             outHash << hash << '\n';
+            mtx.unlock();
             red_by = 0;
             REDUCE(reduced, digest, red_by, cpt);
 

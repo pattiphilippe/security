@@ -18,7 +18,7 @@ namespace be::esi::secl::pn
 
     std::mutex mtxReadHead;        /**< Mutex to read the head file with concurency */
     std::mutex mtxPrintCracked;    /**< Mutex to write cracked password and hashes with concurency */
-    const unsigned NB_THREADS = 1; /**< How many threads to run to crack */
+    const unsigned NB_THREADS = 10; /**< How many threads to run to crack */
 
     void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile)
     {
@@ -67,7 +67,7 @@ namespace be::esi::secl::pn
         while (hashesInput) // For each hash
         {
             idxReduction = NB_REDUCE;
-            int nbCollisions = 0;
+            // int nbCollisions = 0;
             do
             {
                 tail = getTail(ctx, hash, stmtReadTail, --idxReduction); //Find line
@@ -77,11 +77,11 @@ namespace be::esi::secl::pn
                     pwd = getHead(stmtReadHead, tail);
                     findPwd(ctx, pwd, idxReduction);
                     isCollision = sha256(ctx, pwd) != hash; //TODO check if can optimize
-                    std::cout << std::boolalpha << "isCollision : " << isCollision << std::endl;
-                    nbCollisions++;
+                    // std::cout << std::boolalpha << "isCollision : " << isCollision << std::endl;
+                    // nbCollisions++;
                 }
             } while (!tail.empty() && isCollision && idxReduction > 0);
-            std::cout << "nbCollisions for 1 pwd : " << nbCollisions << std::endl;
+            //std::cout << "nbCollisions for 1 pwd : " << nbCollisions << std::endl;
             if (!tail.empty() && !isCollision)
             {
                 mtxPrintCracked.lock();
@@ -128,7 +128,7 @@ namespace be::esi::secl::pn
 
         if (rc == SQLITE_ROW)
         {
-            std::cout << "return getTail() = : " << pwd << ", idxReduction : " << idxReduction << std::endl;
+            // std::cout << "return getTail() = : " << pwd << ", idxReduction : " << idxReduction << std::endl;
             return pwd;
         }
         std::cout << "return getTail() = empty string " << std::endl;
