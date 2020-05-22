@@ -28,7 +28,7 @@ using namespace be::esi::secl::pn;
 int main()
 {
     //Generate passwords and hashes to crack
-    rainbow::mass_generate(100, 4, 4, PWD_FILE, HASH_FILE);
+    rainbow::mass_generate(100, 5, 5, PWD_FILE, HASH_FILE);
 
     //Open DB
     sqlite3 *db;
@@ -39,35 +39,10 @@ int main()
     }
 
     // Launch the crack and print the success rate
-    crack(HASH_FILE, db, CRACKED_PWD_FILE, CRACKED_HASH_FILE);
-    std::cout << "Success : " << rainbow::mass_check(CRACKED_PWD_FILE, CRACKED_HASH_FILE) << std::endl;
+    // crack(HASH_FILE, db, CRACKED_PWD_FILE, CRACKED_HASH_FILE);
+    // std::cout << "Success : " << rainbow::mass_check(CRACKED_PWD_FILE, CRACKED_HASH_FILE) << std::endl;
 
-    std::cout << "getPercentage(10000, 65536, 4, 36) : " << getPercentage(1000, 10000, 4, 36) << std::endl;
-
-    std::string pwd("5iwad");
-    sqlite3_stmt *stmtReadTail;
-    int rc = 0;
-    sqlite3_prepare_v2(db, SELECT_TAIL, -1, &stmtReadTail, 0);
-
-    sqlite3_clear_bindings(stmtReadTail);
-    sqlite3_reset(stmtReadTail);
-    sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
-    if((rc = sqlite3_step(stmtReadTail)) == SQLITE_ROW ){
-        std::cout << "found tail" << std::endl;
-    } else {
-        std::cout << "didn't found tail" << std::endl;
-    }
-
-    pwd = "qdlskfjmqsdkjf";
-    sqlite3_clear_bindings(stmtReadTail);
-    sqlite3_reset(stmtReadTail);
-    sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
-    if((rc = sqlite3_step(stmtReadTail)) == SQLITE_ROW ){
-        std::cout << "found tail" << std::endl;
-    } else {
-        std::cout << "didn't found tail" << std::endl;
-    }
-
+    std::cout << "getPercentage(2204, 50000, 5, 36) : " << getPercentage(30000, 50000, 5, 36) << std::endl;
 
     // std::string pwd = rainbow::generate_passwd(8);
     // std::cout << "pwd " << pwd << std::endl;

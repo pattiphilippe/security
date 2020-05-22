@@ -52,7 +52,7 @@ void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crack
  * @param idxReduction The number of reductions performed to find the hash.
  * @return The tail of the hash, or an empty string if no tail is found.
 */
-std::string getTail(SHA256 &ctx, const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction); //TODO doc of sha
+std::string getTail(sqlite3 *db, const std::string &hash); //TODO doc of sha
 
 /**
  * Get the head of a tail.

@@ -16,8 +16,8 @@
 namespace be::esi::secl::pn
 {
 
-    std::mutex mtxReadHead;        /**< Mutex to read the head file with concurency */
-    std::mutex mtxPrintCracked;    /**< Mutex to write cracked password and hashes with concurency */
+    std::mutex mtxReadHead;         /**< Mutex to read the head file with concurency */
+    std::mutex mtxPrintCracked;     /**< Mutex to write cracked password and hashes with concurency */
     const unsigned NB_THREADS = 10; /**< How many threads to run to crack */
 
     void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile)
@@ -51,14 +51,6 @@ namespace be::esi::secl::pn
     void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput)
     {
         std::string hash, pwd;
-        int idxReduction;
-        std::string tail;
-        bool isCollision;
-        SHA256 ctx = SHA256();
-
-        sqlite3_stmt *stmtReadTail, *stmtReadHead;
-        sqlite3_prepare_v2(db, SELECT_TAIL, -1, &stmtReadTail, 0);
-        sqlite3_prepare_v2(db, SELECT_HEAD, -1, &stmtReadHead, 0);
 
         mtxReadHead.lock();
         std::getline(hashesInput, hash);
@@ -66,36 +58,12 @@ namespace be::esi::secl::pn
 
         while (hashesInput) // For each hash
         {
-            idxReduction = NB_REDUCE;
-            // int nbCollisions = 0;
-            do
-            {
-                tail = getTail(ctx, hash, stmtReadTail, --idxReduction); //Find line
+            pwd = getTail(db, hash); //Find line
 
-                if (!tail.empty())
-                {
-                    pwd = getHead(stmtReadHead, tail);
-                    findPwd(ctx, pwd, idxReduction);
-                    isCollision = sha256(ctx, pwd) != hash; //TODO check if can optimize
-                    // std::cout << std::boolalpha << "isCollision : " << isCollision << std::endl;
-                    // nbCollisions++;
-                }
-            } while (!tail.empty() && isCollision && idxReduction > 0);
-            //std::cout << "nbCollisions for 1 pwd : " << nbCollisions << std::endl;
-            if (!tail.empty() && !isCollision)
-            {
-                mtxPrintCracked.lock();
-                crackedPwdOutput << pwd << std::endl;   //Write found pwd
-                crackedHashOutput << hash << std::endl; //Write hash
-                mtxPrintCracked.unlock();
-            }
-            else
-            {
-                mtxPrintCracked.lock();
-                crackedPwdOutput << std::endl;          //Write unfound pwd
-                crackedHashOutput << hash << std::endl; //Write hash
-                mtxPrintCracked.unlock();
-            }
+            mtxPrintCracked.lock();
+            crackedPwdOutput << pwd << std::endl;   //Write found pwd
+            crackedHashOutput << hash << std::endl; //Write hash
+            mtxPrintCracked.unlock();
 
             mtxReadHead.lock();
             std::getline(hashesInput, hash);
@@ -103,35 +71,47 @@ namespace be::esi::secl::pn
         }
     }
 
-    std::string getTail(SHA256 &ctx, const std::string &hash, sqlite3_stmt *stmtReadTail, int &idxReduction)
+    std::string getTail(sqlite3 *db, const std::string &hash) //TODO rename methods
     {
-        int rc, i;
-        std::string pwd(PWD_SIZE, 'A');
+        std::string tail(PWD_SIZE, 'A'), pwd(PWD_SIZE, 'A');
         unsigned char digest[SHA256::DIGEST_SIZE], hash_dec[SHA256::DIGEST_SIZE]; //TODO make static tables?
+        int idxReduction = NB_REDUCE - 1, rc, i;
         unsigned red_by, cpt;
+        SHA256 ctx = SHA256();
+
+        sqlite3_stmt *stmtReadTail, *stmtReadHead;
+        sqlite3_prepare_v2(db, SELECT_TAIL, -1, &stmtReadTail, 0);
+        sqlite3_prepare_v2(db, SELECT_HEAD, -1, &stmtReadHead, 0);
+
         sha256ToDec(hash, hash_dec);
 
-        do
+        for (; 0 <= idxReduction; --idxReduction)
         {
             red_by = idxReduction;
-            REDUCE(pwd, hash_dec, red_by, cpt);
-            for (i = idxReduction + 1; i < NB_REDUCE; i++)
+            REDUCE(tail, hash_dec, red_by, cpt);
+            for (i = idxReduction + 1; i < NB_REDUCE; ++i)
             {
                 red_by = i;
-                SHA256_REDUCE(ctx, pwd, digest, red_by, cpt);
+                SHA256_REDUCE(ctx, tail, digest, red_by, cpt);
             }
 
             sqlite3_clear_bindings(stmtReadTail);
             sqlite3_reset(stmtReadTail);
-            sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
-        } while ((rc = sqlite3_step(stmtReadTail)) != SQLITE_ROW && 0 < idxReduction--);
+            sqlite3_bind_text(stmtReadTail, 1, tail.c_str(), tail.length(), SQLITE_STATIC);
+            rc = sqlite3_step(stmtReadTail);
 
-        if (rc == SQLITE_ROW)
-        {
-            std::cout << "tail : " << pwd << ", red : " << idxReduction << std::endl;
-            return pwd;
+            if (rc == SQLITE_ROW)
+            {
+                pwd = getHead(stmtReadHead, tail);
+                findPwd(ctx, pwd, idxReduction);
+                if (sha256(ctx, pwd) == hash)
+                    return pwd;
+                else
+                    std::cout << "collision at " << idxReduction << std::endl;
+                
+            }
         }
-        std::cout << "return getTail() = empty string " << std::endl;
+        std::cout << "Couldn't crack hash : " << hash << std::endl;
         return std::string("");
     }
 
@@ -152,7 +132,7 @@ namespace be::esi::secl::pn
     {
         unsigned red_by, cpt;
         unsigned char digest[SHA256::DIGEST_SIZE];
-        for (int i = 0; i < idxReduction; i++)
+        for (int i = 0; i < idxReduction; ++i)
         {
             red_by = i;
             SHA256_REDUCE(ctx, pwd, digest, red_by, cpt);
