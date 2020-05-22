@@ -9,17 +9,3 @@ i++; i+=1;
 marquer fonctions qui ne retournent pas d'erreur pour optimiser
 
 
-
-
-
-
-
-
-collision at 203
-collision at 0
-sha256ToHex(digest) c962598f74d91a68bca9266ecb9d661c3686c48272b0aed28b88ba653d7d9ad7
-sha256ToHex(hash_dec) 8d0a6bf40f06ab96698812642953b4e53694bc517f24cea9fdf9e83d796bf0e7
-pwd buyt7
-Couldn't crack hash : 8d0a6bf40f06ab96698812642953b4e53694bc517f24cea9fdf9e83d796bf0e7
-Couldn't crack hash : 66411694d7d28e287fcb46d53b389f011bc6d105d71e359a17519de94c013d2f
-Couldn't crack hash : e9ce8ef2df881b7dc1aaeddacc5975dd0a699534ff78b1cb2d8275b209aecbbd
