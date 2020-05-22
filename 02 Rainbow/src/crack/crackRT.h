@@ -19,7 +19,7 @@ namespace be::esi::secl::pn
     /**
      * Select the head of the tail
      */
-    inline const char *SELECT_HEAD = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;";
+    inline const char *SELECT_HEAD_T = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;";
 
     /**
      * Attempts to find passwords corresponding to the hashes given, at the hand of the tails.

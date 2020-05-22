@@ -51,9 +51,9 @@ namespace be::esi::secl::pn
     void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput)
     {
 
-        sqlite3_stmt *stmtReadTail, *stmtReadHead;
+        sqlite3_stmt *stmtReadTail, *stmtReadHead_T;
         sqlite3_prepare_v2(db, SELECT_TAIL, -1, &stmtReadTail, 0);
-        sqlite3_prepare_v2(db, SELECT_HEAD, -1, &stmtReadHead, 0);
+        sqlite3_prepare_v2(db, SELECT_HEAD_T, -1, &stmtReadHead_T, 0);
 
         std::string hash(SHA256::DIGEST_SIZE * 2, 'A'), pwd(PWD_SIZE, 'A');
         unsigned char hash_dec[SHA256::DIGEST_SIZE], digest[SHA256::DIGEST_SIZE];
@@ -66,7 +66,7 @@ namespace be::esi::secl::pn
         while (hashesInput) // For each hash
         {
 
-            if (getPwd(hash, pwd, stmtReadTail, stmtReadHead, hash_dec, digest, ctx))
+            if (getPwd(hash, pwd, stmtReadTail, stmtReadHead_T, hash_dec, digest, ctx))
             {
                 mtxPrintCracked.lock();
                 crackedPwdOutput << pwd << std::endl;   //Write found pwd
@@ -87,7 +87,7 @@ namespace be::esi::secl::pn
         }
     }
 
-    bool getPwd(const std::string &hash, std::string &pwd, sqlite3_stmt *stmtReadTail, sqlite3_stmt *stmtReadHead,
+    bool getPwd(const std::string &hash, std::string &pwd, sqlite3_stmt *stmtReadTail, sqlite3_stmt *stmtReadHead_T,
                 unsigned char hash_dec[], unsigned char digest[], SHA256 &ctx)
     {
         int idxReduction = NB_REDUCE - 1, rc, i;
@@ -110,7 +110,7 @@ namespace be::esi::secl::pn
 
             if (rc == SQLITE_ROW)
             {
-                GET_HEAD(stmtReadHead, pwd)
+                GET_HEAD(stmtReadHead_T, pwd)
                 i = 0;
                 SHA256_REDUCE_X_TIMES(ctx, pwd, digest, idxReduction, red_by, i, cptPwdSize) //Find pwd
                 SHA256_(ctx, pwd, digest)
