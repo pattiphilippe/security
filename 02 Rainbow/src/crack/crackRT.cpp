@@ -115,7 +115,7 @@ namespace be::esi::secl::pn
         return std::string("");
     }
 
-    std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail)
+    std::string getHead(sqlite3_stmt *stmtGetHead, std::string &tail)
     {
         sqlite3_clear_bindings(stmtGetHead);
         sqlite3_reset(stmtGetHead);

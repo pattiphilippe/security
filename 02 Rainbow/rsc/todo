@@ -5,5 +5,17 @@ param de sortie? adresse ou référence ?
 avoid any i++, replace with ++i;
 i++; i+=1;
 
-not found
-tvwr
+
+
+
+
+
+
+
+* Use define for :
+    for (i = idxReduction + 1; i < NB_REDUCE; ++i)
+    {
+        red_by = i;
+        SHA256_REDUCE(ctx, tail, digest, red_by, cpt);
+    }
+

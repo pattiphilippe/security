@@ -61,7 +61,7 @@ std::string getTail(sqlite3 *db, const std::string &hash); //TODO doc of sha
  * @return the head of the tail
  * @throw std::runtime_error if no tail found 
  */
-std::string getHead(sqlite3_stmt *stmtGetHead, std::string tail);
+std::string getHead(sqlite3_stmt *stmtGetHead, std::string &tail);
 
 /**
  * Computes the password after idxReduction reductions.
