@@ -92,6 +92,7 @@ namespace be::esi::secl::pn
     {
         int idxReduction = NB_REDUCE - 1, rc, i;
         unsigned red_by, cptPwdSize;
+        bool isCollision;
 
         sha256ToDec(hash, hash_dec);
 
@@ -113,7 +114,17 @@ namespace be::esi::secl::pn
                 i = 0;
                 SHA256_REDUCE_X_TIMES(ctx, pwd, digest, idxReduction, red_by, i, cptPwdSize) //Find pwd
                 SHA256_(ctx, pwd, digest)
-                if (std::equal(digest, digest + SHA256::DIGEST_SIZE, hash_dec))
+                
+                isCollision = false;
+                for (i = 0; i < SHA256::DIGEST_SIZE; ++i)
+                {
+                    if (digest[i] != hash_dec[i])
+                    {
+                        isCollision = true;
+                        break;
+                    }
+                }
+                if (!isCollision)
                     return true;
             }
         }

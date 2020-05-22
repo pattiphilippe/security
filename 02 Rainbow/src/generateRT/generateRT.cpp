@@ -25,24 +25,22 @@ namespace be::esi::secl::pn
             throw std::runtime_error("Can't create the table in DB!");
         }
 
-        std::ofstream outHash("rsc/hashToCrack.txt", std::ios_base::out | std::ios_base::trunc); //TODO remove
-        std::ofstream outPwd("rsc/pwdToCrack.txt", std::ios_base::out | std::ios_base::trunc);
         std::vector<std::thread> threads;
         for (unsigned i = 0; i < NB_THREADS_GENERATE; i++)
         {
-            threads.push_back(std::thread(generateRTInThread, std::reference_wrapper<std::ofstream>(outPwd), std::reference_wrapper<std::ofstream>(outHash), db, nbHead / NB_THREADS_GENERATE, nbReduce));
+            threads.push_back(std::thread(generateRTInThread, db, nbHead / NB_THREADS_GENERATE, nbReduce));
         }
 
         std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join(); });
     }
 
-    void generateRTInThread(std::ofstream &outPwd, std::ofstream &outHash, sqlite3 *db, unsigned nbHead, int nbReduce)
+    void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
     {
         sqlite3_stmt *stmt;
         sqlite3_prepare_v2(db, INSERT_RT, -1, &stmt, 0);
 
-        std::string passwd, reduced(PWD_SIZE, 'A'), hash;
-        int idxReduction, rc;
+        std::string passwd(PWD_SIZE, 'A'), reduced(PWD_SIZE, 'A');
+        int idxReduction;
         unsigned char digest[SHA256::DIGEST_SIZE];
         unsigned cpt, red_by;
         SHA256 ctx = SHA256();
@@ -51,11 +49,6 @@ namespace be::esi::secl::pn
         {
             passwd = rainbow::generate_passwd(PWD_SIZE);
             SHA256_(ctx, passwd, digest);
-            hash = sha256ToHex(digest);
-            mtx.lock();
-            outPwd << passwd << '\n';
-            outHash << hash << '\n';
-            mtx.unlock();
             red_by = 0;
             REDUCE(reduced, digest, red_by, cpt);
 
@@ -69,7 +62,7 @@ namespace be::esi::secl::pn
             sqlite3_reset(stmt);
             sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
             sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
-            rc = sqlite3_step(stmt);
+            sqlite3_step(stmt);
             // if (rc != SQLITE_DONE)
             //     i--;
         }

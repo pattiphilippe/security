@@ -37,7 +37,7 @@ void generateRT(sqlite3 *db, unsigned nbHead = NB_HEAD, int nbReduce = NB_REDUCE
  * @param nbHead The number of head to generate.
  * @param nbReduce The number of reduction functions to apply to compute the tail. If not set, use default value.
  */
-void generateRTInThread(std::ofstream &outPwd, std::ofstream &outHash, sqlite3 *db, unsigned nbHead, int nbReduce);
+void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce);
 
 } //NAMESPACE be::esi::secl::pn
 
