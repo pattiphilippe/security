@@ -115,11 +115,8 @@ namespace be::esi::secl::pn
                 SHA256_(ctx, pwd, digest)
                 if (std::equal(digest, digest + SHA256::DIGEST_SIZE, hash_dec))
                     return true;
-                else
-                    std::cout << "collision at " << idxReduction << std::endl;
             }
         }
-        std::cout << "Couldn't crack hash : " << hash << std::endl;
         return false;
     }
 

@@ -50,7 +50,7 @@ namespace be::esi::secl::pn
         for (unsigned i = 1; i <= nbHead; ++i)
         {
             passwd = rainbow::generate_passwd(PWD_SIZE);
-            sha256(ctx, passwd, digest);
+            SHA256_(ctx, passwd, digest);
             hash = sha256ToHex(digest);
             mtx.lock();
             outPwd << passwd << '\n';
