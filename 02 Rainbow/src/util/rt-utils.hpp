@@ -40,7 +40,6 @@ namespace be::esi::secl::pn
     }
 
 #define SHA256_(ctx, str, in)                               \
-    memset(in, 0, SHA256::DIGEST_SIZE);                     \
     ctx.init();                                             \
     ctx.update((unsigned char *)str.c_str(), str.length()); \
     ctx.final(in);

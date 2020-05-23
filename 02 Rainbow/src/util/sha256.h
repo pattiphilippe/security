@@ -1,7 +1,7 @@
 #ifndef SHA256_H
 #define SHA256_H
 #include <string>
- 
+
 /*
  * Updated to C++, zedwood.com 2012
  * Based on Olivier Gay's version
@@ -44,52 +44,102 @@ protected:
     typedef unsigned char uint8;
     typedef unsigned int uint32;
     typedef unsigned long long uint64;
- 
+
     const static uint32 sha256_k[];
-    static const unsigned int SHA224_256_BLOCK_SIZE = (512/8);
+    static const unsigned int SHA224_256_BLOCK_SIZE = (512 / 8);
+
 public:
     void init();
     void update(const unsigned char *message, unsigned int len);
     void final(unsigned char *digest);
-    static const unsigned int DIGEST_SIZE = ( 256 / 8);
- 
+    static const unsigned int DIGEST_SIZE = (256 / 8);
+
 protected:
-    void transform(const unsigned char *message, unsigned int block_nb);
+    //void transform(const unsigned char *message, unsigned int block_nb);
     unsigned int m_tot_len;
     unsigned int m_len;
-    unsigned char m_block[2*SHA224_256_BLOCK_SIZE];
+    unsigned char m_block[2 * SHA224_256_BLOCK_SIZE];
     uint32 m_h[8];
+
+    //Shared var to avoid multiple creation of var
+    unsigned char tmpUnsigned1;
+    unsigned char tmpUnsigned2;
+    unsigned char tmpUnsigned3;
+    unsigned char tmpUnsigned4;
+    const unsigned char *tmpConstUnsignedCharPtr;
+    const unsigned char *tmpConstUnsignedCharPtr2;
+    int tmpInt1;
+    int tmpInt2;
+    int tmpInt3;
+    uint8 tmpUint8_1;
+    uint32 tmpUint32_1;
+    uint32 tmpUint32_2;
+    uint32 tmpUint32Tab8_1[8];
+    uint32 tmpUint32Tab64_1[64];
 };
 
 //inline SHA256 ctx = SHA256(); //TODO check if removed correctly
 
 std::string sha256(const std::string &input);
 std::string sha256(SHA256 &ctx, const std::string &input);
-void sha256(SHA256 &ctx, const std::string &input, unsigned char digest []);
-std::string sha256ToHex(unsigned char digest []);
+void sha256(SHA256 &ctx, const std::string &input, unsigned char digest[]);
+std::string sha256ToHex(unsigned char digest[]);
 void sha256ToDec(const std::string &hash, unsigned char digest[]);
- 
-#define SHA2_SHFR(x, n)    (x >> n)
-#define SHA2_ROTR(x, n)   ((x >> n) | (x << ((sizeof(x) << 3) - n)))
-#define SHA2_ROTL(x, n)   ((x << n) | (x >> ((sizeof(x) << 3) - n)))
-#define SHA2_CH(x, y, z)  ((x & y) ^ (~x & z))
+
+#define SHA2_SHFR(x, n) (x >> n)
+#define SHA2_ROTR(x, n) ((x >> n) | (x << ((sizeof(x) << 3) - n)))
+#define SHA2_ROTL(x, n) ((x << n) | (x >> ((sizeof(x) << 3) - n)))
+#define SHA2_CH(x, y, z) ((x & y) ^ (~x & z))
 #define SHA2_MAJ(x, y, z) ((x & y) ^ (x & z) ^ (y & z))
-#define SHA256_F1(x) (SHA2_ROTR(x,  2) ^ SHA2_ROTR(x, 13) ^ SHA2_ROTR(x, 22))
-#define SHA256_F2(x) (SHA2_ROTR(x,  6) ^ SHA2_ROTR(x, 11) ^ SHA2_ROTR(x, 25))
-#define SHA256_F3(x) (SHA2_ROTR(x,  7) ^ SHA2_ROTR(x, 18) ^ SHA2_SHFR(x,  3))
+#define SHA256_F1(x) (SHA2_ROTR(x, 2) ^ SHA2_ROTR(x, 13) ^ SHA2_ROTR(x, 22))
+#define SHA256_F2(x) (SHA2_ROTR(x, 6) ^ SHA2_ROTR(x, 11) ^ SHA2_ROTR(x, 25))
+#define SHA256_F3(x) (SHA2_ROTR(x, 7) ^ SHA2_ROTR(x, 18) ^ SHA2_SHFR(x, 3))
 #define SHA256_F4(x) (SHA2_ROTR(x, 17) ^ SHA2_ROTR(x, 19) ^ SHA2_SHFR(x, 10))
-#define SHA2_UNPACK32(x, str)                 \
-{                                             \
-    *((str) + 3) = (uint8) ((x)      );       \
-    *((str) + 2) = (uint8) ((x) >>  8);       \
-    *((str) + 1) = (uint8) ((x) >> 16);       \
-    *((str) + 0) = (uint8) ((x) >> 24);       \
-}
-#define SHA2_PACK32(str, x)                   \
-{                                             \
-    *(x) =   ((uint32) *((str) + 3)      )    \
-           | ((uint32) *((str) + 2) <<  8)    \
-           | ((uint32) *((str) + 1) << 16)    \
-           | ((uint32) *((str) + 0) << 24);   \
-}
+#define SHA2_UNPACK32(x, str)              \
+    {                                      \
+        *((str) + 3) = (uint8)((x));       \
+        *((str) + 2) = (uint8)((x) >> 8);  \
+        *((str) + 1) = (uint8)((x) >> 16); \
+        *((str) + 0) = (uint8)((x) >> 24); \
+    }
+#define SHA2_PACK32(str, x)                                                                                                                \
+    {                                                                                                                                      \
+        *(x) = ((uint32) * ((str) + 3)) | ((uint32) * ((str) + 2) << 8) | ((uint32) * ((str) + 1) << 16) | ((uint32) * ((str) + 0) << 24); \
+    }
+#define SHA2_TRANSFORM(message, block_nb)                                                                                                                                                                    \
+    {                                                                                                                                                                                                   \
+        for (tmpInt2 = 0; tmpInt2 < (int)block_nb; ++tmpInt2)                                                                                                                                           \
+        {                                                                                                                                                                                               \
+            tmpConstUnsignedCharPtr2 = message + (tmpInt2 << 6);                                                                                                                                        \
+            for (tmpInt3 = 0; tmpInt3 < 16; ++tmpInt3)                                                                                                                                                  \
+            {                                                                                                                                                                                           \
+                SHA2_PACK32(&tmpConstUnsignedCharPtr2[tmpInt3 << 2], &tmpUint32Tab64_1[tmpInt3]);                                                                                                       \
+            }                                                                                                                                                                                           \
+            for (tmpInt3 = 16; tmpInt3 < 64; ++tmpInt3)                                                                                                                                                 \
+            {                                                                                                                                                                                           \
+                tmpUint32Tab64_1[tmpInt3] = SHA256_F4(tmpUint32Tab64_1[tmpInt3 - 2]) + tmpUint32Tab64_1[tmpInt3 - 7] + SHA256_F3(tmpUint32Tab64_1[tmpInt3 - 15]) + tmpUint32Tab64_1[tmpInt3 - 16];      \
+            }                                                                                                                                                                                           \
+            for (tmpInt3 = 0; tmpInt3 < 8; ++tmpInt3)                                                                                                                                                   \
+            {                                                                                                                                                                                           \
+                tmpUint32Tab8_1[tmpInt3] = m_h[tmpInt3];                                                                                                                                                \
+            }                                                                                                                                                                                           \
+            for (tmpInt3 = 0; tmpInt3 < 64; ++tmpInt3)                                                                                                                                                  \
+            {                                                                                                                                                                                           \
+                tmpUint32_1 = tmpUint32Tab8_1[7] + SHA256_F2(tmpUint32Tab8_1[4]) + SHA2_CH(tmpUint32Tab8_1[4], tmpUint32Tab8_1[5], tmpUint32Tab8_1[6]) + sha256_k[tmpInt3] + tmpUint32Tab64_1[tmpInt3]; \
+                tmpUint32_2 = SHA256_F1(tmpUint32Tab8_1[0]) + SHA2_MAJ(tmpUint32Tab8_1[0], tmpUint32Tab8_1[1], tmpUint32Tab8_1[2]);                                                                     \
+                tmpUint32Tab8_1[7] = tmpUint32Tab8_1[6];                                                                                                                                                \
+                tmpUint32Tab8_1[6] = tmpUint32Tab8_1[5];                                                                                                                                                \
+                tmpUint32Tab8_1[5] = tmpUint32Tab8_1[4];                                                                                                                                                \
+                tmpUint32Tab8_1[4] = tmpUint32Tab8_1[3] + tmpUint32_1;                                                                                                                                  \
+                tmpUint32Tab8_1[3] = tmpUint32Tab8_1[2];                                                                                                                                                \
+                tmpUint32Tab8_1[2] = tmpUint32Tab8_1[1];                                                                                                                                                \
+                tmpUint32Tab8_1[1] = tmpUint32Tab8_1[0];                                                                                                                                                \
+                tmpUint32Tab8_1[0] = tmpUint32_1 + tmpUint32_2;                                                                                                                                         \
+            }                                                                                                                                                                                           \
+            for (tmpInt3 = 0; tmpInt3 < 8; ++tmpInt3)                                                                                                                                                   \
+            {                                                                                                                                                                                           \
+                m_h[tmpInt3] += tmpUint32Tab8_1[tmpInt3];                                                                                                                                               \
+            }                                                                                                                                                                                           \
+        }                                                                                                                                                                                               \
+    }
 #endif

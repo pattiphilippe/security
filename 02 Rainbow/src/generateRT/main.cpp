@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
     //Generate passwords and tails and put them into the DB
     if (argc == 1)
     {
+        std::cout << "Generating the table..." << std::endl;
         generateRT(db); // With default values
     }
     else if (argc == 4)

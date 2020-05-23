@@ -45,6 +45,8 @@ namespace be::esi::secl::pn
         unsigned char digest[SHA256::DIGEST_SIZE];
         unsigned cpt, red_by;
         SHA256 ctx = SHA256();
+        
+        memset(digest, 0, SHA256::DIGEST_SIZE);
 
         for (unsigned i = 1; i <= nbHead; ++i)
         {

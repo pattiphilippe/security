@@ -59,6 +59,8 @@ namespace be::esi::secl::pn
         unsigned char hash_dec[SHA256::DIGEST_SIZE], digest[SHA256::DIGEST_SIZE];
         SHA256 ctx = SHA256();
 
+        memset(digest, 0, SHA256::DIGEST_SIZE);
+
         mtxReadHead.lock();
         std::getline(hashesInput, hash);
         mtxReadHead.unlock();
