@@ -12,8 +12,8 @@
 namespace be::esi::secl::pn
 {
 
-    constexpr unsigned NB_HEAD = 9000000; /**< How many password we generate for the RT */
-    constexpr int NB_REDUCE = 50000;      /**< How many reduce function we use before getting the tail */
+    constexpr unsigned NB_HEAD = 100000; /**< How many password we generate for the RT */
+    constexpr int NB_REDUCE = 1000;      /**< How many reduce function we use before getting the tail */
     inline const char *DROP_RT = "DROP TABLE IF EXISTS RAINBOW_TABLE;";
     inline const char *CREATE_RT = "CREATE TABLE RAINBOW_TABLE (head CHAR(8) PRIMARY KEY, tail CHAR(8) NOT NULL UNIQUE);";
     inline const char *INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";
