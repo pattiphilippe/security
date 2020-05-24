@@ -55,7 +55,6 @@ public:
     static const unsigned int DIGEST_SIZE = (256 / 8);
 
 protected:
-    //void transform(const unsigned char *message, unsigned int block_nb);
     unsigned int m_tot_len;
     unsigned int m_len;
     unsigned char m_block[2 * SHA224_256_BLOCK_SIZE];
@@ -78,12 +77,49 @@ protected:
     uint32 tmpUint32Tab64_1[64];
 };
 
-//inline SHA256 ctx = SHA256(); //TODO check if removed correctly
-
+/**
+ * @brief Hash the input.
+ * 
+ * @param input The input to hash.
+ * 
+ * @return std::string The hash of the input.
+ */
 std::string sha256(const std::string &input);
+
+/**
+ * @brief Hash the input.
+ * 
+ * @param ctx The SHA256.
+ * @param input The input to hash.
+ * 
+ * @return std::string The hash of the input.
+ */
 std::string sha256(SHA256 &ctx, const std::string &input);
+
+/**
+ * @brief Hash the input and put the decimal value of the hash into 'digest'.
+ * 
+ * @param ctx The SHA256.
+ * @param input The input to hash.
+ * @param digest The decimal value of the hash of the input.
+ */
 void sha256(SHA256 &ctx, const std::string &input, unsigned char digest[]);
+
+/**
+ * @brief Get the hexadecimal value of a decimal hash.
+ * 
+ * @param digest The decimal hash to convert.
+ * 
+ * @return std::string The hexadecimal value of a decimal hash.
+ */
 std::string sha256ToHex(unsigned char digest[]);
+
+/**
+ * @brief Get the decimal value of a hexadecimal hash.
+ * 
+ * @param hash The hexadecimal hash to convert.
+ * @param digest The decimal hash.
+ */
 void sha256ToDec(const std::string &hash, unsigned char digest[]);
 
 #define SHA2_SHFR(x, n) (x >> n)
@@ -106,7 +142,7 @@ void sha256ToDec(const std::string &hash, unsigned char digest[]);
     {                                                                                                                                      \
         *(x) = ((uint32) * ((str) + 3)) | ((uint32) * ((str) + 2) << 8) | ((uint32) * ((str) + 1) << 16) | ((uint32) * ((str) + 0) << 24); \
     }
-#define SHA2_TRANSFORM(message, block_nb)                                                                                                                                                                    \
+#define SHA2_TRANSFORM(message, block_nb)                                                                                                                                                               \
     {                                                                                                                                                                                                   \
         for (tmpInt2 = 0; tmpInt2 < (int)block_nb; ++tmpInt2)                                                                                                                                           \
         {                                                                                                                                                                                               \
