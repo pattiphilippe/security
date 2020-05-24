@@ -68,14 +68,14 @@ namespace be::esi::secl::pn
         while (hashesInput) // For each hash
         {
 
-            if (getPwd(hash, pwd, stmtReadTail, stmtReadHead_T, hash_dec, digest, ctx))
+            if (getPwd(hash, pwd, stmtReadTail, stmtReadHead_T, hash_dec, digest, ctx)) //PWD found
             {
                 mtxPrintCracked.lock();
                 crackedPwdOutput << pwd << std::endl;   //Write found pwd
                 crackedHashOutput << hash << std::endl; //Write hash
                 mtxPrintCracked.unlock();
             }
-            else
+            else //PWD not found
             {
                 mtxPrintCracked.lock();
                 crackedPwdOutput << std::endl;          //Write unfound pwd
@@ -100,23 +100,26 @@ namespace be::esi::secl::pn
 
         for (; 0 <= idxReduction; --idxReduction)
         {
+            //Get the tail
             red_by = idxReduction;
             REDUCE(pwd, hash_dec, red_by, cptPwdSize);
             i = idxReduction + 1;
             SHA256_REDUCE_X_TIMES(ctx, pwd, digest, NB_REDUCE, red_by, i, cptPwdSize)
 
+            //Check if the tail exist
             sqlite3_clear_bindings(stmtReadTail);
             sqlite3_reset(stmtReadTail);
             sqlite3_bind_text(stmtReadTail, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC);
             rc = sqlite3_step(stmtReadTail);
 
-            if (rc == SQLITE_ROW)
+            if (rc == SQLITE_ROW) //If the tail exist
             {
                 GET_HEAD(stmtReadHead_T, pwd)
                 i = 0;
                 SHA256_REDUCE_X_TIMES(ctx, pwd, digest, idxReduction, red_by, i, cptPwdSize) //Find pwd
                 SHA256_(ctx, pwd, digest)
-                
+
+                //Check collision
                 isCollision = false;
                 for (i = 0; i < SHA256::DIGEST_SIZE; ++i)
                 {

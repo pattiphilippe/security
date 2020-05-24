@@ -45,9 +45,30 @@ namespace be::esi::secl::pn
      */
     void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput);
 
+    /**
+     * @brief Get the password of a given hash.
+     * 
+     * @param hash The hash to crack.
+     * @param pwd The password found. This var is modified after the call of the function. But its content have no sense 
+     * if the function return false.
+     * @param stmtReadTail Statement to get a tail from the DB according to a tail. This mean that this is used to know 
+     * if the tail exist in the DB.
+     * @param stmtReadHead Statement to get the head of a tail.
+     * @param hash_dec The decimal hash to crack.
+     * @param digest Var to hold temporary digest, to avoid multiple creation. It is used to compare with the hash to crack.
+     * @param ctx The SHA256 class.
+     * @return true If there is a collision. 'pwd' don't hold a valid value.
+     * @return false If there is no collition. The password of the hash is hols in 'pwd'.
+     */
     bool getPwd(const std::string &hash, std::string &pwd, sqlite3_stmt *stmtReadTail, sqlite3_stmt *stmtReadHead,
-                       unsigned char hash_dec[], unsigned char digest[], SHA256 &ctx);
+                unsigned char hash_dec[], unsigned char digest[], SHA256 &ctx);
 
+/**
+ * @brief Get the head of a tail.
+ * 
+ * @param stmtGetHead The statement to get the head with a tail. The tail must exist in the DB.
+ * @param pwd The password where to save the head.
+ */
 #define GET_HEAD(stmtGetHead, pwd)                                               \
     sqlite3_clear_bindings(stmtGetHead);                                         \
     sqlite3_reset(stmtGetHead);                                                  \

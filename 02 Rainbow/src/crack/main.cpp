@@ -47,34 +47,4 @@ int main()
     // Launch the crack and print the success rate
     crack(HASH_FILE, db, CRACKED_PWD_FILE, CRACKED_HASH_FILE);
     std::cout << "Success : " << rainbow::mass_check(CRACKED_PWD_FILE, CRACKED_HASH_FILE) / NB_PWD_TO_GENERATE << std::endl;
-
-    // std::cout << "getPercentage(10000000, 50000, 6, 64) : " << getPercentage(10000000, 50000, 6, 64) << std::endl;
-
-    // std::string pwd = rainbow::generate_passwd(8);
-    // std::cout << "pwd " << pwd << std::endl;
-    // unsigned char digest[32], digest2[32];
-
-    // SHA256 ctx = SHA256();
-    // sha256(ctx, pwd, digest);
-
-    // std::string hashHex = sha256ToHex(digest);
-    // std::cout << "hashHex1 : "
-    //           << hashHex << std::endl;
-
-    // sha256ToDec(hashHex, digest2);
-    // std::string hashHex2 = sha256ToHex(digest2);
-    // std::cout << "hashHex2 : "
-    //           << hashHex2 << std::endl;
-
-    // std::cout << "pwd test 2 " << pwd << std::endl;
-    // sha256(ctx, pwd, digest);
-
-    // hashHex = sha256ToHex(digest);
-    // std::cout << "hashHex1 : "
-    //           << hashHex << std::endl;
-
-    // sha256ToDec(hashHex, digest2);
-    // hashHex2 = sha256ToHex(digest2);
-    // std::cout << "hashHex2 : "
-    //           << hashHex2 << std::endl;
 }
