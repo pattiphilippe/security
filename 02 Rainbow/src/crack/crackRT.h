@@ -12,14 +12,9 @@
 namespace be::esi::secl::pn
 {
 
-    /**
-    * Select a tail
-    */
-    inline const char *SELECT_TAIL = "SELECT tail FROM RAINBOW_TABLE WHERE tail = ?;";
-    /**
-     * Select the head of the tail
-     */
-    inline const char *SELECT_HEAD_T = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;";
+    inline const char *SELECT_TAIL = "SELECT tail FROM RAINBOW_TABLE WHERE tail = ?;";   /**< Select a tail */
+    inline const char *SELECT_HEAD_T = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;"; /**< Select the head of the tail */
+    constexpr unsigned NB_THREADS = 10;                                                  /**< How many threads to run to crack */
 
     /**
      * Attempts to find passwords corresponding to the hashes given, at the hand of the tails.

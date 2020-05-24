@@ -18,7 +18,6 @@ namespace be::esi::secl::pn
 
     std::mutex mtxReadHead;             /**< Mutex to read the head file with concurency */
     std::mutex mtxPrintCracked;         /**< Mutex to write cracked password and hashes with concurency */
-    constexpr unsigned NB_THREADS = 10; /**< How many threads to run to crack */
 
     void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile)
     {
