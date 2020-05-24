@@ -5,10 +5,7 @@
 #include "generateRT.h"
 #include "../util/rt-utils.hpp"
 #include <iostream>
-#include <string>
 #include <sqlite3.h>
-#include <sstream>
-#include <fstream>
 
 using namespace be::esi::secl::pn;
 
@@ -20,9 +17,10 @@ using namespace be::esi::secl::pn;
  * number of reduce to apply).
  * 
  * @param argc The number of params
- * @param argv The params. Can be empty. If not empty, param at position 1 and 2 must be numericals values.
- * The first is the number of head to create, the second the number of reduce to apply on the head to get the tail.
- * If the value is not correct, behavior is undetermined.
+ * @param argv The params. Can be empty to use default values. If not empty, param at position 1, 2 and 3 must be positive numerical values.
+ * The first is the number of head to create, the second the number of reduce to apply on the head to get the tail, and the 
+ * third is the passwords size.
+ * If the values are not valid, behavior is undetermined.
  */
 int main(int argc, char *argv[])
 {
@@ -40,29 +38,39 @@ int main(int argc, char *argv[])
     sqlite3_exec(db, "PRAGMA cache_size = 100000", 0, 0, 0); // Increase cache size to hold the transaction
     sqlite3_exec(db, "PRAGMA page_size = 16384", 0, 0, 0);   // Increase page size
 
-    //Generate passwords and tails and put them into the DB
-    if (argc == 1)
+    //Get params
+    unsigned pwdSize, nbHead, nbReduce;
+
+    if (argc == 1) //With default values
     {
-        std::cout << "Generating the table..." << std::endl;
-        generateRT(db); // With default values
+        pwdSize = PWD_SIZE;
+        nbHead = NB_HEAD;
+        nbReduce = NB_REDUCE;
     }
-    else if (argc == 4)
+    else if (argc == 4) // With user values
     {
-        // With user values
-        unsigned nbHead;
-        std::stringstream strValue;
-        strValue << argv[1];
-        strValue >> nbHead;
-
-        unsigned nbReduce;
-        strValue << argv[2];
-        strValue >> nbReduce;
-
-        strValue << argv[3];
-        strValue >> PWD_SIZE;
-
-        generateRT(db, nbHead, nbReduce);
+        nbHead = strtoul(argv[1], NULL, 10);
+        nbReduce = strtoul(argv[2], NULL, 10);
+        pwdSize = strtoul(argv[3], NULL, 10);
     }
+    else
+    {
+        std::cerr << "Usage is without parameters or with 3 parameters : "
+                  << "(number of heads) (number of reduce) (password size)" << std::endl;
+        return -1;
+    }
+
+    std::cout << "Success rate expected with"
+              << " number of heads = " << nbHead
+              << ", number of reduce = " << nbReduce
+              << ", password's size = " << pwdSize
+              << " : "
+              << getPercentage(nbHead, nbReduce, pwdSize, SIZE_AZ_O9)
+              << '\n'
+              << "Generating the table..."
+              << std::endl;
+
+    generateRT(db, pwdSize, nbHead, nbReduce);
 
     // Close DB
     sqlite3_close(db);

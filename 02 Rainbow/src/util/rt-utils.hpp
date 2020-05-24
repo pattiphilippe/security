@@ -13,7 +13,6 @@
 namespace be::esi::secl::pn
 {
 
-    inline unsigned PWD_SIZE = 5;                                                                                                                                                                                                                                                                                                                                        /**< The size of the passwords */
     constexpr unsigned SIZE_AZ_O9 = 64;                                                                                                                                                                                                                                                                                                                                  /**< Number of valid caracters for a password */
     constexpr char AZ_O9[SIZE_AZ_O9] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '@', '!'}; /**< All valid char for a password */
 
@@ -58,9 +57,10 @@ namespace be::esi::secl::pn
  * @param in The digest to reduce.
  * @param red_by What is the reduce value.
  * @param o_idx Cpt for the digest size.
+ * @param pwdSize The password's size
  */
-#define REDUCE(pwd, in, red_by, o_idx)                               \
-    for (o_idx = 0; o_idx < PWD_SIZE; ++o_idx)                       \
+#define REDUCE(pwd, in, red_by, o_idx, pwdSize)                      \
+    for (o_idx = 0; o_idx < pwdSize; ++o_idx)                        \
     {                                                                \
         pwd[o_idx] = AZ_O9[(in[o_idx] + (red_by & 7)) % SIZE_AZ_O9]; \
         red_by >>= 3;                                                \
@@ -74,10 +74,11 @@ namespace be::esi::secl::pn
  * @param in The digest wich contain the decimal value of the hash.
  * @param red_by What is the reduce value.
  * @param o_idx Cpt for the digest size.
+ * @param pwdSize The password's size
  */
-#define SHA256_REDUCE(ctx, str, in, red_by, o_idx) \
-    SHA256_(ctx, str, in)                          \
-    REDUCE(str, in, red_by, o_idx)
+#define SHA256_REDUCE(ctx, str, in, red_by, o_idx, pwdSize) \
+    SHA256_(ctx, str, in)                                   \
+    REDUCE(str, in, red_by, o_idx, pwdSize)
 
 /**
  * @brief Get the hash of an input and reduce. Do it X times with the result (the reduced string)
@@ -89,12 +90,13 @@ namespace be::esi::secl::pn
  * @param red_by What is the reduce value.
  * @param cptIdx The start value used for the loop. Its content is updated and set to idx.
  * @param o_idx Cpt for the digest size.
+ * @param pwdSize The password's size
  */
-#define SHA256_REDUCE_X_TIMES(ctx, pwd, digest, idx, red_by, cptIdx, o_idx) \
-    for (; cptIdx < idx; ++cptIdx)                                          \
-    {                                                                       \
-        red_by = cptIdx;                                                    \
-        SHA256_REDUCE(ctx, pwd, digest, red_by, o_idx)                      \
+#define SHA256_REDUCE_X_TIMES(ctx, pwd, digest, idx, red_by, cptIdx, o_idx, pwdSize) \
+    for (; cptIdx < idx; ++cptIdx)                                                   \
+    {                                                                                \
+        red_by = cptIdx;                                                             \
+        SHA256_REDUCE(ctx, pwd, digest, red_by, o_idx, pwdSize)                      \
     }
 
 } // namespace be::esi::secl::pn

@@ -14,7 +14,7 @@
 namespace be::esi::secl::pn
 {
 
-    void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
+    void generateRT(sqlite3 *db, unsigned pwdSize, unsigned nbHead, int nbReduce)
     {
         // sqlite3_exec(db, DROP_RT, 0, 0, 0); //TODO enable drop the table
         // if (sqlite3_exec(db, CREATE_RT, 0, 0, 0) != SQLITE_OK)
@@ -25,20 +25,20 @@ namespace be::esi::secl::pn
         std::vector<std::thread> threads;
         for (unsigned i = 0; i < NB_THREADS_GENERATE; i++)
         {
-            threads.push_back(std::thread(generateRTInThread, db, nbHead / NB_THREADS_GENERATE, nbReduce));
+            threads.push_back(std::thread(generateRTInThread, db, pwdSize, nbHead / NB_THREADS_GENERATE, nbReduce));
         }
 
         std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join(); });
     }
 
-    void generateRTInThread(sqlite3 *db, unsigned nbHead, int nbReduce)
+    void generateRTInThread(sqlite3 *db, unsigned pwdSize, unsigned nbHead, int nbReduce)
     {
         sqlite3_stmt *stmt, *stmtReadHead;
         sqlite3_prepare_v2(db, INSERT_RT, -1, &stmt, 0);
         sqlite3_prepare_v2(db, SELECT_HEAD, -1, &stmtReadHead, 0);
 
-        std::string passwd(PWD_SIZE, 'A'), reduced(PWD_SIZE, 'A');
-        int idxReduction;
+        std::string passwd(pwdSize, 'A'), reduced(pwdSize, 'A');
+        int idxReduction, rc;
         unsigned char digest[SHA256::DIGEST_SIZE];
         unsigned cpt, red_by;
         SHA256 ctx = SHA256();
@@ -47,7 +47,7 @@ namespace be::esi::secl::pn
 
         for (unsigned i = 1; i <= nbHead; ++i)
         {
-            passwd = rainbow::generate_passwd(PWD_SIZE); //Generate a head
+            passwd = rainbow::generate_passwd(pwdSize); //Generate a head
 
             //Check if already in the table
             sqlite3_clear_bindings(stmtReadHead);
@@ -59,13 +59,13 @@ namespace be::esi::secl::pn
             //Get the hash and the second password
             SHA256_(ctx, passwd, digest);
             red_by = 0;
-            REDUCE(reduced, digest, red_by, cpt);
+            REDUCE(reduced, digest, red_by, cpt, pwdSize);
 
             //Get the tail
             for (idxReduction = 1; idxReduction < nbReduce; ++idxReduction)
             {
                 red_by = idxReduction;
-                SHA256_REDUCE(ctx, reduced, digest, red_by, cpt);
+                SHA256_REDUCE(ctx, reduced, digest, red_by, cpt, pwdSize);
             }
 
             //Insert the tail
@@ -73,7 +73,7 @@ namespace be::esi::secl::pn
             sqlite3_reset(stmt);
             sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
             sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
-            sqlite3_step(stmt);
+            rc = sqlite3_step(stmt);
 
             if (i % 1024 == 0) //TODO remove trace
                 std::cout << i << std::endl;

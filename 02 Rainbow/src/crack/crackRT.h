@@ -5,6 +5,7 @@
 #ifndef CRACK_H
 #define CRACK_H
 
+#include "../generateRT/generateRT.h"
 #include "../util/sha256.h"
 #include <string>
 #include <sqlite3.h>
@@ -14,7 +15,7 @@ namespace be::esi::secl::pn
 
     inline const char *SELECT_TAIL = "SELECT tail FROM RAINBOW_TABLE WHERE tail = ?;";   /**< Select a tail */
     inline const char *SELECT_HEAD_T = "SELECT head FROM RAINBOW_TABLE WHERE tail = ?;"; /**< Select the head of the tail */
-    constexpr unsigned NB_THREADS = 10;                                                  /**< How many threads to run to crack */
+    constexpr unsigned NB_THREADS_CRACK = 10;                                            /**< How many threads to run to crack */
 
     /**
      * Attempts to find passwords corresponding to the hashes given, at the hand of the tails.
@@ -25,9 +26,11 @@ namespace be::esi::secl::pn
      * @param crackedPwdFile The file's name for the cracked passwords.
      * @param crackedHashFile The file's name for the hashes of the cracked passwords. Each line is the hash of the password of the same line 
      * of the passwords file.
+     * @param pwdSize The passwords's lenght of the table.
+     * @param nbReduce The number of reduce to apply before getting the tail.
      * @throw std::runtime_error if hashFile, headFile, tailsFile or crackedFile can't be opened.
      */
-    void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile);
+    void crack(const std::string &hashFile, sqlite3 *db, const std::string &crackedPwdFile, const std::string &crackedHashFile, unsigned pwdSize = PWD_SIZE, unsigned nbReduce = NB_REDUCE);
 
     /**
      * Crack function to call with a thread.
@@ -37,8 +40,10 @@ namespace be::esi::secl::pn
      * @param crackedPwdOutput The file's name for the cracked passwords.
      * @param crackedHashOutput The file's name for the hashes of the cracked passwords. Each line is the hash of the password of the same line 
      * of the passwords file.
+     * @param pwdSize The passwords's lenght of the table.
+     * @param nbReduce The number of reduce to apply before getting the tail.
      */
-    void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput);
+    void crackInThread(std::ifstream &hashesInput, sqlite3 *db, std::ofstream &crackedPwdOutput, std::ofstream &crackedHashOutput, unsigned pwdSize, unsigned nbReduce);
 
     /**
      * @brief Get the password of a given hash.
@@ -52,23 +57,27 @@ namespace be::esi::secl::pn
      * @param hash_dec The decimal hash to crack.
      * @param digest Var to hold temporary digest, to avoid multiple creation. It is used to compare with the hash to crack.
      * @param ctx The SHA256 class.
+     * @param pwdSize The passwords's lenght of the table.
+     * @param nbReduce The number of reduce to apply before getting the tail.
+     * 
      * @return true If there is a collision. 'pwd' don't hold a valid value.
      * @return false If there is no collition. The password of the hash is hols in 'pwd'.
      */
     bool getPwd(const std::string &hash, std::string &pwd, sqlite3_stmt *stmtReadTail, sqlite3_stmt *stmtReadHead,
-                unsigned char hash_dec[], unsigned char digest[], SHA256 &ctx);
+                unsigned char hash_dec[], unsigned char digest[], SHA256 &ctx, unsigned pwdSize, unsigned nbReduce);
 
 /**
  * @brief Get the head of a tail.
  * 
  * @param stmtGetHead The statement to get the head with a tail. The tail must exist in the DB.
  * @param pwd The password where to save the head.
+ * @param lenght The password's size
  */
-#define GET_HEAD(stmtGetHead, pwd)                                               \
-    sqlite3_clear_bindings(stmtGetHead);                                         \
-    sqlite3_reset(stmtGetHead);                                                  \
-    sqlite3_bind_text(stmtGetHead, 1, pwd.c_str(), pwd.length(), SQLITE_STATIC); \
-    sqlite3_step(stmtGetHead);                                                   \
+#define GET_HEAD(stmtGetHead, pwd, lenght)                                 \
+    sqlite3_clear_bindings(stmtGetHead);                                   \
+    sqlite3_reset(stmtGetHead);                                            \
+    sqlite3_bind_text(stmtGetHead, 1, pwd.c_str(), lenght, SQLITE_STATIC); \
+    sqlite3_step(stmtGetHead);                                             \
     pwd.assign(reinterpret_cast<const char *>(sqlite3_column_text(stmtGetHead, 0)));
 
 } //NAMESPACE be::esi::secl::pn
