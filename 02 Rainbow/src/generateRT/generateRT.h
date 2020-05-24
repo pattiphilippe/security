@@ -19,6 +19,7 @@ namespace be::esi::secl::pn
    inline const char *INSERT_RT = "INSERT INTO RAINBOW_TABLE (head, tail) VALUES (?, ?);";                                /**< SQL statement to insert a head and a tail */
    inline const char *SELECT_HEAD = "SELECT head FROM RAINBOW_TABLE WHERE head = ?;";                                     /**< SQL statement to get a head from a head. This is used to check if the head exist */
    inline const std::string DB_NAME("rsc/rt.sqlite");                                                                     /**< The relative path to the DB */
+   constexpr unsigned NB_THREADS_GENERATE = 10;                                                                           /**< Number of thread to create to generate the RT */
 
    /**
     * Generate the head and the tails of the RT, and write them into the DB.
