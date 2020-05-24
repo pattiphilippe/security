@@ -3,12 +3,12 @@
  * @brief Main entry for to generate the Rainbow Table
  */
 #include "generateRT.h"
+#include "../util/rt-utils.hpp"
 #include <iostream>
 #include <string>
 #include <sqlite3.h>
 #include <sstream>
 #include <fstream>
-#include "../util/rt-utils.hpp"
 
 using namespace be::esi::secl::pn;
 
@@ -18,6 +18,7 @@ using namespace be::esi::secl::pn;
  * with some configuration, the database can be corrupted in the event of a crash or power outage.
  * After that, it will generate the RT with default (ne param) or user values (first param is the number of head to create, second is the 
  * number of reduce to apply).
+ * 
  * @param argc The number of params
  * @param argv The params. Can be empty. If not empty, param at position 1 and 2 must be numericals values.
  * The first is the number of head to create, the second the number of reduce to apply on the head to get the tail.
@@ -65,9 +66,4 @@ int main(int argc, char *argv[])
 
     // Close DB
     sqlite3_close(db);
-
-    // std::cout << "getPercentage(5000, 50000, 5, 36) : " << getPercentage(5000, 50000, 5, 36) << std::endl;
-    // std::cout << "getPercentage(10000, 50000, 5, 36) : " << getPercentage(10000, 50000, 5, 36) << std::endl;
-    // std::cout << "getPercentage(20000, 50000, 5, 36) : " << getPercentage(20000, 50000, 5, 36) << std::endl;
-    // std::cout << "getPercentage(50000, 50000, 5, 36) : " << getPercentage(50000, 50000, 5, 36) << std::endl;
 }

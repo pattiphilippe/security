@@ -10,16 +10,13 @@
 #include <algorithm>
 #include <thread>
 #include <string.h>
-#include <mutex>
 
 namespace be::esi::secl::pn
 {
-    std::mutex mtx;
-    constexpr unsigned NB_THREADS_GENERATE = 10; /**< Number of thread to create to generate the RT */
 
     void generateRT(sqlite3 *db, unsigned nbHead, int nbReduce)
     {
-        // sqlite3_exec(db, DROP_RT, 0, 0, 0);
+        // sqlite3_exec(db, DROP_RT, 0, 0, 0); //TODO enable drop the table
         // if (sqlite3_exec(db, CREATE_RT, 0, 0, 0) != SQLITE_OK)
         // {
         //     throw std::runtime_error("Can't create the table in DB!");
@@ -45,35 +42,42 @@ namespace be::esi::secl::pn
         unsigned char digest[SHA256::DIGEST_SIZE];
         unsigned cpt, red_by;
         SHA256 ctx = SHA256();
-        
+
         memset(digest, 0, SHA256::DIGEST_SIZE);
 
         for (unsigned i = 1; i <= nbHead; ++i)
         {
-            passwd = rainbow::generate_passwd(PWD_SIZE);
+            passwd = rainbow::generate_passwd(PWD_SIZE); //Generate a head
+
+            //Check if already in the table
             sqlite3_clear_bindings(stmtReadHead);
             sqlite3_reset(stmtReadHead);
             sqlite3_bind_text(stmtReadHead, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
-            if (sqlite3_step(stmtReadHead) == SQLITE_ROW)
+            if (sqlite3_step(stmtReadHead) == SQLITE_ROW) //Skip this head because already in the table
                 continue;
+            
+            //Get the hash and the second password
             SHA256_(ctx, passwd, digest);
             red_by = 0;
             REDUCE(reduced, digest, red_by, cpt);
 
+            //Get the tail
             for (idxReduction = 1; idxReduction < nbReduce; ++idxReduction)
             {
                 red_by = idxReduction;
                 SHA256_REDUCE(ctx, reduced, digest, red_by, cpt);
             }
 
+            //Insert the tail
             sqlite3_clear_bindings(stmt);
             sqlite3_reset(stmt);
             sqlite3_bind_text(stmt, 1, passwd.c_str(), passwd.length(), SQLITE_STATIC);
             sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
             sqlite3_step(stmt);
-            if (i % 1024 == 0)
+
+            if (i % 1024 == 0) //TODO remove trace
                 std::cout << i << std::endl;
-            // if (rc != SQLITE_DONE)
+            // if (rc != SQLITE_DONE) //Can take a lot of time if used
             //     i--;
         }
     }
