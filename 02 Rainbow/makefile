@@ -4,7 +4,7 @@
 #CONTACT: 43197@etu.he2b.be
 
 
-run : build #setup
+run : build #setup #TODO put setup before build
 	@echo
 	./build/generateRT
 	./build/crackRT
