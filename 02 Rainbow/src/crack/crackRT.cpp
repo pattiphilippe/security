@@ -34,7 +34,7 @@ namespace be::esi::secl::pn
             throw std::runtime_error("Cracked passwords hashes file can't be opened");
 
         std::vector<std::thread> threads;
-        for (unsigned i = 0; i < NB_THREADS_CRACK; i++)
+        for (unsigned i = 0; i < NB_THREADS_CRACK; ++i)
         {
             threads.push_back(std::thread(crackInThread, std::ref(hashesInput), db,
                                           std::ref(crackedPwdOutput), std::ref(crackedHashOutput), pwdSize, nbReduce)); //Need to wrap the references

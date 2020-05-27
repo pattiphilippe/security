@@ -7,11 +7,12 @@ Declaration of functions for \hyperlink{generateRT_8cpp}{generate\+R\+T.\+cpp}.
 
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$sqlite3.\+h$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
 Include dependency graph for generate\+R\+T.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=226pt]{generateRT_8h__incl}
+\includegraphics[width=261pt]{generateRT_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -29,29 +30,31 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-const std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a78cbe51f7d2cc08391438e6f0c798e23}{be\+::esi\+::secl\+::pn\+::\+D\+B\+\_\+\+N\+A\+ME} (\char`\"{}rsc/rt\+\_\+6-\/7-\/8\+\_\+1\+\_\+255000000\+\_\+10000.\+sqlite\char`\"{})
+const std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a7e1929f4bc962788d33baa1e2f20387b}{be\+::esi\+::secl\+::pn\+::\+D\+B\+\_\+\+N\+A\+ME} (\char`\"{}rsc/rt.\+sqlite\char`\"{})
 \begin{DoxyCompactList}\small\item\em The relative path to the DB. \end{DoxyCompactList}\item 
-void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_af8b773cad93b0eb78b89f69721e4bb1d}{be\+::esi\+::secl\+::pn\+::generate\+RT} (sqlite3 $\ast$db, unsigned nb\+Head=N\+B\+\_\+\+H\+E\+AD, int nb\+Reduce=N\+B\+\_\+\+R\+E\+D\+U\+CE)
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_abd22f0fb1b69636d22a3f698f3683085}{be\+::esi\+::secl\+::pn\+::generate\+RT} (sqlite3 $\ast$db, unsigned pwd\+Size=P\+W\+D\+\_\+\+S\+I\+ZE, unsigned nb\+Head=N\+B\+\_\+\+H\+E\+AD, int nb\+Reduce=N\+B\+\_\+\+R\+E\+D\+U\+CE)
 \begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\item 
-void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aaf5216f5718720c15b5925f7e8a94d10}{be\+::esi\+::secl\+::pn\+::generate\+R\+T\+In\+Thread} (sqlite3 $\ast$db, unsigned nb\+Head, int nb\+Reduce)
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ab195afc2c7a35cd9a6bc48e990567fdf}{be\+::esi\+::secl\+::pn\+::generate\+R\+T\+In\+Thread} (sqlite3 $\ast$db, unsigned pwd\+Size, unsigned nb\+Head, int nb\+Reduce)
 \begin{DoxyCompactList}\small\item\em Generate the head and the tails of the RT, and write them into the DB. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a3f7aaccb1bf4e47f92d72bf9b2471328}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+H\+E\+AD} = 255000000
-\begin{DoxyCompactList}\small\item\em How many password we generate for the RT. \end{DoxyCompactList}\item 
-const int \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a9434f9e96778e243fcb677633df38598}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+R\+E\+D\+U\+CE} = 10000
+constexpr unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a233e474af3fb15b935a71709407307ec}{be\+::esi\+::secl\+::pn\+::\+P\+W\+D\+\_\+\+S\+I\+ZE} = 5
+\begin{DoxyCompactList}\small\item\em The size of the passwords. \end{DoxyCompactList}\item 
+constexpr unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a4315be4236bbf06dd631d0e6dc87fc41}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+H\+E\+AD} = 100000
+\begin{DoxyCompactList}\small\item\em How many password we try to generate for the RT, will probably be lower, due to same heads or tails. \end{DoxyCompactList}\item 
+constexpr unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a712c184235263459041b774c8229fc1b}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+R\+E\+D\+U\+CE} = 1000
 \begin{DoxyCompactList}\small\item\em How many reduce function we use before getting the tail. \end{DoxyCompactList}\item 
-const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ac4d6305d2a5baed196042f8a30533620}{be\+::esi\+::secl\+::pn\+::\+M\+I\+N\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 6
-\begin{DoxyCompactList}\small\item\em The minimal password size. \end{DoxyCompactList}\item 
-const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a2e3241ac36dabdb668b68028e097dded}{be\+::esi\+::secl\+::pn\+::\+M\+A\+X\+\_\+\+P\+W\+D\+\_\+\+S\+I\+ZE} = 8
-\begin{DoxyCompactList}\small\item\em The maximal password size. \end{DoxyCompactList}\item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a6dae14cb83aa871e50c9aaea7f776055}{be\+::esi\+::secl\+::pn\+::\+D\+R\+O\+P\+\_\+\+RT} = \char`\"{}D\+R\+OP T\+A\+B\+LE IF E\+X\+I\+S\+TS R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE;\char`\"{}
-\item 
+\begin{DoxyCompactList}\small\item\em S\+QL statement to drop the table. \end{DoxyCompactList}\item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ab39f379fcf2d9342096df70dcf998d32}{be\+::esi\+::secl\+::pn\+::\+C\+R\+E\+A\+T\+E\+\_\+\+RT} = \char`\"{}C\+R\+E\+A\+TE T\+A\+B\+LE R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head C\+H\+AR(8) P\+R\+I\+M\+A\+RY K\+EY, tail C\+H\+AR(8) N\+OT N\+U\+LL U\+N\+I\+Q\+UE);\char`\"{}
-\item 
+\begin{DoxyCompactList}\small\item\em S\+QL statement to create the rainbow table. \end{DoxyCompactList}\item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a93b0970fb08c37d478307bfadfb3b775}{be\+::esi\+::secl\+::pn\+::\+I\+N\+S\+E\+R\+T\+\_\+\+RT} = \char`\"{}I\+N\+S\+E\+RT I\+N\+TO R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE (head, tail) V\+A\+L\+U\+ES (?, ?);\char`\"{}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em S\+QL statement to insert a head and a tail. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a90db4018123c098c9cd9205b69c1d2e5}{be\+::esi\+::secl\+::pn\+::\+S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD} = \char`\"{}S\+E\+L\+E\+CT head F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE head = ?;\char`\"{}
+\begin{DoxyCompactList}\small\item\em S\+QL statement to get a head from a head. \end{DoxyCompactList}\item 
+constexpr unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a1e6f4ac9ec9002d783f3d7143062dcb5}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+G\+E\+N\+E\+R\+A\+TE} = 10
+\begin{DoxyCompactList}\small\item\em Number of thread to create to generate the RT. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}

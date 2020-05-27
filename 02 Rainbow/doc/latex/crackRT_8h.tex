@@ -5,13 +5,15 @@
 Declaration of functions of \hyperlink{crackRT_8h}{crack\+R\+T.\+h}.  
 
 
+{\ttfamily \#include \char`\"{}../generate\+R\+T/generate\+R\+T.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../util/sha256.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$sqlite3.\+h$>$}\newline
 Include dependency graph for crack\+R\+T.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=193pt]{crackRT_8h__incl}
+\includegraphics[width=350pt]{crackRT_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -26,28 +28,61 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \item 
  \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn}{be\+::esi\+::secl\+::pn}
 \end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{crackRT_8h_a12143694f3d4bf2398a0a10fe44a8187}{G\+E\+T\+\_\+\+H\+E\+AD}(stmt\+Get\+Head,  pwd,  lenght)
+\begin{DoxyCompactList}\small\item\em Get the head of a tail. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aad832fb30fa4cc9e74d15d7129d0c929}{be\+::esi\+::secl\+::pn\+::crack} (const std\+::string \&hash\+File, sqlite3 $\ast$db, const std\+::string \&cracked\+Pwd\+File, const std\+::string \&cracked\+Hash\+File)
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a56fa00c405a4fb0e6446717fb1390493}{be\+::esi\+::secl\+::pn\+::crack} (const std\+::string \&hash\+File, sqlite3 $\ast$db, const std\+::string \&cracked\+Pwd\+File, const std\+::string \&cracked\+Hash\+File, unsigned pwd\+Size=P\+W\+D\+\_\+\+S\+I\+ZE, unsigned nb\+Reduce=N\+B\+\_\+\+R\+E\+D\+U\+CE)
 \begin{DoxyCompactList}\small\item\em Attempts to find passwords corresponding to the hashes given, at the hand of the tails. \end{DoxyCompactList}\item 
-void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a5421a253f4c247695a0f26055ecc4dea}{be\+::esi\+::secl\+::pn\+::crack\+In\+Thread} (std\+::ifstream \&hashes\+Input, sqlite3 $\ast$db, std\+::ofstream \&cracked\+Pwd\+Output, std\+::ofstream \&cracked\+Hash\+Output)
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a2e1d887d50e74bfd7abd4fc851105d03}{be\+::esi\+::secl\+::pn\+::crack\+In\+Thread} (std\+::ifstream \&hashes\+Input, sqlite3 $\ast$db, std\+::ofstream \&cracked\+Pwd\+Output, std\+::ofstream \&cracked\+Hash\+Output, unsigned pwd\+Size, unsigned nb\+Reduce)
 \begin{DoxyCompactList}\small\item\em Crack function to call with a thread. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a44dea6059d3689561497f5f03e09dac2}{be\+::esi\+::secl\+::pn\+::get\+Tail} (const std\+::string \&hash, sqlite3\+\_\+stmt $\ast$stmt\+Read\+Tail, int \&idx\+Reduction)
-\begin{DoxyCompactList}\small\item\em Searches the tail of the hash and return it. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a4f2bdcedf26f904e1e07776955d80d97}{be\+::esi\+::secl\+::pn\+::get\+Head} (sqlite3\+\_\+stmt $\ast$stmt\+Get\+Head, std\+::string tail)
-\begin{DoxyCompactList}\small\item\em Get the head of a tail. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ae68f13fff76cabc930b60594c300a168}{be\+::esi\+::secl\+::pn\+::find\+Pwd} (std\+::string head, int idx\+Reduction)
-\begin{DoxyCompactList}\small\item\em Computes the password after idx\+Reduction reductions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+bool \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ac120109a2cf821caf30a22857d66985b}{be\+::esi\+::secl\+::pn\+::get\+Pwd} (const std\+::string \&hash, std\+::string \&pwd, sqlite3\+\_\+stmt $\ast$stmt\+Read\+Tail, sqlite3\+\_\+stmt $\ast$stmt\+Read\+Head, unsigned char hash\+\_\+dec\mbox{[}$\,$\mbox{]}, unsigned char digest\mbox{[}$\,$\mbox{]}, S\+H\+A256 \&ctx, unsigned pwd\+Size, unsigned nb\+Reduce)
+\begin{DoxyCompactList}\small\item\em Get the password of a given hash. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a878205e4dbef8040fb12f6afb8717fa9}{be\+::esi\+::secl\+::pn\+::\+S\+E\+L\+E\+C\+T\+\_\+\+T\+A\+IL} = \char`\"{}S\+E\+L\+E\+CT tail F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE tail = ?;\char`\"{}
 \begin{DoxyCompactList}\small\item\em Select a tail. \end{DoxyCompactList}\item 
-const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a90db4018123c098c9cd9205b69c1d2e5}{be\+::esi\+::secl\+::pn\+::\+S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+AD} = \char`\"{}S\+E\+L\+E\+CT head F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE tail = ?;\char`\"{}
-\begin{DoxyCompactList}\small\item\em Select the head of the tail. \end{DoxyCompactList}\end{DoxyCompactItemize}
+const char $\ast$ \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ab810bcd28166c035387027aa61e02959}{be\+::esi\+::secl\+::pn\+::\+S\+E\+L\+E\+C\+T\+\_\+\+H\+E\+A\+D\+\_\+T} = \char`\"{}S\+E\+L\+E\+CT head F\+R\+OM R\+A\+I\+N\+B\+O\+W\+\_\+\+T\+A\+B\+LE W\+H\+E\+RE tail = ?;\char`\"{}
+\begin{DoxyCompactList}\small\item\em Select the head of the tail. \end{DoxyCompactList}\item 
+constexpr unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a02b85f534481ad3066012cb29fa8707f}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+T\+H\+R\+E\+A\+D\+S\+\_\+\+C\+R\+A\+CK} = 10
+\begin{DoxyCompactList}\small\item\em How many threads to run to crack. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Declaration of functions of \hyperlink{crackRT_8h}{crack\+R\+T.\+h}. 
 
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{crackRT_8h_a12143694f3d4bf2398a0a10fe44a8187}\label{crackRT_8h_a12143694f3d4bf2398a0a10fe44a8187}} 
+\index{crack\+R\+T.\+h@{crack\+R\+T.\+h}!G\+E\+T\+\_\+\+H\+E\+AD@{G\+E\+T\+\_\+\+H\+E\+AD}}
+\index{G\+E\+T\+\_\+\+H\+E\+AD@{G\+E\+T\+\_\+\+H\+E\+AD}!crack\+R\+T.\+h@{crack\+R\+T.\+h}}
+\subsubsection{\texorpdfstring{G\+E\+T\+\_\+\+H\+E\+AD}{GET\_HEAD}}
+{\footnotesize\ttfamily \#define G\+E\+T\+\_\+\+H\+E\+AD(\begin{DoxyParamCaption}\item[{}]{stmt\+Get\+Head,  }\item[{}]{pwd,  }\item[{}]{lenght }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+sqlite3\_clear\_bindings(stmtGetHead);                                   \(\backslash\)
+    sqlite3\_reset(stmtGetHead);                                            \(\backslash\)
+    sqlite3\_bind\_text(stmtGetHead, 1, pwd.c\_str(), lenght, SQLITE\_STATIC); \(\backslash\)
+    sqlite3\_step(stmtGetHead);                                             \(\backslash\)
+    pwd.assign(reinterpret\_cast<const char *>(sqlite3\_column\_text(stmtGetHead, 0)));
+\end{DoxyCode}
+
+
+Get the head of a tail. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stmt\+Get\+Head} & The statement to get the head with a tail. The tail must exist in the DB. \\
+\hline
+{\em pwd} & The password where to save the head. \\
+\hline
+{\em lenght} & The password\textquotesingle{}s size \\
+\hline
+\end{DoxyParams}

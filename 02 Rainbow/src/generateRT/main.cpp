@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
     }
 
     std::cout << "Success rate expected with"
-              << " number of heads = " << nbHead
+              << " number of lines = " << nbHead
               << ", number of reduce = " << nbReduce
               << ", password's size = " << pwdSize
               << " : "

@@ -16,14 +16,14 @@ namespace be::esi::secl::pn
 
     void generateRT(sqlite3 *db, unsigned pwdSize, unsigned nbHead, int nbReduce)
     {
-        // sqlite3_exec(db, DROP_RT, 0, 0, 0); //TODO enable drop the table
-        // if (sqlite3_exec(db, CREATE_RT, 0, 0, 0) != SQLITE_OK)
-        // {
-        //     throw std::runtime_error("Can't create the table in DB!");
-        // }
+        sqlite3_exec(db, DROP_RT, 0, 0, 0);
+        if (sqlite3_exec(db, CREATE_RT, 0, 0, 0) != SQLITE_OK)
+        {
+            throw std::runtime_error("Can't create the table in DB!");
+        }
 
         std::vector<std::thread> threads;
-        for (unsigned i = 0; i < NB_THREADS_GENERATE; i++)
+        for (unsigned i = 0; i < NB_THREADS_GENERATE; ++i)
         {
             threads.push_back(std::thread(generateRTInThread, db, pwdSize, nbHead / NB_THREADS_GENERATE, nbReduce));
         }
@@ -75,8 +75,6 @@ namespace be::esi::secl::pn
             sqlite3_bind_text(stmt, 2, reduced.c_str(), reduced.length(), SQLITE_STATIC);
             rc = sqlite3_step(stmt);
 
-            if (i % 1024 == 0) //TODO remove trace
-                std::cout << i << std::endl;
             // if (rc != SQLITE_DONE) //Can take a lot of time if used
             //     i--;
         }

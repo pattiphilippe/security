@@ -13,6 +13,7 @@ Declaration of functions of \hyperlink{crackRT_8h}{crack\+R\+T.\+h}.
 {\ttfamily \#include $<$mutex$>$}\newline
 {\ttfamily \#include $<$vector$>$}\newline
 {\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
 Include dependency graph for crack\+R\+T.\+cpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -28,25 +29,19 @@ Include dependency graph for crack\+R\+T.\+cpp\+:\nopagebreak
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_aad832fb30fa4cc9e74d15d7129d0c929}{be\+::esi\+::secl\+::pn\+::crack} (const std\+::string \&hash\+File, sqlite3 $\ast$db, const std\+::string \&cracked\+Pwd\+File, const std\+::string \&cracked\+Hash\+File)
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a56fa00c405a4fb0e6446717fb1390493}{be\+::esi\+::secl\+::pn\+::crack} (const std\+::string \&hash\+File, sqlite3 $\ast$db, const std\+::string \&cracked\+Pwd\+File, const std\+::string \&cracked\+Hash\+File, unsigned pwd\+Size=P\+W\+D\+\_\+\+S\+I\+ZE, unsigned nb\+Reduce=N\+B\+\_\+\+R\+E\+D\+U\+CE)
 \begin{DoxyCompactList}\small\item\em Attempts to find passwords corresponding to the hashes given, at the hand of the tails. \end{DoxyCompactList}\item 
-void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a5421a253f4c247695a0f26055ecc4dea}{be\+::esi\+::secl\+::pn\+::crack\+In\+Thread} (std\+::ifstream \&hashes\+Input, sqlite3 $\ast$db, std\+::ofstream \&cracked\+Pwd\+Output, std\+::ofstream \&cracked\+Hash\+Output)
+void \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a2e1d887d50e74bfd7abd4fc851105d03}{be\+::esi\+::secl\+::pn\+::crack\+In\+Thread} (std\+::ifstream \&hashes\+Input, sqlite3 $\ast$db, std\+::ofstream \&cracked\+Pwd\+Output, std\+::ofstream \&cracked\+Hash\+Output, unsigned pwd\+Size, unsigned nb\+Reduce)
 \begin{DoxyCompactList}\small\item\em Crack function to call with a thread. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a44dea6059d3689561497f5f03e09dac2}{be\+::esi\+::secl\+::pn\+::get\+Tail} (const std\+::string \&hash, sqlite3\+\_\+stmt $\ast$stmt\+Read\+Tail, int \&idx\+Reduction)
-\begin{DoxyCompactList}\small\item\em Searches the tail of the hash and return it. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a4f2bdcedf26f904e1e07776955d80d97}{be\+::esi\+::secl\+::pn\+::get\+Head} (sqlite3\+\_\+stmt $\ast$stmt\+Get\+Head, std\+::string tail)
-\begin{DoxyCompactList}\small\item\em Get the head of a tail. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ae68f13fff76cabc930b60594c300a168}{be\+::esi\+::secl\+::pn\+::find\+Pwd} (std\+::string head, int idx\+Reduction)
-\begin{DoxyCompactList}\small\item\em Computes the password after idx\+Reduction reductions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+bool \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ac120109a2cf821caf30a22857d66985b}{be\+::esi\+::secl\+::pn\+::get\+Pwd} (const std\+::string \&hash, std\+::string \&pwd, sqlite3\+\_\+stmt $\ast$stmt\+Read\+Tail, sqlite3\+\_\+stmt $\ast$stmt\+Read\+Head, unsigned char hash\+\_\+dec\mbox{[}$\,$\mbox{]}, unsigned char digest\mbox{[}$\,$\mbox{]}, S\+H\+A256 \&ctx, unsigned pwd\+Size, unsigned nb\+Reduce)
+\begin{DoxyCompactList}\small\item\em Get the password of a given hash. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 std\+::mutex \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_ad1391e7f8a94f1b945665f76d1965070}{be\+::esi\+::secl\+::pn\+::mtx\+Read\+Head}
 \begin{DoxyCompactList}\small\item\em Mutex to read the head file with concurency. \end{DoxyCompactList}\item 
 std\+::mutex \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a11fbbf54ca476439788d44d4d50512ab}{be\+::esi\+::secl\+::pn\+::mtx\+Print\+Cracked}
-\begin{DoxyCompactList}\small\item\em Mutex to write cracked password and hashes with concurency. \end{DoxyCompactList}\item 
-const unsigned \hyperlink{namespacebe_1_1esi_1_1secl_1_1pn_a0bd77d0531142c20d01ec002cd3c210a}{be\+::esi\+::secl\+::pn\+::\+N\+B\+\_\+\+T\+H\+R\+E\+A\+DS} = 10
-\begin{DoxyCompactList}\small\item\em How many threads to run to crack. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Mutex to write cracked password and hashes with concurency. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}

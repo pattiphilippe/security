@@ -3,7 +3,9 @@
 {\ttfamily \#include \char`\"{}crack\+R\+T.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}../util/passwd-\/utils.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}../generate\+R\+T/generate\+R\+T.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../util/rt-\/utils.\+hpp\char`\"{}}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
 {\ttfamily \#include $<$sqlite3.\+h$>$}\newline
 Include dependency graph for main.\+cpp\+:\nopagebreak
 \begin{figure}[H]
@@ -23,8 +25,13 @@ const std\+::string \hyperlink{crack_2main_8cpp_aacc8f3b1b0f003879782a222a831aeb
 \begin{DoxyCompactList}\small\item\em The file which will contain the cracked passwords. \end{DoxyCompactList}\item 
 const std\+::string \hyperlink{crack_2main_8cpp_a6c3c6345561be266b0c9a7e40a477d45}{C\+R\+A\+C\+K\+E\+D\+\_\+\+H\+A\+S\+H\+\_\+\+F\+I\+LE} (\char`\"{}rsc/cracked\+Hash.\+txt\char`\"{})
 \begin{DoxyCompactList}\small\item\em The file which will contain the cracked passwords hashes. \end{DoxyCompactList}\item 
-int \hyperlink{crack_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+int \hyperlink{crack_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
 \begin{DoxyCompactList}\small\item\em Entry for the crack. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+constexpr unsigned \hyperlink{crack_2main_8cpp_a18af02c958394cda4c6053294080d0d7}{N\+B\+\_\+\+P\+W\+D\+\_\+\+T\+O\+\_\+\+G\+E\+N\+E\+R\+A\+TE} = 100
+\begin{DoxyCompactList}\small\item\em The number of passwords to generate for the crack. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
@@ -58,17 +65,26 @@ The file which will contain the cracked passwords.
 
 The file which will contain the passwords hashes to crack. 
 
-\mbox{\Hypertarget{crack_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{crack_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\mbox{\Hypertarget{crack_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{crack_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
 \index{crack/main.\+cpp@{crack/main.\+cpp}!main@{main}}
 \index{main@{main}!crack/main.\+cpp@{crack/main.\+cpp}}
 \subsubsection{\texorpdfstring{main()}{main()}}
-{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
 
 
 Entry for the crack. 
 
-It will generate some passwords (+ hashes), and crack them with the rainbow table. The cracked passwords and hashes are put into a new file. This is needed to keep the passwords and hashes sorted, due to the use of threads. \mbox{\Hypertarget{crack_2main_8cpp_a4ec938e7b7ae40c2ec0db22f3968e4ec}\label{crack_2main_8cpp_a4ec938e7b7ae40c2ec0db22f3968e4ec}} 
+It will generate some passwords (+ hashes), and crack them with the rainbow table. The cracked passwords and hashes are put into a new file. This is needed to keep the passwords and hashes sorted, due to the use of threads.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & The number of params \\
+\hline
+{\em argv} & The params. Can be empty to use default values. If not empty, param at position 1 and 2 must be numericals values. The first is the number of reduce to apply on the head to get the tail, the second the password\textquotesingle{}s size. If the value is not correct, behavior is undetermined. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{crack_2main_8cpp_a4ec938e7b7ae40c2ec0db22f3968e4ec}\label{crack_2main_8cpp_a4ec938e7b7ae40c2ec0db22f3968e4ec}} 
 \index{crack/main.\+cpp@{crack/main.\+cpp}!P\+W\+D\+\_\+\+F\+I\+LE@{P\+W\+D\+\_\+\+F\+I\+LE}}
 \index{P\+W\+D\+\_\+\+F\+I\+LE@{P\+W\+D\+\_\+\+F\+I\+LE}!crack/main.\+cpp@{crack/main.\+cpp}}
 \subsubsection{\texorpdfstring{P\+W\+D\+\_\+\+F\+I\+L\+E()}{PWD\_FILE()}}
@@ -79,3 +95,15 @@ It will generate some passwords (+ hashes), and crack them with the rainbow tabl
 The file which will contain some passwords. 
 
 This file is not necessary to crack 
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{crack_2main_8cpp_a18af02c958394cda4c6053294080d0d7}\label{crack_2main_8cpp_a18af02c958394cda4c6053294080d0d7}} 
+\index{crack/main.\+cpp@{crack/main.\+cpp}!N\+B\+\_\+\+P\+W\+D\+\_\+\+T\+O\+\_\+\+G\+E\+N\+E\+R\+A\+TE@{N\+B\+\_\+\+P\+W\+D\+\_\+\+T\+O\+\_\+\+G\+E\+N\+E\+R\+A\+TE}}
+\index{N\+B\+\_\+\+P\+W\+D\+\_\+\+T\+O\+\_\+\+G\+E\+N\+E\+R\+A\+TE@{N\+B\+\_\+\+P\+W\+D\+\_\+\+T\+O\+\_\+\+G\+E\+N\+E\+R\+A\+TE}!crack/main.\+cpp@{crack/main.\+cpp}}
+\subsubsection{\texorpdfstring{N\+B\+\_\+\+P\+W\+D\+\_\+\+T\+O\+\_\+\+G\+E\+N\+E\+R\+A\+TE}{NB\_PWD\_TO\_GENERATE}}
+{\footnotesize\ttfamily constexpr unsigned N\+B\+\_\+\+P\+W\+D\+\_\+\+T\+O\+\_\+\+G\+E\+N\+E\+R\+A\+TE = 100}
+
+
+
+The number of passwords to generate for the crack. 
+

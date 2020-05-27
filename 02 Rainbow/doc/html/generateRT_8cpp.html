@@ -64,8 +64,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">generateRT.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -75,16 +74,18 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;../util/passwd-utils.hpp&quot;</code><br />
 <code>#include &quot;../util/rt-utils.hpp&quot;</code><br />
+<code>#include &quot;../util/sha256.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="generateRT_8h_source.html">generateRT.h</a>&quot;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for generateRT.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="generateRT_8cpp__incl.png" border="0" usemap="#src_2generateRT_2generateRT_8cpp" alt=""/></div>
 <map name="src_2generateRT_2generateRT_8cpp" id="src_2generateRT_2generateRT_8cpp">
-<area shape="rect" id="node4" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="323,80,425,107"/>
+<area shape="rect" id="node5" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="455,80,557,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -95,18 +96,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af8b773cad93b0eb78b89f69721e4bb1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#af8b773cad93b0eb78b89f69721e4bb1d">be::esi::secl::pn::generateRT</a> (sqlite3 *db, unsigned nbHead=NB_HEAD, int nbReduce=NB_REDUCE)</td></tr>
-<tr class="memdesc:af8b773cad93b0eb78b89f69721e4bb1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the head and the tails of the RT, and write them into the DB.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#af8b773cad93b0eb78b89f69721e4bb1d">More...</a><br /></td></tr>
-<tr class="separator:af8b773cad93b0eb78b89f69721e4bb1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf5216f5718720c15b5925f7e8a94d10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#aaf5216f5718720c15b5925f7e8a94d10">be::esi::secl::pn::generateRTInThread</a> (sqlite3 *db, unsigned nbHead, int nbReduce)</td></tr>
-<tr class="memdesc:aaf5216f5718720c15b5925f7e8a94d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the head and the tails of the RT, and write them into the DB.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#aaf5216f5718720c15b5925f7e8a94d10">More...</a><br /></td></tr>
-<tr class="separator:aaf5216f5718720c15b5925f7e8a94d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a6b1322df9a3137fe3dff27602a0dd390"><td class="memItemLeft" align="right" valign="top">const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a6b1322df9a3137fe3dff27602a0dd390">be::esi::secl::pn::NB_THREADS_GENERATE</a> = 10</td></tr>
-<tr class="memdesc:a6b1322df9a3137fe3dff27602a0dd390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of thread to create to generate the RT.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a6b1322df9a3137fe3dff27602a0dd390">More...</a><br /></td></tr>
-<tr class="separator:a6b1322df9a3137fe3dff27602a0dd390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd22f0fb1b69636d22a3f698f3683085"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#abd22f0fb1b69636d22a3f698f3683085">be::esi::secl::pn::generateRT</a> (sqlite3 *db, unsigned pwdSize=PWD_SIZE, unsigned nbHead=NB_HEAD, int nbReduce=NB_REDUCE)</td></tr>
+<tr class="memdesc:abd22f0fb1b69636d22a3f698f3683085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the head and the tails of the RT, and write them into the DB.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#abd22f0fb1b69636d22a3f698f3683085">More...</a><br /></td></tr>
+<tr class="separator:abd22f0fb1b69636d22a3f698f3683085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab195afc2c7a35cd9a6bc48e990567fdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#ab195afc2c7a35cd9a6bc48e990567fdf">be::esi::secl::pn::generateRTInThread</a> (sqlite3 *db, unsigned pwdSize, unsigned nbHead, int nbReduce)</td></tr>
+<tr class="memdesc:ab195afc2c7a35cd9a6bc48e990567fdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the head and the tails of the RT, and write them into the DB.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#ab195afc2c7a35cd9a6bc48e990567fdf">More...</a><br /></td></tr>
+<tr class="separator:ab195afc2c7a35cd9a6bc48e990567fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Definition of function of <a class="el" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. ">generateRT.h</a>. </p>

@@ -30,7 +30,7 @@ namespace be::esi::secl::pn
         unsigned long long N = std::pow(nbPossibleValues, nbChar);
         double temp = 1;
 
-        for (int i = 1; i <= nbReduce; i++)
+        for (int i = 1; i <= nbReduce; ++i)
         {
             mn = N * (1 - std::exp(-mn / N));
             temp *= 1 - mn / N;

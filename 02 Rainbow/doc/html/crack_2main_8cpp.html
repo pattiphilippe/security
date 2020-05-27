@@ -63,7 +63,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">main.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -71,15 +72,17 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="crackRT_8h_source.html">crackRT.h</a>&quot;</code><br />
 <code>#include &quot;../util/passwd-utils.hpp&quot;</code><br />
 <code>#include &quot;<a class="el" href="generateRT_8h_source.html">../generateRT/generateRT.h</a>&quot;</code><br />
+<code>#include &quot;../util/rt-utils.hpp&quot;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
 <code>#include &lt;sqlite3.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for main.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="crack_2main_8cpp__incl.png" border="0" usemap="#src_2crack_2main_8cpp" alt=""/></div>
 <map name="src_2crack_2main_8cpp" id="src_2crack_2main_8cpp">
-<area shape="rect" id="node2" href="crackRT_8h.html" title="Declaration of functions of crackRT.h. " alt="" coords="30,102,113,129"/>
-<area shape="rect" id="node14" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="137,102,323,129"/>
+<area shape="rect" id="node2" href="crackRT_8h.html" title="Declaration of functions of crackRT.h. " alt="" coords="175,102,258,129"/>
+<area shape="rect" id="node3" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="255,199,440,225"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -97,9 +100,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a6c3c6345561be266b0c9a7e40a477d45"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_2main_8cpp.html#a6c3c6345561be266b0c9a7e40a477d45">CRACKED_HASH_FILE</a> (&quot;rsc/crackedHash.txt&quot;)</td></tr>
 <tr class="memdesc:a6c3c6345561be266b0c9a7e40a477d45"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file which will contain the cracked passwords hashes.  <a href="#a6c3c6345561be266b0c9a7e40a477d45">More...</a><br /></td></tr>
 <tr class="separator:a6c3c6345561be266b0c9a7e40a477d45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entry for the crack.  <a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">More...</a><br /></td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:a0ddf1224851353fc92bfbff6f499fa97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entry for the crack.  <a href="#a0ddf1224851353fc92bfbff6f499fa97">More...</a><br /></td></tr>
+<tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a18af02c958394cda4c6053294080d0d7"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_2main_8cpp.html#a18af02c958394cda4c6053294080d0d7">NB_PWD_TO_GENERATE</a> = 100</td></tr>
+<tr class="memdesc:a18af02c958394cda4c6053294080d0d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of passwords to generate for the crack.  <a href="#a18af02c958394cda4c6053294080d0d7">More...</a><br /></td></tr>
+<tr class="separator:a18af02c958394cda4c6053294080d0d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a6c3c6345561be266b0c9a7e40a477d45"></a>
@@ -162,8 +171,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&nbsp;</a></span>main()</h2>
+<a id="a0ddf1224851353fc92bfbff6f499fa97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&nbsp;</a></span>main()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,14 +180,32 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int main </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Entry for the crack. </p>
-<p>It will generate some passwords (+ hashes), and crack them with the rainbow table. The cracked passwords and hashes are put into a new file. This is needed to keep the passwords and hashes sorted, due to the use of threads. </p>
+<p>It will generate some passwords (+ hashes), and crack them with the rainbow table. The cracked passwords and hashes are put into a new file. This is needed to keep the passwords and hashes sorted, due to the use of threads.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argc</td><td>The number of params </td></tr>
+    <tr><td class="paramname">argv</td><td>The params. Can be empty to use default values. If not empty, param at position 1 and 2 must be numericals values. The first is the number of reduce to apply on the head to get the tail, the second the password's size. If the value is not correct, behavior is undetermined. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -200,6 +227,23 @@ Functions</h2></td></tr>
 
 <p>The file which will contain some passwords. </p>
 <p>This file is not necessary to crack </p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a18af02c958394cda4c6053294080d0d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18af02c958394cda4c6053294080d0d7">&#9670;&nbsp;</a></span>NB_PWD_TO_GENERATE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr unsigned NB_PWD_TO_GENERATE = 100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The number of passwords to generate for the crack. </p>
 
 </div>
 </div>

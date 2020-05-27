@@ -21,11 +21,25 @@ To set up the project and launch it with default values, use command `make`. It 
 To set up the project and launch it with custom values:
 * install or update sqlite (wich is require) with command `make setup`,
 * build the project with command `make build`.
-* generate the rainbow table with command `build/generateRT numberOfHead numberOfReduce passwordsSize`,
-* generate the rainbow table with command `build/crackRT numberOfReduce passwordsSize`.
+* generate the rainbow table with command `build/generateRT numberOfLine numberOfReduce passwordsSize`,
+* crack the rainbow table with command `build/crackRT numberOfReduce passwordsSize`.
+
+You can find the cracked passwords with their hashes into `rsc/crackedPwd.txt` and `rsc/crackedHash.txt`. Each line of the second file is the hash of the first file from the same line. Each empty line from the first file is an uncracked password.
+
+> Note that the real number of lines is lower than the one given in parameter. 
+We ignore the generated line if it has the same head or tail than a previous line. 
+Therefore, the first lines are generated quickly, but the last lines could take hours to generate. 
+To avoid the program running for days, we attempt to generate numberOfLines different lines, then stop. 
 
 ## Know bugs
-None
+There are no bugs! We are perfect!
+
+## Extra
+If you're still courageous enough to read, here's a joke:
+
+Hiroshima 45,
+Tchernobyl 86,
+Windows 98
 
 ## Authors
 43197 Patti Philippe.

@@ -81,13 +81,14 @@ $(function() {
 <code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for crackRT.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="crackRT_8cpp__incl.png" border="0" usemap="#src_2crack_2crackRT_8cpp" alt=""/></div>
 <map name="src_2crack_2crackRT_8cpp" id="src_2crack_2crackRT_8cpp">
-<area shape="rect" id="node2" href="crackRT_8h.html" title="Declaration of functions of crackRT.h. " alt="" coords="242,102,325,129"/>
-<area shape="rect" id="node8" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="32,102,218,129"/>
+<area shape="rect" id="node2" href="crackRT_8h.html" title="Declaration of functions of crackRT.h. " alt="" coords="253,80,335,107"/>
+<area shape="rect" id="node3" href="generateRT_8h.html" title="Declaration of functions for generateRT.cpp. " alt="" coords="71,155,256,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -98,21 +99,15 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aad832fb30fa4cc9e74d15d7129d0c929"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#aad832fb30fa4cc9e74d15d7129d0c929">be::esi::secl::pn::crack</a> (const std::string &amp;hashFile, sqlite3 *db, const std::string &amp;crackedPwdFile, const std::string &amp;crackedHashFile)</td></tr>
-<tr class="memdesc:aad832fb30fa4cc9e74d15d7129d0c929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to find passwords corresponding to the hashes given, at the hand of the tails.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#aad832fb30fa4cc9e74d15d7129d0c929">More...</a><br /></td></tr>
-<tr class="separator:aad832fb30fa4cc9e74d15d7129d0c929"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5421a253f4c247695a0f26055ecc4dea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a5421a253f4c247695a0f26055ecc4dea">be::esi::secl::pn::crackInThread</a> (std::ifstream &amp;hashesInput, sqlite3 *db, std::ofstream &amp;crackedPwdOutput, std::ofstream &amp;crackedHashOutput)</td></tr>
-<tr class="memdesc:a5421a253f4c247695a0f26055ecc4dea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack function to call with a thread.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a5421a253f4c247695a0f26055ecc4dea">More...</a><br /></td></tr>
-<tr class="separator:a5421a253f4c247695a0f26055ecc4dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44dea6059d3689561497f5f03e09dac2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a44dea6059d3689561497f5f03e09dac2">be::esi::secl::pn::getTail</a> (const std::string &amp;hash, sqlite3_stmt *stmtReadTail, int &amp;idxReduction)</td></tr>
-<tr class="memdesc:a44dea6059d3689561497f5f03e09dac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches the tail of the hash and return it.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a44dea6059d3689561497f5f03e09dac2">More...</a><br /></td></tr>
-<tr class="separator:a44dea6059d3689561497f5f03e09dac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f2bdcedf26f904e1e07776955d80d97"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a4f2bdcedf26f904e1e07776955d80d97">be::esi::secl::pn::getHead</a> (sqlite3_stmt *stmtGetHead, std::string tail)</td></tr>
-<tr class="memdesc:a4f2bdcedf26f904e1e07776955d80d97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the head of a tail.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a4f2bdcedf26f904e1e07776955d80d97">More...</a><br /></td></tr>
-<tr class="separator:a4f2bdcedf26f904e1e07776955d80d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae68f13fff76cabc930b60594c300a168"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#ae68f13fff76cabc930b60594c300a168">be::esi::secl::pn::findPwd</a> (std::string head, int idxReduction)</td></tr>
-<tr class="memdesc:ae68f13fff76cabc930b60594c300a168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the password after idxReduction reductions.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#ae68f13fff76cabc930b60594c300a168">More...</a><br /></td></tr>
-<tr class="separator:ae68f13fff76cabc930b60594c300a168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56fa00c405a4fb0e6446717fb1390493"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a56fa00c405a4fb0e6446717fb1390493">be::esi::secl::pn::crack</a> (const std::string &amp;hashFile, sqlite3 *db, const std::string &amp;crackedPwdFile, const std::string &amp;crackedHashFile, unsigned pwdSize=PWD_SIZE, unsigned nbReduce=NB_REDUCE)</td></tr>
+<tr class="memdesc:a56fa00c405a4fb0e6446717fb1390493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to find passwords corresponding to the hashes given, at the hand of the tails.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a56fa00c405a4fb0e6446717fb1390493">More...</a><br /></td></tr>
+<tr class="separator:a56fa00c405a4fb0e6446717fb1390493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1d887d50e74bfd7abd4fc851105d03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a2e1d887d50e74bfd7abd4fc851105d03">be::esi::secl::pn::crackInThread</a> (std::ifstream &amp;hashesInput, sqlite3 *db, std::ofstream &amp;crackedPwdOutput, std::ofstream &amp;crackedHashOutput, unsigned pwdSize, unsigned nbReduce)</td></tr>
+<tr class="memdesc:a2e1d887d50e74bfd7abd4fc851105d03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack function to call with a thread.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a2e1d887d50e74bfd7abd4fc851105d03">More...</a><br /></td></tr>
+<tr class="separator:a2e1d887d50e74bfd7abd4fc851105d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac120109a2cf821caf30a22857d66985b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#ac120109a2cf821caf30a22857d66985b">be::esi::secl::pn::getPwd</a> (const std::string &amp;hash, std::string &amp;pwd, sqlite3_stmt *stmtReadTail, sqlite3_stmt *stmtReadHead, unsigned char hash_dec[], unsigned char digest[], SHA256 &amp;ctx, unsigned pwdSize, unsigned nbReduce)</td></tr>
+<tr class="memdesc:ac120109a2cf821caf30a22857d66985b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the password of a given hash.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#ac120109a2cf821caf30a22857d66985b">More...</a><br /></td></tr>
+<tr class="separator:ac120109a2cf821caf30a22857d66985b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -122,9 +117,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a11fbbf54ca476439788d44d4d50512ab"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a11fbbf54ca476439788d44d4d50512ab">be::esi::secl::pn::mtxPrintCracked</a></td></tr>
 <tr class="memdesc:a11fbbf54ca476439788d44d4d50512ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex to write cracked password and hashes with concurency.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a11fbbf54ca476439788d44d4d50512ab">More...</a><br /></td></tr>
 <tr class="separator:a11fbbf54ca476439788d44d4d50512ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bd77d0531142c20d01ec002cd3c210a"><td class="memItemLeft" align="right" valign="top">const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebe_1_1esi_1_1secl_1_1pn.html#a0bd77d0531142c20d01ec002cd3c210a">be::esi::secl::pn::NB_THREADS</a> = 10</td></tr>
-<tr class="memdesc:a0bd77d0531142c20d01ec002cd3c210a"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many threads to run to crack.  <a href="namespacebe_1_1esi_1_1secl_1_1pn.html#a0bd77d0531142c20d01ec002cd3c210a">More...</a><br /></td></tr>
-<tr class="separator:a0bd77d0531142c20d01ec002cd3c210a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Declaration of functions of <a class="el" href="crackRT_8h.html" title="Declaration of functions of crackRT.h. ">crackRT.h</a>. </p>

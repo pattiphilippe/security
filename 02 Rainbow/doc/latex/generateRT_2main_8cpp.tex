@@ -1,12 +1,9 @@
 \hypertarget{generateRT_2main_8cpp}{}\section{src/generate\+R\+T/main.cpp File Reference}
 \label{generateRT_2main_8cpp}\index{src/generate\+R\+T/main.\+cpp@{src/generate\+R\+T/main.\+cpp}}
 {\ttfamily \#include \char`\"{}generate\+R\+T.\+h\char`\"{}}\newline
-{\ttfamily \#include $<$iostream$>$}\newline
-{\ttfamily \#include $<$string$>$}\newline
-{\ttfamily \#include $<$sqlite3.\+h$>$}\newline
-{\ttfamily \#include $<$sstream$>$}\newline
-{\ttfamily \#include $<$fstream$>$}\newline
 {\ttfamily \#include \char`\"{}../util/rt-\/utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sqlite3.\+h$>$}\newline
 Include dependency graph for main.\+cpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -32,10 +29,12 @@ int \hyperlink{generateRT_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (i
 
 Entry point to generate the Rainbow Table. 
 
-It will create and open a sqlite DB, and set it up with a configuration that maximizes speed. Note that with some configuration, the database can be corrupted in the event of a crash or power outage. After that, it will generate the RT with default (ne param) or user values (first param is the number of head to create, second is the number of reduce to apply). 
+It will create and open a sqlite DB, and set it up with a configuration that maximizes speed. Note that with some configuration, the database can be corrupted in the event of a crash or power outage. After that, it will generate the RT with default (ne param) or user values (first param is the number of head to create, second is the number of reduce to apply).
+
+
 \begin{DoxyParams}{Parameters}
 {\em argc} & The number of params \\
 \hline
-{\em argv} & The params. Can be empty. If not empty, param at position 1 and 2 must be numericals values. The first is the number of head to create, the second the number of reduce to apply on the head to get the tail. If the value is not correct, behavior is undetermined. \\
+{\em argv} & The params. Can be empty to use default values. If not empty, param at position 1, 2 and 3 must be positive numerical values. The first is the number of head to create, the second the number of reduce to apply on the head to get the tail, and the third is the passwords size. If the values are not valid, behavior is undetermined. \\
 \hline
 \end{DoxyParams}
